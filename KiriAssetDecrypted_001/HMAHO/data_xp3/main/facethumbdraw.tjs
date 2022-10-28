@@ -1,0 +1,327 @@
+var          FaceThumbDraw = new FaceThumbDrawClass();
+class        FaceThumbDrawClass {
+	function FaceThumbDrawClass {
+		var rect = SystemConfig.FaceThumbRect;
+		if (rect == void) throw new Exception("SystemConfig.FaceThumbRectの定義がありません");
+		this.width  = rect[0];
+		this.height = rect[1];
+	}
+
+	var width, height;
+
+	//--------------------------------------------------------------
+	// draw-utils
+
+	function draw(name, info, layer, resize_and_clear=-1, w = this.width, h = this.height) {
+		if (resize_and_clear) with (layer) {
+			.setImageSize(  w, h);
+			.fillRect(0, 0, w, h, 0);
+		}
+		var r;
+		with (world_object) r = 
+			.findSnapTargetLayer(info, name, function(obj, apply, lay,w,h) {
+				var ox = w\2, oy = h\2, zorder, name = obj.name;
+				with (getOffset(obj, name)) ox+=.ox, oy+=.oy, zorder=.zorder;
+				return apply(obj, lay, ox, oy, zorder);
+			} incontextof this, ._getSnapImage, layer, w, h);
+		if (resize_and_clear > 0) {
+			var temp = new global.Layer(kag, kag.poolLayer);
+			try {
+				temp.setImageSize(  w, h);
+				temp.fillRect(0, 0, w, h, resize_and_clear);
+				temp.operateRect(0,0, layer, 0,0,w,h);
+				layer.assignImages(temp);
+			} catch (e) {
+				invalidate temp;
+				throw e;
+			}
+			invalidate temp;
+		}
+		return r;
+	}
+	function wrapFaceSnapInfo(name, imageFile, type = "character", *) {
+		return [ name, type, wrapFaceSnapState(name, imageFile, *) ];
+	}
+	function wrapFaceSnapState(name, imageFile, faceclass = _standFaceClass) {
+		return %[
+			"class" => faceclass,
+			"name"  => name,
+			"showmode" => 1,
+			"redraw"   => %[ disp:/*KAGEnvImage.SHOW*/2, imageFile:imageFile /*, posName:"出"*/ ]
+			];
+	}
+
+	var _standFaceClass = "msgwin"; // [XXX]
+	var _standFaceColorEffect = true; // 色加工情報を保持するかどうか
+	function fixFaceShow(name, info) {
+		var snap = world_object.findSnapTargetInfo(info, name), state;
+		if (snap && (state = snap[2]) !== void) with (state) {
+			var imageFile = getStandImage(name);
+			var replace = snap[2] = wrapFaceSnapState(.name, imageFile, _standFaceClass != "" ? _standFaceClass : .class);
+			if (!imageFile) {
+				replace.showmode = 0;
+				delete replace.redraw;
+				return;
+			}
+			var ref = .redraw ? .redraw.imageFile : void;
+			if (ref) {
+				if (ref.options) imageFile.options = ref.options;
+				if (ref.redraw && _standFaceColorEffect) {
+					var list = ref.redraw;
+					// [XXX] tc_* の時間帯加工処理をカット
+					for (var i = 0; i < list.count; i++) {
+						if (list[i] && ((string)list[i][0]).substr(0,3) == "tc_") list[i] = void;
+					}
+					list.remove(void, true);
+					if (list.count > 0) imageFile.redraw = list;
+				}
+			}
+		}
+	}
+	var _standImageMap;
+	function  getStandImage(name) {
+		if (name == "") return;
+		var defopt = SystemConfig.FaceThumbDefalts;
+		return _getStandImage(name, defopt ? defopt[name] : void);
+	}
+	function _getStandImage(name, opt) {
+		if (_standImageMap === void) {
+			_standImageMap = %[];
+			var list = world_object.env.getPoseCharacterNames();
+			for (var i = 0; i < list.count; i++) {
+				var info = list[i];
+				_standImageMap[info.name] = info;
+			}
+		}
+		var  info = _standImageMap[name];
+		if (!info) return;
+		var r = %[];
+		(Dictionary.assign incontextof r)(info);
+		if (opt) r.options = opt;
+		return r;
+	}
+
+	function calcRect(rect, w = this.width, h = this.height) {
+		var vert = (rect.w/rect.h > w/h);
+		var z = (vert) ? (rect.w / w) : (rect.h / h);
+		nw = int(+Math.ceil(w*z)), nh = int(+Math.ceil(h*z));
+		bx = rect.ox+(rect.w-nw)\2, by = rect.oy+(rect.h-nh);
+		if ((nx = rect.ox - bx) < 0) nw+=nx, nx=0;
+		if ((ny = rect.oy - by) < 0) nh+=ny, ny=0;
+		//dm(nx,ny,nw,nh, "|", rect.ox,rect.oy,rect.w,rect.h, "|", bx,by, "|", w, h);
+		return %[bx:bx, by:by, nx:nx, ny:ny, nw:nw, nh:nh];
+	}
+
+	function operate(target, name, info, temp, rect) {
+		if (!checkName(name)) return;
+		if (rect.cache === void) {
+			rect.cache = calcRect(rect);
+		}
+		if (this.draw(name, info, temp)) {
+			var bx, by, nx, ny, nw, nh;
+			with (rect.cache) bx=.bx, by=.by, nx=.nx, ny=.ny, nw=.nw, nh=.nh;
+			if (nw != w || nh != h) {
+				try   { temp.shrinkCopy(0,0,nw,nh,temp,0,0,w,h); }
+				catch { temp.stretchCopy(0,0,nw,nh,temp,0,0,w,h, stFastLinear); }
+			}
+			for (var ox = 0, iw = target.imageWidth, tw = target.width; ox < iw; ox += tw) {
+				target.operateRect(ox+bx, by, temp, nx,ny,nw,nh);
+			}
+			return true;
+		}
+	}
+
+	function createSceneLayer(scene, idx, shrink = 5) {
+		var thumb;
+		if (scene != "" && idx != "") try {
+			var player = world_object.player;
+			if (player === void) {
+				world_object.initPlayer();
+				player = world_object.player;
+			}
+			var info = world_object.getTextData(scene, idx, false);
+			var state = player.getSnapState(info.state);
+			var file = checkSceneReplace(state);
+			thumb = new global.Layer(kag, kag.poolLayer);
+			var tmp = kag.temporaryLayer;
+			tmp.setImageSize(kag.scWidth, kag.scHeight);
+			if (file != "") {
+				thumb.loadImages(file);
+				tmp.stretchCopy(0, 0, kag.scWidth, kag.scHeight, thumb, 0, 0, thumb.imageWidth, thumb.imageHeight, stFastLinear);
+			} else {
+				player.getSnapshot(tmp, state);
+			}
+			thumb.shrinkCopyFast(tmp, shrink) if (shrink > 1);
+		} catch (e) {
+			if (thumb) invalidate thumb;
+			//throw e;
+			return void;
+		}
+		return thumb;
+	}
+	function checkSceneReplace(state, flags) {
+		this.flags = flags;
+		var list = world_object.getImageFileFromAllData(state, flags ? this : void);
+		if (list) for (var i = 0, cnt = list.count; i < cnt; i++) {
+			// モザ有無確認
+			var savethum = SystemAction._checkSaveThumbnail(list[i], %[]);
+			if (savethum != "") {
+				this.flags = void;
+				return savethum;
+			}
+		}
+		this.flags = void;
+	}
+	var flags;
+	property f {
+		getter() {
+			return flags !== void ? flags : world_object.flags;
+		}
+	}
+	
+
+	//--------------------------------------------------------------
+	// offset info
+
+	var offsets, keys, map;
+	property storage { getter { return "facethumbpos"; } }
+
+	function findStorage(file = this.storage) {
+		var target = getExistFileNameAutoExtFill(file, "csv", "txt");
+		if (Storages.isExistentStorage(target)) {
+			return [ target, (Storages.extractStorageExt(target).toLowerCase() == ".txt") ? "\t" : "," ];
+		}
+	}
+	function getStorageName(file = this.storage) {
+		var target = findStorage(file);
+		return target ? target[0] : file;
+	}
+
+	function reload(usekeys = false, file = this.storage) {
+		this.keys = usekeys ? [] : void;
+		var info = this.offsets, names = this.map;
+		if (info === void) info = this.offsets = %[];
+		else (Dictionary.clear incontextof info)();
+		if (names === void) names = this.map = %[];
+		else (Dictionary.clear incontextof info)();
+
+		var target = findStorage(file);
+		if (target) try {
+			var find = function (info, name, prop) {
+				var ref;
+				if ((ref = info[name+":*"]) !== void && ref[prop] !== void) return ref[prop];
+				if ((ref = info["*:*"])     !== void && ref[prop] !== void) return ref[prop];
+			};
+			var sep = target[1];
+			var texts = [].load(target[0]);
+			for (var i = 0, cnt = texts.count; i < cnt; i++) {
+				var line = texts[i];
+				if (line == "" || line.charAt(0) == "#") continue;
+				var div = line.split(sep);
+				var name = div[0], pose = div[1], ox = div[2], oy = div[3], zorder = div[4];
+				var nfox = div[5], nfoy = div[6], nfzo = div[7];
+				var tag = name+":"+pose;
+				if (info[tag] !== void) {
+					kag.errorCmd("定義が重複しています:"+tag, %[ file:file, line:i ]);
+				}
+				if (ox     == "") ox     = find(info, name, "ox");
+				if (oy     == "") oy     = find(info, name, "oy");
+				if (zorder == "") zorder = find(info, name, "zorder");
+				if (ox === void || oy === void || zorder === void) {
+					kag.errorCmd("定義が不正です:"+tag, %[ file:file, line:i ]);
+				}
+				if (!zorder) zorder = 1;
+				info[tag] = %[ ox:+ox, oy:+oy, zorder:+zorder ];
+				if (name != "") names[name] = true;
+				if (nfox != "" || nfoy != "" || nfzo != "") {
+					var nfname = ":"+name;
+					if (nfox == "") nfox = find(info, nfname, "ox");
+					if (nfoy == "") nfoy = find(info, nfname, "oy");
+					if (nfzo == "") nfzo = find(info, nfname, "zorder");
+					if (!nfzo) nfzo = 1;
+					info[":"+tag] = %[ ox:+nfox, oy:+nfoy, zorder:+nfzo ];
+				}
+				
+				if (this.keys && (name != "*"/* && pose != "*"*/)) {
+					this.keys.add([name, pose]);
+				}
+			}
+		} catch (e) {
+			dm(@"顔位置情報のパースに失敗しました:${e.message}");
+		}
+	}
+
+	function getOffsets() {
+		if (   this.offsets === void) this.reload();
+		return this.offsets;
+	}
+	function checkName(name) {
+		if (name == "") return false;
+		var ref = getOffsets();
+		return ref["*:*"] || this.map[name];
+	}
+	function getInfo(name, pose, noface) {
+		var ref = getOffsets();
+		if (noface) {
+			var nfname = ":"+name;
+			var r = ref[nfname+":"+pose];
+			if (r) return r;
+			var r = ref[nfname+":*"];
+			if (r) return r;
+		}
+		var r = ref[name+":"+pose];
+		if (r) return r;
+		var r = ref[name+":*"];
+		if (r) return r;
+		return  ref["*:*"];
+	}
+
+	function getOffset(ch, name) {
+		var pose = ch.pose;
+		var target = ch.targetLayer;
+		if (target && target._image && typeof target._image.getOptions == "Object") try{
+			pose = target.getOptions().pose;
+		} catch {}
+		return getInfo(name, pose, ch.className != "msgwin");
+	}
+}
+
+with (HistoryTextStore) {
+	@if (USE_BACKLOG_FACE_DRAW)
+	&.checkStoreFace = function { return true; }; // [XXX]非コンバートモードで常に顔保存
+
+	&.onRemoveInfo = function (remove) {
+		var lay = remove.facelayer;
+		if (lay) invalidate lay;
+	} incontextof null;
+	&.storeFace = function (elm, ch) {
+		if (checkStoreFace(...) && !world_object.playerWorking) {
+			currentInfo.facelayer = copyCurrentFace(ch, ch.name);
+		}
+	} incontextof null;
+	@endif
+
+	//[MEMO]  facethumbedit.tjsから使用される
+	&.copyCurrentFace = function (ch, name, force) {
+		var target;
+		if ((force || ch.visible) && ((target = ch.targetLayer) !== void)) {
+			var rect = SystemConfig.FaceThumbRect;
+			if (rect) {
+				var w = rect[0], h = rect[1];
+				var lay = createFaceLayer(name, w, h);
+				with (FaceThumbDraw.getOffset(ch, name)) target._image.drawToLayer(lay, w\2 + .ox, h\2 + .oy, .zorder);
+				return lay;
+			}
+		}
+	} incontextof null;
+	&.createFaceLayer = function(name, w, h) {
+		var r = new global.Layer(kag, kag.poolLayer);
+		with (r) {
+			.name = "backlogface:"+name;
+			.hitType = htMask;
+			.hitThreshold = 256;
+			.setImageSize(w, h);
+		}
+		return r;
+	} incontextof null;
+}

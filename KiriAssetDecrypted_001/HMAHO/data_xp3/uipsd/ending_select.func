@@ -1,0 +1,16 @@
+psd,ending_select
+ui,おっぱいハーレム/over,	@end0:over
+ui,おっぱいハーレム/nomal,	@end0:off
+ui,孕ませ/over,			@end1:over
+ui,孕ませ/nomal,		@end1:off
+ui,孕ませ/disable,		@end1:disable
+ui,Aエンド/over,		@end2:over
+ui,Aエンド/nomal,		@end2:off
+ui,Aエンド/disable,		@end2:disable
+ui,戻るボタン/over,		@back:over
+ui,戻るボタン/normal,		@back:off
+ui,背景,			@base
+#
+func,back,	visible,false
+#
+eval,names,call,uiloadSysSE,quest

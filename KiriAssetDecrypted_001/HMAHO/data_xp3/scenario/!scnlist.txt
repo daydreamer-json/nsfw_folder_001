@@ -1,0 +1,287 @@
+#タブ区切りテキスト
+# ジャンプ先ストレージ(":"を含むとサブメニューあり）[\t*ラベル]
+# 先頭のタブの個数でサブメニューの深さレベル
+#
+
+SC:
+	sc_pr.txt
+	-
+	sc_01.txt
+	sc_02.txt
+	sc_03.txt
+	sc_04.txt
+	sc_05.txt
+	sc_06.txt
+	sc_07.txt
+	sc_08.txt
+	sc_09.txt
+	sc_10.txt
+	sc_11.txt
+	sc_12.txt
+	sc_13.txt
+	sc_14.txt
+
+英玲奈(A):
+	sc_a01n.txt
+	sc_a01h.txt
+	-
+	sc_a02n.txt
+	sc_a02h.txt
+	-
+	sc_a03n.txt
+	sc_a03h.txt
+	-
+	sc_a04n.txt
+	sc_a04h.txt
+	-
+	sc_a05n.txt
+	sc_a05h.txt
+	-
+	sc_a20n.txt
+	sc_a20h.txt
+	-
+	sc_a50n.txt
+	sc_a50h.txt
+
+オルガ(B):
+	sc_b01n.txt
+	sc_b01h.txt
+	-
+	sc_b02n.txt
+	sc_b02h.txt
+	-
+	sc_b03n.txt
+	sc_b03h.txt
+	-
+	sc_b04n.txt
+	sc_b04h.txt
+	-
+	sc_b05n.txt
+	sc_b05h.txt
+	-
+	sc_b20n.txt
+	sc_b20h.txt
+
+フィー(C):
+	sc_c01n.txt
+	sc_c01h.txt
+	-
+	sc_c02n.txt
+	sc_c02h.txt
+	-
+	sc_c03n.txt
+	sc_c03h.txt
+	-
+	sc_c04n.txt
+	sc_c04h.txt
+	-
+	sc_c05n.txt
+	sc_c05h.txt
+	-
+	sc_c20n.txt
+	sc_c20h.txt
+
+リディア(D):
+	sc_d01n.txt
+	sc_d01h.txt
+	-
+	sc_d02n.txt
+	sc_d02h.txt
+	-
+	sc_d03n.txt
+	sc_d03h.txt
+	-
+	sc_d04n.txt
+	sc_d04h.txt
+	-
+	sc_d05n.txt
+	sc_d05h.txt
+	-
+	sc_d06n.txt
+	sc_d06h.txt
+	-
+	sc_d20n.txt
+	sc_d20h.txt
+
+カシュニア(E):
+	sc_e01n.txt
+	sc_e01h.txt
+	-
+	sc_e02n.txt
+	sc_e02h.txt
+	-
+	sc_e03n.txt
+	sc_e03h.txt
+	-
+	sc_e04n.txt
+	sc_e04h.txt
+	-
+	sc_e05n.txt
+	sc_e05h.txt
+	-
+	sc_e20n.txt
+	sc_e20h.txt
+
+ナオミン(F):
+	sc_f01n.txt
+	sc_f01h.txt
+	-
+	sc_f02n.txt
+	sc_f02h.txt
+	-
+	sc_f03n.txt
+	sc_f03h.txt
+	-
+	sc_f04n.txt
+	sc_f04h.txt
+	-
+	sc_f05n.txt
+	sc_f05h.txt
+	-
+	sc_f20n.txt
+	sc_f20h.txt
+
+カトレーヌ(G):
+	sc_g01n.txt
+	sc_g01h.txt
+	-
+	sc_g02n.txt
+	sc_g02h.txt
+	-
+	sc_g03n.txt
+	sc_g03h.txt
+	-
+	sc_g04n.txt
+	sc_g04h.txt
+	-
+	sc_g20n.txt
+	sc_g20h.txt
+
+ミャウ(H):
+	sc_h01n.txt
+	sc_h01h.txt
+	-
+	sc_h02n.txt
+	sc_h02h.txt
+	-
+	sc_h03n.txt
+	sc_h03h.txt
+	-
+	sc_h04n.txt
+	sc_h04h.txt
+	-
+	sc_h20n.txt
+	sc_h20h.txt
+
+かぐや(I):
+	sc_i01n.txt
+	sc_i01h.txt
+	-
+	sc_i02n.txt
+	sc_i02h.txt
+	-
+	sc_i03n.txt
+	sc_i03h.txt
+	-
+	sc_i04n.txt
+	sc_i04h.txt
+	-
+	sc_i20n.txt
+	sc_i20h.txt
+
+みぞれ(J):
+	sc_j01n.txt
+	sc_j01h.txt
+	-
+	sc_j02n.txt
+	sc_j02h.txt
+	-
+	sc_j03n.txt
+	sc_j03h.txt
+	-
+	sc_j04n.txt
+	sc_j04h.txt
+	-
+	sc_j05n.txt
+	sc_j05h.txt
+	-
+	sc_j20n.txt
+	sc_j20h.txt
+
+サブ１（K～O）:
+	sc_k01n.txt
+	sc_k01h.txt
+	-
+	sc_l01n.txt
+	sc_l01h.txt
+	sc_l02n.txt
+	sc_l02h.txt
+	-
+	sc_m01n.txt
+	sc_m01h.txt
+	sc_m02n.txt
+	sc_m02h.txt
+	-
+	sc_n01n.txt
+	sc_n01h.txt
+	-
+	sc_o01n.txt
+	sc_o01h.txt
+
+サブ２（P～T）:
+	sc_p01n.txt
+	sc_p01h.txt
+	sc_p02n.txt
+	sc_p02h.txt
+	-
+	sc_q01n.txt
+	sc_q01h.txt
+	sc_q02n.txt
+	sc_q02h.txt
+	-
+	sc_r01n.txt
+	sc_r01h.txt
+	sc_r02n.txt
+	sc_r02h.txt
+	-
+	sc_s01n.txt
+	sc_s01h.txt
+	-
+	sc_t01n.txt
+	sc_t01h.txt
+
+X:
+	sc_x01n.txt
+	sc_x01h.txt
+	-
+	sc_x02n.txt
+	sc_x02h.txt
+	-
+	sc_x03n.txt
+	sc_x03h.txt
+	-
+	sc_x11n.txt
+	sc_x11h.txt
+	-
+	sc_x14n.txt
+	sc_x14h.txt
+	-
+	sc_xed01.txt
+	sc_xed02.txt
+
+onsen:
+	sc_onsen01.txt
+	sc_onsen02.txt
+#	-
+#	sc_onsen_check.txt
+#	sc_onsen_sc_select_menu.txt
+
+undokai:
+	sc_undokai01.txt
+	sc_undokai02.txt
+#	-
+#	sc_undokai_check.txt
+#	sc_undokai_sc_select_menu.txt
+
+system:
+	gameloop.txt

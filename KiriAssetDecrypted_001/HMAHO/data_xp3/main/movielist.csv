@@ -1,0 +1,12 @@
+# ●フルアニメ鑑賞モード
+thum_a01, a01r5,	animation*mv_a01,	@cg_MV_A01R5
+thum_b07, b07,		animation*mv_b07,	@cg_MV_B07
+thum_c03, c03,		animation*mv_c03,	@cg_MV_C03
+thum_d03, d03,		animation*mv_d03,	@cg_MV_D03
+thum_e02, e02,		animation*mv_e02,	@cg_MV_E02
+thum_f03, f03,		animation*mv_f03,	@cg_MV_F03
+thum_g02, g02,		animation*mv_g02,	@cg_MV_G02
+thum_h02, h02,		animation*mv_h02,	@cg_MV_H02
+thum_i02, i02,		animation*mv_i02,	@cg_MV_I02
+thum_j03, j03,		animation*mv_j03,	@cg_MV_J03
+thum_x02, x02,		animation*mv_x02,	@cg_MV_X02

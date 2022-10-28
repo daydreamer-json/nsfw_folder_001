@@ -1,0 +1,129 @@
+psd,quest_main
+ui,丸数字/15,			@badge:15
+ui,丸数字/14,			@badge:14
+ui,丸数字/13,			@badge:13
+ui,丸数字/12,			@badge:12
+ui,丸数字/11,			@badge:11
+ui,丸数字/10,			@badge:10
+ui,丸数字/9,			@badge:9
+ui,丸数字/8,			@badge:8
+ui,丸数字/7,			@badge:7
+ui,丸数字/6,			@badge:6
+ui,丸数字/5,			@badge:5
+ui,丸数字/4,			@badge:4
+ui,丸数字/3,			@badge:3
+ui,丸数字/2,			@badge:2
+ui,丸数字/1,			@badge:1
+ui,丸数字/#サブ,		@badge:rect/layer
+ui,丸数字/#サブ,		@to_sub_badge/cp:badge
+ui,丸数字/#親子丼,		@to_oyako_badge/cp:badge
+ui,丸数字/#多人数,		@to_multi_badge/cp:badge
+#
+ui,攻略進捗/完全攻略,		@quest_comp/layer
+ui,攻略進捗/攻略度,		@quest_state/layer
+ui,攻略進捗/on,			@quest_heart:normal:on
+ui,攻略進捗/off,		@quest_heart:normal:off/toggle
+ui,攻略進捗/#heart,		@quest_heart:rect
+ui,攻略進捗/#pos/1,		@heart1/cp:quest_heart
+ui,攻略進捗/#pos/2,		@heart2/cp:quest_heart
+ui,攻略進捗/#pos/3,		@heart3/cp:quest_heart
+ui,攻略進捗/#pos/4,		@heart4/cp:quest_heart
+ui,攻略進捗/#pos/5,		@heart5/cp:quest_heart
+ui,攻略進捗/#pos/6,		@heart6/cp:quest_heart
+#
+ui,ボタン/キャラ選択/枠,	@chsel_frame/layer
+ui,ボタン/キャラ選択/off,	@allch:off/cref
+ui,ボタン/キャラ選択/ds,	@allch:disable
+ui,ボタン/キャラ選択/on,	@allch:over
+ui,ボタン/キャラ選択/#rect/A,	@ch0:rect
+ui,ボタン/キャラ選択/#rect/B,	@ch1:rect
+ui,ボタン/キャラ選択/#rect/C,	@ch2:rect
+ui,ボタン/キャラ選択/#rect/D,	@ch3:rect
+ui,ボタン/キャラ選択/#rect/E,	@ch4:rect
+ui,ボタン/キャラ選択/#rect/F,	@ch5:rect
+ui,ボタン/キャラ選択/#rect/G,	@ch6:rect
+ui,ボタン/キャラ選択/#rect/H,	@ch7:rect
+ui,ボタン/キャラ選択/#rect/I,	@ch8:rect
+ui,ボタン/キャラ選択/#rect/J,	@ch9:rect
+#
+ui,ボタン/バナー/サブ/on,	@to_sub:over
+ui,ボタン/バナー/サブ/off,	@to_sub:off
+ui,ボタン/バナー/親子丼/on,	@to_oyako:over
+ui,ボタン/バナー/親子丼/off,	@to_oyako:off
+ui,ボタン/バナー/多人数/on,	@to_multi:over
+ui,ボタン/バナー/多人数/off,	@to_multi:off
+ui,ボタン/クエストスキップ/on,	@quest_skip:over
+ui,ボタン/クエストスキップ/off,	@quest_skip:off
+ui,ボタン/主人公プロフ/on,	@to_status:over
+ui,ボタン/主人公プロフ/off,	@to_status:off
+ui,ボタン/EDジャンプ/on,	@to_endsel:over
+ui,ボタン/EDジャンプ/off,	@to_endsel:off
+ui,ボタン/衣装選択/on,		@alldress:over
+ui,ボタン/衣装選択/off,		@alldress:off/cref
+ui,ボタン/衣装選択/#rect/0,	@dress0:rect
+ui,ボタン/衣装選択/#rect/1,	@dress1:rect
+ui,ボタン/衣装選択/#rect/2,	@dress2:rect
+ui,ボタン/衣装選択/#rect/3,	@dress3:rect
+ui,ボタン/衣装選択/銃あり/on,	@dress3c:over
+ui,ボタン/衣装選択/銃あり/off,	@dress3c:off
+ui,ボタン/衣装選択/#rect/3,	@dress3c:rect
+ui,ボタン/衣装選択/メイド/on,	@dress3h:over
+ui,ボタン/衣装選択/メイド/off,	@dress3h:off
+ui,ボタン/衣装選択/#rect/3,	@dress3h:rect
+ui,ボタン/衣装選択/#rect/4,	@dress4:rect
+#
+ui,現在章回数/1,		@number:1
+ui,現在章回数/2,		@number:2
+ui,現在章回数/3,		@number:3
+ui,現在章回数/4,		@number:4
+ui,現在章回数/5,		@number:5
+ui,現在章回数/6,		@number:6
+ui,現在章回数/7,		@number:7
+ui,現在章回数/8,		@number:8
+ui,現在章回数/9,		@number:9
+ui,現在章回数/10,		@number:10
+ui,現在章回数/11,		@number:11
+ui,現在章回数/12,		@number:12
+ui,現在章回数/13,		@number:13
+ui,現在章回数/14,		@number:14
+ui,現在章回数/#章,		@number:rect/layer
+ui,現在章回数/#章,		@chapter/cp:number
+ui,現在章回数/#クエスト,	@quest/cp:number
+ui,現在章回数/フレーム,		@frame/layer
+ui,背景,			@base
+#
+incl,quest_main_prof.func
+#
+part,remove,badge,quest_heart,number
+func,quest_state,	visible,false
+func,quest_comp,	visible,false
+func,quest_heart,	visible,false
+#
+cref,allch,ch0,ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,ch9
+func,ch0,	onenter,MapItemEnter("ch0"),	onleave,MapItemLeave("ch0")
+func,ch1,	onenter,MapItemEnter("ch1"),	onleave,MapItemLeave("ch1")
+func,ch2,	onenter,MapItemEnter("ch2"),	onleave,MapItemLeave("ch2")
+func,ch3,	onenter,MapItemEnter("ch3"),	onleave,MapItemLeave("ch3")
+func,ch4,	onenter,MapItemEnter("ch4"),	onleave,MapItemLeave("ch4")
+func,ch5,	onenter,MapItemEnter("ch5"),	onleave,MapItemLeave("ch5")
+func,ch6,	onenter,MapItemEnter("ch6"),	onleave,MapItemLeave("ch6")
+func,ch7,	onenter,MapItemEnter("ch7"),	onleave,MapItemLeave("ch7")
+func,ch8,	onenter,MapItemEnter("ch8"),	onleave,MapItemLeave("ch8")
+func,ch9,	onenter,MapItemEnter("ch9"),	onleave,MapItemLeave("ch9")
+#
+func,to_sub,	
+func,to_oyako,	
+func,to_multi,	
+func,quest_skip,
+func,to_status,	
+func,to_endsel,	
+#
+cref,alldress,dress0,dress1,dress2,dress3,dress4
+rgrp,alldress,dress0,dress1,dress2,dress3,dress4,dress3c,dress3h
+func,dress0,	
+func,dress1,	
+func,dress2,	
+func,dress3,	
+func,dress4,	
+#
+eval,names,call,uiloadSysSE,quest

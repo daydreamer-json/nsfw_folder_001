@@ -1,0 +1,36 @@
+psd,quest_oyako
+ui,新規マーカー,		$item@_new/layer
+ui,選択枠/#rect/0,		#item@:rect
+ui,選択枠/#rect/0,		<item>oyako0
+ui,選択枠/#rect/1,		<item>oyako1
+ui,選択枠/#rect/2,		<item>oyako2
+ui,選択枠/#rect/3,		<item>oyako3
+ui,選択枠/#rect/4,		<item>oyako4
+ui,選択枠/#rect/5,		<item>oyako5
+ui,選択枠/#rect/6,		<item>oyako6
+ui,選択枠/#rect/7,		<item>oyako7
+ui,選択枠/#rect/8,		<item>oyako8
+ui,選択枠/#rect/9,		<item>oyako9
+#
+ui,選択枠/データなし,		@alloyako:disable
+ui,選択枠/over,			@alloyako:over
+ui,選択枠/nomal,		@alloyako:off/cref
+ui,戻るボタン/over,		@back:over
+ui,戻るボタン/normal,		@back:off
+ui,下部名前（常時表示）,	@frame/layer
+ui,背景,			@base
+#
+cref,alloyako,oyako0,oyako1,oyako2,oyako3,oyako4,oyako5,oyako6,oyako7,oyako8,oyako9
+#
+func,	oyako0_new,	visible,false
+func,	oyako1_new,	visible,false
+func,	oyako2_new,	visible,false
+func,	oyako3_new,	visible,false
+func,	oyako4_new,	visible,false
+func,	oyako5_new,	visible,false
+func,	oyako6_new,	visible,false
+func,	oyako7_new,	visible,false
+func,	oyako8_new,	visible,false
+func,	oyako9_new,	visible,false
+#
+eval,names,call,uiloadSysSE,quest

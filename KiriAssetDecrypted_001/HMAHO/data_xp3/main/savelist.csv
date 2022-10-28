@@ -1,0 +1,134 @@
+# セーブ置き換えが必要なCGファイル名一覧
+#（あらかじめ default.tjs などで SystemConfig.saveThumbReplaceList にこのファイルを指定しておくこと）
+#
+#凡例：
+# サムネファイル,元CGファイル1,元CGファイル2,...
+#
+# ※元CGファイルの末尾に「*」をつけることでワイルドカード指定が可能（ファイル名の先頭や途中は不可）
+#
+# サムネファイルは「:」を頭につけることで，画像置き換えではなく全体モザイクによる加工指定が可能
+# 「:w=縦サイズ:h=横サイズ」でモザイクのブロックの大きさ（縮小前のサイズ基準）を指定可能
+# 「:blur」にするとモザイクではなく全体ぼかしになる
+# 「:」のみで1280x720時に合わせたモザイク処理が施される（w=64,h=60の縦横ぴったり割り切れる値）
+# もしくは省略時のデフォルトをSystemConfig.saveThumbEffectDefaultParamの辞書で指定可能(%[w:100,h:200,blur:1]等)
+#
+# 例：
+#   thumsave_evXXX, evXXX_a, evXXX_b, evXXX_c
+#   thumsave_evXXX, evXXX*
+#   :, evXXX*
+#
+#   :w=100:h=200,    ～
+#   :blur,           ～ ※「:blur=1」でも可
+#   :w=32:h=32:blur, ～ ※複合指定も可
+#
+
+thum_a01, eva01*,	mv_a01*
+thum_a02, eva02*
+thum_a03, eva03*
+thum_a04, eva04*
+thum_a05, eva05*
+thum_a06, eva06*
+thum_a07, eva07*
+thum_a20, eva20*
+thum_a21, eva21*
+thum_a50, eva50*
+thum_b01, evb01*
+thum_b02, evb02*
+thum_b03, evb03*
+thum_b04, evb04*
+thum_b05, evb05*
+thum_b06, evb06*
+thum_b07, evb07*,	mv_b07*
+thum_b20, evb20*
+thum_c01, evc01*
+thum_c02, evc02*
+thum_c03, evc03*,	mv_c03*
+thum_c04, evc04*
+thum_c05, evc05*
+thum_c06, evc06*
+thum_c07, evc07*
+thum_c20, evc20*
+thum_d01, evd01*
+thum_d02, evd02*
+thum_d03, evd03*,	mv_d03*
+thum_d04, evd04*
+thum_d05, evd05*
+thum_d06, evd06*
+thum_d07, evd07*
+thum_d08, evd08*
+thum_d20, evd20*
+thum_e01, eve01*
+thum_e02, eve02*,	mv_e02*
+thum_e03, eve03*
+thum_e04, eve04*
+thum_e05, eve05*
+thum_e06, eve06*
+thum_e07, eve07*
+thum_e20, eve20*
+thum_f01, evf01*
+thum_f02, evf02*
+thum_f03, evf03*,	mv_f03*
+thum_f04, evf04*
+thum_f05, evf05*
+thum_f06, evf06*
+thum_f07, evf07*
+thum_f20, evf20*
+thum_g01, evg01*
+thum_g02, evg02*,	mv_g02*
+thum_g03, evg03*
+thum_g04, evg04*
+thum_g05, evg05*
+thum_g06, evg06*
+thum_g20, evg20*
+thum_g21, evg21*
+thum_h01, evh01*
+thum_h02, evh02*,	mv_h02*
+thum_h03, evh03*
+thum_h06, evh06*
+thum_h07, evh07*
+thum_h20, evh20*
+thum_i01, evi01*
+thum_i02, evi02*,	mv_i02*
+thum_i03, evi03*
+thum_i04, evi04*
+thum_i05, evi05*
+thum_i20, evi20*
+thum_j01, evj01*
+thum_j02, evj02*
+thum_j03, evj03*,	mv_j03*
+thum_j04, evj04*
+thum_j05, evj05*
+thum_j06, evj06*
+thum_j07, evj07*
+thum_j20, evj20*
+thum_k01, evk01*
+thum_l01, evl01*
+thum_l02, evl02*
+thum_m01, evm01*
+thum_m02, evm02*
+thum_n01, evn01*
+thum_o01, evo01*
+thum_p01, evp01*
+thum_p02, evp02*
+thum_q01, evq01*
+thum_q02, evq02*
+thum_r01, evr01*
+thum_r02, evr02*
+thum_s01, evs01*
+thum_t01, evt01*
+thum_x01, evx01*
+thum_x02, evx02*,	mv_x02*
+thum_x03, evx03*
+thum_x11,   x11*
+thum_x14, evx14*
+thum_ed01, ed01*
+thum_ed02, ed02*
+
+
+# モザイク加工にする場合
+#:,			ev*
+
+# セーブサムネの差し替えはしないがSteamでのキャプチャ検閲処理を行う場合の例(w=1,h=1,blurで加工処理なし）
+#:w=1:h=1:blur,	hcg～～
+
+

@@ -1,0 +1,69 @@
+psd,quest_sub
+ui,新規マーカー,	$item@_new/layer
+ui,ボタン/#rect/0,	#item@:rect
+ui,ボタン/#rect/0,	<item>subch0
+ui,ボタン/#rect/1,	<item>subch1
+ui,ボタン/#rect/2,	<item>subch2
+ui,ボタン/#rect/3,	<item>subch3
+ui,ボタン/#rect/4,	<item>subch4
+ui,ボタン/#rect/5,	<item>subch5
+ui,ボタン/#rect/6,	<item>subch6
+ui,ボタン/#rect/7,	<item>subch7
+ui,ボタン/#rect/8,	<item>subch8
+ui,ボタン/#rect/9,	<item>subch9
+ui,ボタン/#rect/10,	<item>subch10
+ui,ボタン/#rect/11,	<item>subch11
+ui,ボタン/#rect/12,	<item>subch12
+ui,ボタン/#rect/13,	<item>subch13
+ui,ボタン/#rect/14,	<item>subch14
+#
+ui,ボタン/over,		@allsubch:over/cref
+ui,ボタン/アクティブ,	@allsubch:normal
+ui,ボタン/非アクティブ,	@allsubch:disable
+ui,攻略中,		@quest_nocomp/layer
+ui,攻略済み,		@quest_comp/layer
+ui,戻るボタン/over,		@back:over
+ui,戻るボタン/normal,		@back:off
+ui,bg,			@base
+#
+incl,quest_sub_prof.func
+#
+func,	subch0_new,	visible,false
+func,	subch1_new,	visible,false
+func,	subch2_new,	visible,false
+func,	subch3_new,	visible,false
+func,	subch4_new,	visible,false
+func,	subch5_new,	visible,false
+func,	subch6_new,	visible,false
+func,	subch7_new,	visible,false
+func,	subch8_new,	visible,false
+func,	subch9_new,	visible,false
+func,	subch10_new,	visible,false
+func,	subch11_new,	visible,false
+func,	subch12_new,	visible,false
+func,	subch13_new,	visible,false
+func,	subch14_new,	visible,false
+#
+func,	subch0,		onenter,MapItemEnter("subch0"),	onleave,MapItemLeave("subch0")
+func,	subch1,		onenter,MapItemEnter("subch1"),	onleave,MapItemLeave("subch1")
+func,	subch2,		onenter,MapItemEnter("subch2"),	onleave,MapItemLeave("subch2")
+func,	subch3,		onenter,MapItemEnter("subch3"),	onleave,MapItemLeave("subch3")
+func,	subch4,		onenter,MapItemEnter("subch4"),	onleave,MapItemLeave("subch4")
+func,	subch5,		onenter,MapItemEnter("subch5"),	onleave,MapItemLeave("subch5")
+func,	subch6,		onenter,MapItemEnter("subch6"),	onleave,MapItemLeave("subch6")
+func,	subch7,		onenter,MapItemEnter("subch7"),	onleave,MapItemLeave("subch7")
+func,	subch8,		onenter,MapItemEnter("subch8"),	onleave,MapItemLeave("subch8")
+func,	subch9,		onenter,MapItemEnter("subch9"),	onleave,MapItemLeave("subch9")
+func,	subch10,	onenter,MapItemEnter("subch10"),onleave,MapItemLeave("subch10")
+func,	subch11,	onenter,MapItemEnter("subch11"),onleave,MapItemLeave("subch11")
+func,	subch12,	onenter,MapItemEnter("subch12"),onleave,MapItemLeave("subch12")
+func,	subch13,	onenter,MapItemEnter("subch13"),onleave,MapItemLeave("subch13")
+func,	subch14,	onenter,MapItemEnter("subch14"),onleave,MapItemLeave("subch14")
+#
+func,quest_nocomp,	visible,false
+func,quest_comp,	visible,false
+#
+part,remove,item
+cref,allsubch,subch0,subch1,subch2,subch3,subch4,subch5,subch6,subch7,subch8,subch9,subch10,subch11,subch12,subch13,subch14
+#
+eval,names,call,uiloadSysSE,quest

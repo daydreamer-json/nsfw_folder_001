@@ -1,0 +1,69 @@
+psd,menu
+ui,#rect/セーブ,		@save:rect
+ui,#rect/ロード,		@load:rect
+ui,#rect/オート,		@auto:rect/toggle
+ui,#rect/スキップ,		@skip:rect/toggle
+ui,#rect/バックログ,		@log:rect
+ui,#rect/設定,			@option:rect
+ui,#rect/Qセーブ,		@qsave:rect
+ui,#rect/Qロード,		@qload:rect
+ui,#rect/ボイスリピート,	@vreplay:rect
+ui,#rect/prev,			@prev:rect
+ui,#rect/next,			@next:rect
+ui,#rect/窓閉,			@hide:rect
+ui,allbtns/unlock/over,		@lock:over:off
+ui,allbtns/unlock/off,		@lock:normal:off
+ui,allbtns/lock/over,		@lock:over:on
+ui,allbtns/lock/off,		@lock:normal:on/toggle
+ui,allbtns/off,			@allbtns:normal:on
+ui,allbtns/ds,			@allbtns:disable
+ui,allbtns/over,		@allbtns:over
+ui,allbtns/off,			@allbtns:off/cref
+ui,help/ロック,			@help_lock/layer
+ui,help/ボイスリピート,		@help_vreplay/layer
+ui,help/オート,			@help_auto/layer
+ui,help/スキップ,		@help_skip/layer
+ui,help/Qセーブ,		@help_qsave/layer
+ui,help/Qロード,		@help_qload/layer
+ui,help/セーブ,			@help_save/layer
+ui,help/ロード,			@help_load/layer
+ui,help/バックログ,		@help_log/layer
+ui,help/prev,			@help_prev/layer
+ui,help/next,			@help_next/layer
+ui,help/設定,			@help_option/layer
+ui,help/窓閉,			@help_hide/layer
+ui,base,			@base
+ui,base,			@hitarea/area
+#
+mvsz,hitarea,margin,0,0,-16,0
+cref,allbtns,save,load,auto,skip,log,option,qsave,qload,vreplay,prev,next,hide
+#
+func,lock,	hasdisable,true,	exp,QuickMenuLock=!QuickMenuLock
+func,save,	hasdisable,true,	exp,SystemAction.save()
+func,load,	hasdisable,true,	exp,SystemAction.load()
+func,auto,	hasdisable,true,	exp,SystemAction.auto(),	nostable,true
+func,skip,	hasdisable,true,	exp,SystemAction.skip(),	nostable,true
+func,log,	hasdisable,true,	exp,SystemAction.log()
+func,option,	hasdisable,true,	exp,SystemAction.option()
+func,qsave,	hasdisable,true,	exp,SystemAction.qsave()
+func,qload,	hasdisable,true,	exp,SystemAction.qload()
+func,vreplay,	hasdisable,true,	exp,SystemAction.vreplay()
+func,prev,	hasdisable,true,	exp,SystemAction.prev()
+func,next,	hasdisable,true,	exp,SystemAction.next()
+func,hide,	hasdisable,true,	exp,SystemAction.hide()
+#
+func,help_lock,		visible,false
+func,help_vreplay,	visible,false
+func,help_auto,		visible,false
+func,help_skip,		visible,false
+func,help_qsave,	visible,false
+func,help_qload,	visible,false
+func,help_save,		visible,false
+func,help_load,		visible,false
+func,help_log,		visible,false
+func,help_prev,		visible,false
+func,help_next,		visible,false
+func,help_option,	visible,false
+func,help_hide,		visible,false
+#
+eval,names,call,uiloadSysSE,quickmenu

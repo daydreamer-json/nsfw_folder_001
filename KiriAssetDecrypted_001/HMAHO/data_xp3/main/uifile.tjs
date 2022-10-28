@@ -1,0 +1,293 @@
+//--------------------------------------------------------------
+// セーブロード
+
+class        CustomSaveLoad extends DragEditableStoreScroll {
+	function CustomSaveLoad(elm) {
+		with (elm) {
+			.columns   = 3 if (.columns === void);
+			.rows      = 4 if (.rows    === void);
+			.itemname  = "item";   // ボタンレイヤ名
+			.itemformat="item${y}_${x}";
+			.mask      = "thumb";  // マスク状態名
+			.disabled  = "normal"; // 無効状態名
+			.askoverwrite = true;
+
+			.pagecount = getInitialPageCount(); //10+1;
+			if (.page !== void) .page = int(+.page);
+			else if (!lastPage) .page = 1;
+
+			.horzmode  = true;
+			.transpose = true;
+			.pagefixmode = true;
+//			.askoverwrite = SystemConfig.askSave;
+//			.askload      = SystemConfig.askLoad;
+//			.pgkeyrepeat = true;
+		}
+		super.DragEditableStoreScroll(       SaveDataButton,      elm);
+
+		help = new HelpTextManager(this, kag, "help_file.txt",/*layname*/, FilterDrawTextParam("file.help"));
+	}
+	function getInitialPageCount() { return 100+1; } // [XXX] +1 == qsave page
+	function finalize {
+		invalidate help if (help);
+		help = void;
+		super.finalize(...);
+	}
+
+	function onPageChanged(old, now) {
+		var backup;
+		if (!now) backup <-> lastPage; // [XXX]
+		super.onPageChanged(...);
+		if (!now) backup <-> lastPage;
+	}
+	/*virtual*/function getLastScrollPos()    { return lastPage; }
+	/*virtual*/function setLastScrollPos(pos) {        lastPage = pos if (pos > 0); }
+
+	var help, _lf = "\n";
+	var _dataName = "データ";
+	var _saveName = "セーブ";
+	var _loadName = "ロード";
+
+	var _weakHelp, _lasthelpvis, _helpbase ="helpbase";
+	function initHelp(ui) {
+		if (help) with (help) {
+			_lasthelpvis = false;
+			.setup(ui);
+			_weakHelp = "WEAK_"+getCurrentMode().toUpperCase();
+			updateHelpShow();
+		}
+	}
+	function updateHelpShow() {
+		var names = kag.current.names;
+		var vis = +SystemConfig.showHelpTips;
+		if (names[_helpbase]) with (names[_helpbase]) .visible = vis, .opacity = _lasthelpvis ? 255 : 0;
+		var text = SystemConfig.helpTextDefaultLayerTarget;
+		if (names[text]) with (names[text]) .visible = vis;
+	}
+	function getWeakHelp() { return "WEAK_"+getCurrentMode().toUpperCase(); }
+
+	var _currentNumber, _currentNumberText;
+	function showHelpTip(num) {
+		var pos = _currentNumber = offset + num;
+		var tag = _issave ? (isExistData(pos) ? "OVERWRITE" : "SAVE") : "LOAD";
+		_currentNumberText = SystemConfig.qlpopupTextMap.number(void, pos); // [XXX]
+		if (help) help.drawHelpTipTag(tag != "" ? ("HELP_"+tag) : void);
+	}
+	function hideHelpTip() {
+		if (help) help.startFade(false);
+	}
+	// from helptextmanager callback
+	function onHelpVisible(vis, time) {
+		_lasthelpvis = vis;
+		var frame = kag.current.names[_helpbase];
+		if (frame) with (frame) {
+			var opac = .visible ? .opacity : 0;
+			kag.stopAction(frame, true);
+			kag.beginAction(frame, %[ opacity:%[ handler:"MoveAction", start:(.opacity=opac), value:vis?255:0, time:time ], nowait:true ]);
+		}
+	}
+	/*virtual*/function onHook_update(dummy, redraw) {
+		super.onHook_update(...);
+		var names = kag.current.names;
+		if (_iscopy != "") {
+			var item = getItemTarget(_copysrc);
+			if (item !== void) with (item) {
+				.copyRect(0, 0, item, .width*2, 0, .width, .height);
+				.enabled = false;
+			}
+		}
+		var mode = "to_"+getCurrentMode();
+		if (names[mode] !== void) names[mode].toggle = true;
+		if (_weakHelp != "") {
+			if (help) help.drawHelpTipTag(_weakHelp, true);
+			_weakHelp = void;
+		}
+	}
+
+	var _sysbtnTags = []; //< [config] 使用するシステムボタン一覧（メソッド名）
+//	var _dragScrollCoef = %[ tcoef:80, dcoef:10 ];
+
+	//function getCurrentMode(pg) { return _issave ? "save" : "load"; }
+	function getCurrentMode() {
+		return _issave ? "save" : (!_page ? "quick" : "load");
+	}
+
+	function onUiload(elm) {
+		var rm = "remove,rm_"+getCurrentMode();
+		if (fromTitle) rm += ",rm_fromtitle";
+		elm.partremove = rm;
+	}
+	function onUiloaded(elm, ui) {
+		initHelp(ui);
+		// タイトルからのロード画面はセーブ画面へ遷移できない
+		var tos = kag.current.names.to_save;
+		if (tos) tos.enabled = canJumpToSave();
+		super.onUiloaded(...);
+	}
+	function canJumpToSave() { return !(_fromTitle && !_issave); }
+
+	var textParam;
+	function setupUiRects(ui) {
+		var r = super.setupUiRects(...);
+		textParam   = makeTextParam(ui, _itemname+".");
+		_currentPageShortCut = void;
+		_pageNumRect = uiloadGetRect(_pageNumUiName, ui);
+		if (_pageNumRect) with (_pageNumRect) .x=.ox, .y=.oy, .ox=.oy=void;
+		updateScrollMinMax(!_page);
+		return r;
+	}
+	function updateScrollMinMax(isQuick) {
+		if (scutil) with (scutil) {
+			.disableScroll = isQuick;
+			.scrollMin = isQuick ? 0 : .getPagePos(1);
+			.scrollMax = 0 if (isQuick);
+			.resetScroll();
+		}
+	}
+	function termScroll() {
+		//dm("termScroll");
+		if (scutil) with (scutil) {
+			.restoreItems(kag.current);
+			.scrollBaseLayer.visible = false;
+		}
+	}
+
+	// callback from scutil
+	function onScrollItem(item, n, pos) {
+		_forceLeaveItem(item);
+		return super.onScrollItem(...);
+	}
+	function _forceLeaveItem(item) {
+		if (item && typeof item.Butt_mouseOn != "undefined" && item.Butt_mouseOn) item.onMouseLeave(); // [XXX]
+	}
+	function _getCursorPosLayer() { with (kag.primaryLayer) return .getLayerAt(.cursorX, .cursorY); }
+	function _recheckEnterItem() {
+		var lay = _getCursorPosLayer();
+		if (lay && lay.enabled && inDrag >= 0) {
+			var n = scutil.getItemButtonIndex(lay);
+			if (n !== void) lay.onMouseEnter();
+		}
+	}
+
+	// callback from scutil
+//	function onScrollUpdate() { return super.onScrollUpdate(...); }
+
+	// callback from scutil
+	function onScrolled(pos, doneAct) {
+		super.onScrolled(...);
+		if (_pageNumRect) {
+			var step, width = _pageNumRect.h;
+			with ( scutil) step = .blockStep * .row;
+			var ofs = int(+Math.round(pos * width / step));
+			if (_currentPageShortCut === void || _currentPageShortCut != ofs) {
+				_currentPageShortCut = ofs;
+				drawPageNumber(ofs \ width, ofs%width);
+			}
+		}
+	}
+	var _pageNumUiName = "num", _pageNumRect;
+
+	function moveScroll(dir) { jumpPageScroll(page + int(+dir)); }
+
+	var _currentPageShortCut = void;
+	function updatePageShortcut(target) {}
+	function updatePageView() {
+		super.updatePageView(...);
+		drawPageNumber(page, 0);
+	}
+	function drawPageNumber(page, ofs) {
+		if (_pageNumRect) with (kag.current.names) {
+			var num = page; // [XXX]
+			var next = (ofs > 0) ? num+1 : num;
+			drawPageNumberOne(.page_100, num\100,   (next\100   != num\100  ) ? ofs : 0);
+			drawPageNumberOne(.page_010, num\10%10, (next\10%10 != num\10%10) ? ofs : 0);
+			drawPageNumberOne(.page_001, num   %10, (next   %10 != num   %10) ? ofs : 0);
+		}
+	}
+	function drawPageNumberOne(lay, num, ofs) {
+		var names = kag.current.names;
+		if (lay) with (lay) {
+			.fillRect(0,0, .width, .height, 0);
+			var src = names["num"+num];
+			if (src) .operateRect(0, -ofs, src, 0, 0, src.width, src.height);
+			if (ofs > 0) {
+				src = names["num"+((num+1)%10)];
+				if (src) .operateRect(0, .height-ofs, src, 0, 0, src.width, src.height);
+			}
+		}
+	}
+
+	function makeTextParam(ui, prefix) { with (SystemConfig) return  GenericSaveDataDrawText.setup(ui, .qlpopupTextTags, .qlpopupTextMap, prefix); }
+	function drawItemNumber(target, num, info) {
+		if (!target) return;
+		GenericSaveDataDrawText(target, info, typeof num == "Integer" ? getDataNumber(num) : num, textParam, "file.");
+	}
+
+
+	/*virtual*/function onSetupItemButtonOne(elm, idx) {
+		super.onSetupItemButtonOne(...);
+		elm.onenter = @'Current.cmd("onItemEnter/${idx}")';
+		elm.onleave = @'Current.cmd("onItemLeave/${idx}")';
+	}
+	function onItemLeave(n) { hideHelpTip(); }
+	function onItemEnter(n) { showHelpTip(int(+n)); }
+
+
+	// --------------------------------------
+
+	function _process() {
+		disableClickable();
+		kag.process(...);
+	}
+	function changeMode(mode) {
+		var proc = _process;
+		var cur = _issave ? "save.ks" : "load.ks";
+		switch (mode) {
+		case "load":
+			if (!page) {
+				page = lastPage > 0 ? lastPage : 1; // [XXX]
+				termScroll();
+				proc(cur, "*page");
+			} else if (_issave) {
+				proc(cur, "*load");
+			}
+			break;
+		case "quick":
+			if (_issave) proc("custom.ks", "*to_quickload");
+			else {
+				_page = 0;
+				termScroll();
+				proc(cur, "*page");
+			}
+			break;
+		}
+	}
+
+	// =============================
+	property storage { getter {
+		return "file_"+getCurrentMode();
+	} }
+
+}
+
+Dialog.add(%[ name:"save", start:CustomSaveLoad ]);
+Dialog.add(%[ name:"load", start:CustomSaveLoad ]);
+
+SystemHook.add("save.back", "_EditableStoreBack_");
+SystemHook.add("load.back", "_EditableStoreBack_");
+
+// ファイル名をクイック用とそうでないので差し替える
+with (KAGWindow) {
+	&.getBookMarkFileNameAtNum = function (num) {
+		var per = SystemConfig.savedataCountPerPage;
+		return getBookMarkFileName(num >= per ? "_%04d_%02d.".sprintf(num\per, num%per+1) : "_quick_%02d.".sprintf(num+1)) + BookMarkIO();
+	};
+	&.getBookMarkFileNameBySystem = function (tag) {
+		return getBookMarkFileName("_"+tag) + (tag == "continue" ? ("."+BookMarkIO()) : ".ksd");
+	};
+}
+
+// クイックセーブの先頭番号を変更
+property _qsaveBookmarkNumber { getter { return +SystemConfig.rotateQuickSaveBookmarkNumber; } }
+&SystemActionBase.qsaveBookmarkNumber = &_qsaveBookmarkNumber;
+

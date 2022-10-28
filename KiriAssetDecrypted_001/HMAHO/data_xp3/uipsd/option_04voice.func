@@ -1,0 +1,70 @@
+incl,option.func
+ui,#/page/voice/numbase,	$chvol@_value/cp:_num
+ui,#/page/voice/numbase,	$chvol@_numbase/cp:_numbase
+ui,common/slider/knob,		$knob@:normal
+ui,#/page/voice/knob,		#knob
+ui,#/page/voice/knob,		<knob>_chvol
+ui,#/page/voice/slider,		@_chvol/slider:rect
+ui,#/page/voice/slider,		$chvol@_slider/cp:_chvol
+ui,#/page/voice/test,		$chvol@_test:rect
+ui,#/page/voice/mute,		$chvol@_mute:rect/toggle
+ui,#/page/voice/ch0,		#chvol
+#
+ui,#/page/voice/ch0,		<chvol>chv0
+ui,#/page/voice/ch1,		<chvol>chv1
+ui,#/page/voice/ch2,		<chvol>chv2
+ui,#/page/voice/ch3,		<chvol>chv3
+ui,#/page/voice/ch4,		<chvol>chv4
+ui,#/page/voice/ch5,		<chvol>chv5
+ui,#/page/voice/ch6,		<chvol>chv6
+ui,#/page/voice/ch7,		<chvol>chv7
+ui,#/page/voice/ch8,		<chvol>chv8
+ui,#/page/voice/ch9,		<chvol>chv9
+ui,#/page/voice/ch10,		<chvol>chv10
+#
+ui,#/page/voice/ch0,		ch0/area
+ui,#/page/voice/ch1,		ch1/area
+ui,#/page/voice/ch2,		ch2/area
+ui,#/page/voice/ch3,		ch3/area
+ui,#/page/voice/ch4,		ch4/area
+ui,#/page/voice/ch5,		ch5/area
+ui,#/page/voice/ch6,		ch6/area
+ui,#/page/voice/ch7,		ch7/area
+ui,#/page/voice/ch8,		ch8/area
+ui,#/page/voice/ch9,		ch9/area
+ui,#/page/voice/ch10,		ch10/area
+#
+ui,page/voice/chk-on,		@allbtns:over:on
+ui,page/voice/chk-off,		@allbtns:normal:on
+ui,page/voice/unchk-ov,		@allbtns:over/cref
+ui,page/voice/frame,		@frame/layer
+#
+cref,allbtns,chv0_test,chv0_mute
+cref,allbtns,chv1_test,chv1_mute
+cref,allbtns,chv2_test,chv2_mute
+cref,allbtns,chv3_test,chv3_mute
+cref,allbtns,chv4_test,chv4_mute
+cref,allbtns,chv5_test,chv5_mute
+cref,allbtns,chv6_test,chv6_mute
+cref,allbtns,chv7_test,chv7_mute
+cref,allbtns,chv8_test,chv8_mute
+cref,allbtns,chv9_test,chv9_mute
+cref,allbtns,chv10_test,chv10_mute
+#
+func,chv0_test,	sename,chvtest
+func,chv1_test,	sename,chvtest
+func,chv2_test,	sename,chvtest
+func,chv3_test,	sename,chvtest
+func,chv4_test,	sename,chvtest
+func,chv5_test,	sename,chvtest
+func,chv6_test,	sename,chvtest
+func,chv7_test,	sename,chvtest
+func,chv8_test,	sename,chvtest
+func,chv9_test,	sename,chvtest
+func,chv10_test,sename,chvtest
+#
+auto,chvoice
+#
+part,remove,_chvol
+#
+COMMON,-

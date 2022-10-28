@@ -1,0 +1,11 @@
+psd,select
+ui,‘I‘ğˆ/—select:ov,			@select:ov
+ui,‘I‘ğˆ/—select:off_btn,		@select:off/btn
+ui,‚PŒÂ/—select1_1:rect,		@select1_1:rect
+#
+ui,‚QŒÂ/—select1_2:rect,		@select1_2:rect
+ui,‚QŒÂ/—select2_2:rect,		@select2_2:rect
+#
+ui,‚RŒÂ/—select1_3:rect,		@select1_3:rect
+ui,‚RŒÂ/—select2_3:rect,		@select2_3:rect
+ui,‚RŒÂ/—select3_3:rect,		@select3_3:rect

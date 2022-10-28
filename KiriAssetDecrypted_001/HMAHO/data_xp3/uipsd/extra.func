@@ -1,0 +1,87 @@
+begin,CHSELECT
+ui,${_1}/select,		@grptop/layer
+ui,chselect/off/0,		@grp0:off
+ui,chselect/off/1,		@grp1:off
+ui,chselect/off/2,		@grp2:off
+ui,chselect/off/3,		@grp3:off
+ui,chselect/off/4,		@grp4:off
+ui,chselect/off/5,		@grp5:off
+ui,chselect/off/6,		@grp6:off
+ui,chselect/off/7,		@grp7:off
+ui,chselect/off/8,		@grp8:off
+ui,chselect/off/9,		@grp9:off
+ui,chselect/off/10,		@grp10:off
+ui,chselect/off/11,		@grp11:off
+ui,chselect/over/0,		@grp0:over/toggle
+ui,chselect/over/1,		@grp1:over/toggle
+ui,chselect/over/2,		@grp2:over/toggle
+ui,chselect/over/3,		@grp3:over/toggle
+ui,chselect/over/4,		@grp4:over/toggle
+ui,chselect/over/5,		@grp5:over/toggle
+ui,chselect/over/6,		@grp6:over/toggle
+ui,chselect/over/7,		@grp7:over/toggle
+ui,chselect/over/8,		@grp8:over/toggle
+ui,chselect/over/9,		@grp9:over/toggle
+ui,chselect/over/10,		@grp10:over/toggle
+ui,chselect/over/11,		@grp11:over/toggle
+end,CHSELECT
+begin,SCROLL
+ui,${_1}/scroll/on,		@allupdown:over
+ui,${_1}/scroll/off,		@allupdown:off/cref
+ui,chselect/#scroll/top,	@top:rect
+ui,chselect/#scroll/up,		@pageup:rect
+ui,chselect/#scroll/down,	@pagedown:rect
+ui,chselect/#scroll/bottom,	@end:rect
+ui,${_1}/scroll/knob,		@slider:normal
+ui,chselect/#scroll/slider,	@slider:rect
+ui,chselect/#scroll/”ÍˆÍ,	@slider:rect
+ui,${_1}/scroll/rail,		@slider:rail
+ui,scrollframe,			@frame/layer
+end,SCROLL
+begin,CGSCENE
+ui,${_1}/over,			@item:opr_ov
+ui,${_1}/nodata,		@item:normal
+ui,${_1}/#pos11,		@item_pos11/area
+CHSELECT,${_1}
+SCROLL,${_1}
+cref,allupdown,top,pageup,pagedown,end
+func,pageup,	exp,Current.cmd("prevPage")
+func,pagedown,	exp,Current.cmd("nextPage")
+func,top,	exp,Current.cmd("topPage")
+func,end,	exp,Current.cmd("endPage")
+func,slider,	onchangefunc,Current.func("onSliderChanged"),	vertical,true
+eval,names,call,global.Current.uiEval,replaceScrollItemButtons,item,item_pos11,scroll
+func,grp0,	exp,Current.cmd("jumpGroup/0")
+func,grp1,	exp,Current.cmd("jumpGroup/1")
+func,grp2,	exp,Current.cmd("jumpGroup/2")
+func,grp3,	exp,Current.cmd("jumpGroup/3")
+func,grp4,	exp,Current.cmd("jumpGroup/4")
+func,grp5,	exp,Current.cmd("jumpGroup/5")
+func,grp6,	exp,Current.cmd("jumpGroup/6")
+func,grp7,	exp,Current.cmd("jumpGroup/7")
+func,grp8,	exp,Current.cmd("jumpGroup/8")
+func,grp9,	exp,Current.cmd("jumpGroup/9")
+func,grp10,	exp,Current.cmd("jumpGroup/10")
+func,grp11,	exp,Current.cmd("jumpGroup/11")
+part,remove,item
+end,CGSCENE
+begin,COMMON
+cref,alltabs,cgmode,scenemode,soundmode,moviemode
+rgrp,alltabs,cgmode,scenemode,soundmode,moviemode
+func,cgmode,	target,*cgmode
+func,scenemode,	target,*scenemode,	storage,custom.ks
+func,soundmode,	target,*soundmode
+func,moviemode,	target,*moviemode,	storage,custom.ks
+func,back,	target,*back
+eval,names,call,uiloadSysSE,extra
+end,COMMON
+psd,extra
+ui,tabs/#/cg,			@cgmode:rect
+ui,tabs/#/scene,		@scenemode:rect
+ui,tabs/#/sound,		@soundmode:rect
+ui,tabs/#/movie,		@moviemode:rect
+ui,tabs/on,			@alltabs:over
+ui,tabs/off,			@alltabs:off/cref
+ui,back/on,			@back:over
+ui,back/off,			@back:off
+ui,base,			@base

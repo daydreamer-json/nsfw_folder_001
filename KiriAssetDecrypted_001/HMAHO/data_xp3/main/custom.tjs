@@ -1,0 +1,124 @@
+// ゲームタイトル依存の特殊処理等
+
+// D3D用オブジェクト生成
+//KAGLoadScript('d3d.tjs');
+
+// エンドロール拡張
+KAGLoadScript('exroll.tjs');
+
+// エモーション機能有効化
+KAGLoadScript('emotion.tjs');
+
+//レンダー方式メッセージ窓機能の有効化
+KAGLoadScript("rendermsgwin.tjs");
+
+// speech処理読み込み
+KAGLoadScript("speech.tjs");
+
+// BISHAMON用モジュールの読み込み ※d3dmode でないと動作しません
+//KAGLoadScript('bishamon.tjs');
+
+// 顔窓自動処理制御
+KAGLoadScript('autoface.tjs');
+
+// ボイスマッチング処理
+//KAGLoadScript('voicematch.tjs');
+
+
+//--------------------------------------------------------------
+// 追加モジュール
+
+KAGLoadScript("dragutil.tjs");
+KAGLoadScript("scrollutil.tjs");
+KAGLoadScript("msghack.tjs");
+KAGLoadScript("backlog.tjs");
+KAGLoadScript("gamecont.tjs");
+KAGLoadScript("qlpopup.tjs");
+KAGLoadScript("drawtextparam.tjs");
+KAGLoadScript("quickmenu.tjs");
+KAGLoadScript("nocfchkdialog.tjs");
+KAGLoadScript("helptextman.tjs");
+KAGLoadScript("rotatesave.tjs");
+KAGLoadScript("stopdeactive.tjs");
+KAGLoadScript("exgallery.tjs");
+KAGLoadScript("cgview.tjs");
+
+//--------------------------------------------------------------
+// ローカルモジュール
+
+KAGLoadScript("facethumbdraw.tjs");
+@if (DEBUG)
+KAGLoadScript("facethumbedit.tjs") if (Storages.isExistentStorage("facethumbedit.tjs"));
+@endif
+
+//--------------------------------------------------------------
+// 作品固有カスタム
+
+KAGLoadScript("uimain.tjs");
+KAGLoadScript("uifile.tjs");
+KAGLoadScript("uioption.tjs");
+KAGLoadScript("uiquest.tjs");
+KAGLoadScript("uiextra.tjs");
+
+// ショートカットキー
+{
+	var k = kagCustomizedKeys;
+	k[VK_F1]  = "vreplay";	// F1: ボイスリピート
+	k[VK_F2]  = "auto";		// F2: オート
+	k[VK_F3]  = "skip";		// F3: スキップ
+	k[VK_F4]  = "qsave";	// F4: クイックセーブ
+	k[VK_F5]  = "qload";	// F5: クイックロード
+	k[VK_F6]  = "save";		// F6: セーブ
+	k[VK_F7]  = "load";		// F7: ロード
+	k[VK_F8]  = "backlog";	// F8: バックログ
+	k[VK_F9]  = "prev";		// F9: 前の選択肢に戻る
+	k[VK_F10] = "option";	// F10: オプション画面
+	k[VK_F11] = "hide";		// F11: テキストウィンドウ非表示
+	k[VK_F12] = "title";	// F12: タイトルに戻る
+
+	k[VK_SPACE] = "hide";
+}
+addAfterInitCallback(function() {
+	// F10キー用ハック（通常はF10はキーボードによるメニュー選択で予約されている）
+	try {
+		// SYSKEYDOWNのフックを追加
+		var num = kag.sysKeyDownMessageNum = Window.getNotificationNum("SYSKEYDOWN");
+		kag.setMessageHook(true, num);
+		kag.addHook("onWindowsMessageHook", function (msg, wp, lp) {
+			// F10キーが押された＆F10キーに割り当てがある
+			if (msg == sysKeyDownMessageNum &&
+				wp  == VK_F10 && !getKeyState(VK_SHIFT) &&
+				kagCustomizedKeys[VK_F10] != "none")
+			{
+				//dm("post f10");
+				postInputEvent('onKeyDown', %[key: VK_F10]);
+				postInputEvent('onKeyUp',   %[key: VK_F10]);
+				return true;
+			}
+		} incontextof kag);
+	} catch {}
+} incontextof global);
+
+// テキストウィンドウ文字数（eval,base,call,SetupMessageTextRegion,28,3,ox,oy）
+function SetupMessageTextRegion(mes, dic, col, row, ox, oy) {
+	with (mes) {
+		.marginL += +ox if (ox !== void);
+		.marginT += +oy if (oy !== void);
+		var fsz = .defaultFontSize, lsz = .defaultLineSize;
+		if (lsz < fsz) lsz = fsz;
+		var w = (+col + .marginRCh) * fsz;
+		var r = (.width - .marginL - w);
+		var h =  +row * (.defaultLineSpacing + lsz);
+		var b = (.height - .marginT - h);
+		//dm("SetupMessageTextRegion %d->%d | %d:%d".sprintf(.marginR, r, .marginB, b));
+		.marginR = r;
+		.marginB = b if (.marginB > b);
+	}
+}
+
+//--------------------------------------------------------------
+// アペンド設定
+
+@if (APPEND_EXTENTION)
+SetupAppendData();
+@endif

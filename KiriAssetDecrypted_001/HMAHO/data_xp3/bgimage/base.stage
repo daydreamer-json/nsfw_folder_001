@@ -1,0 +1,125 @@
+%[
+	// 時間情報
+	"times" => %[
+		"昼" => %[
+			"prefix" => "a",
+		],
+		"夕" => %[
+			"prefix" => "b",
+			"lightColor" => 0xc0ff6010,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => 0,                // 背景明度補正
+			"contrast" => 0,                  // 背景コントラスト補正
+			"charLightColor" => 0xffff0000,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => 0,            // キャラ明度補正
+			"charContrast" => 0,              // キャラコントラスト補正
+		],
+		"夜" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000040,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => -20,              // 背景明度補正
+			"contrast" => -30,                // 背景コントラスト補正
+			"charLightColor" => 0xff400080,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => -50,          // キャラ明度補正
+			"charContrast" => -30,            // キャラコントラスト補正
+		],
+		"夜街灯" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000040,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => -10,              // 背景明度補正
+			"contrast" => -10,                // 背景コントラスト補正
+			"charLightColor" => 0xff400080,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => -15,          // キャラ明度補正
+			"charContrast" => -10,            // キャラコントラスト補正
+		],
+		"夜街灯２" => %[
+			"prefix" => "n",
+			"lightColor" => 0xc0000020,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => -10,              // 背景明度補正
+			"contrast" => -10,                // 背景コントラスト補正
+			"charLightColor" => 0xff200040,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => -5,           // キャラ明度補正
+			"charContrast" => -15,            // キャラコントラスト補正
+		],
+		"夜部屋" => %[
+			"prefix" => "n",
+			"lightColor" => 0xc0000040,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => -20,              // 背景明度補正
+			"contrast" => -30,                // 背景コントラスト補正
+		],
+		"夜（消灯）" => %[
+			"prefix" => "n",
+			"lightColor" => 0xc0000040,       // 背景補正光色
+			"lightType" => ltPsHardLight,     // 背景補正光合成種別
+			"brightness" => -20,              // 背景明度補正
+			"contrast" => -30,                // 背景コントラスト補正
+			"charLightColor" => 0xff400080,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => -50,          // キャラ明度補正
+			"charContrast" => -30,            // キャラコントラスト補正
+		],
+	],
+	// 場所情報
+	"stages" => %[
+		"学園外観"			 => %["image" => "bg01",],
+		"学園外観（近）"		 => %["image" => "bg02",],
+		"廊下"				 => %["image" => "bg03",],
+		"教室"				 => %["image" => "bg04",],
+		"保健室"			 => %["image" => "bg05",],
+		"中庭"				 => %["image" => "bg06",],
+		"家庭科室"			 => %["image" => "bg08",],
+		"ギルド"			 => %["image" => "bg09",],
+		"スケートリンク"		 => %["image" => "bg10",],
+		"メイド喫茶"			 => %["image" => "bg11",],
+		"ダンジョン"			 => %["image" => "bg12",],
+		"美術室"			 => %["image" => "bg13",],
+		"屋内闘技場"			 => %["image" => "bg14",],
+		"女子更衣室"			 => %["image" => "bg15",],
+		"女子相撲部"			 => %["image" => "bg16",],
+		"茶道室"			 => %["image" => "bg17",],
+		"プール施設"			 => %["image" => "bg18",],
+		"乗馬クラブ"			 => %["image" => "bg19",],
+		// 学園外
+		"女子寮風呂"			 => %["image" => "bg20",],
+		"主人公の部屋"			 => %["image" => "bg21",],
+		"主人公の部屋夜"		 => %["image" => "bg21n",],
+		"ラブホ"			 => %["image" => "bg22",],
+		"オルガの部屋"			 => %["image" => "bg23",],
+		"カシュニアの部屋"		 => %["image" => "bg24",],
+		// 特殊イベント用
+		"主人公の自宅風呂"		 => %["image" => "bg40",],
+		"竜空艇の上"			 => %["image" => "bg41",],
+		"竜空艇（食堂）"		 => %["image" => "bg42",],
+		"シャワールーム"		 => %["image" => "bg43",],
+		"湯治の里（露天風呂内）"	 => %["image" => "bg51",],
+		"教会"				 => %["image" => "bg53",],
+		"テントの中"			 => %["image" => "bg54",],
+		"テントの中夜"			 => %["image" => "bg54TIME",],
+		"フィールド"			 => %["image" => "bg60",],
+		"フィールド（夜）"		 => %["image" => "bg60TIME",],
+
+		// アップ系
+		"昼の空"			 => %["image" => "ubg01",],
+		"夜の空"			 => %["image" => "ubg02",],
+		"女子トイレ個室"		 => %["image" => "ubg03",],
+		"女子寮女湯"			 => %["image" => "ubg04",],
+		"水晶玉内の英玲奈オナニー"	 => %["image" => "ubg08",],
+		"水晶玉内の英玲奈オナニー２"	 => %["image" => "ubg09",],
+		"水晶玉内のオルガオナニー"	 => %["image" => "ubg10",],
+		"テストの用紙に掛っている精液"	 => %["image" => "ubg11",],
+		"テニスコート"			 => %["image" => "ubg13",],
+		"マジックミラー馬車"		 => %["image" => "ubg20",],
+		"野望成立"			 => %["image" => "ubg30",],
+		"タイトル表示"			 => %["image" => "ubg31",],
+	],
+	
+	"defaultTime" => "昼",
+]

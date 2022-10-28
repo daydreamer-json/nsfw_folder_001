@@ -1,0 +1,179 @@
+with (SystemConfig) {
+	.optionModuleList = null; // 全モジュール使用
+}
+
+//--------------------------------------------------------------
+Dialog.add(%[ name:"option", start:CustomOption ]); // [XXX]
+SystemHook.add("option.close.init", function() {
+	redrawMessageText();
+	kag.selectLayer.redrawButtons() if (kag.selectShowing);
+	kag.setMenuAccessibleAll();
+} incontextof global);
+
+//==============================
+class         CustomOption extends ModuleMixinOptionBase {
+	function  CustomOption { super.ModuleMixinOptionBase(...); __call("myoption"); }
+	function finalize {
+		stopSampleVoice() if (_sampleVoiePlayed);
+		super.finalize(...);
+	}
+
+	function entryMyOption(tag, elm) { __entry("myoption", function { method(tag, elm); }, %[ method:entryBasicOption, tag:tag, elm:elm ]); }
+
+	function moveSlider(name, mov) {
+		var sl = getItem(name);
+		if (sl) {
+			switch (mov) {
+			case "toLeft":
+			case "toRight":
+				sl[mov]();
+				break;
+			default:
+				sl.position += +mov;
+				break;
+			}
+		}
+	}
+
+	var _sampleVoiePlayed = false;
+	function testChVoicePlay(idx) {
+		_sampleVoiePlayed = true;
+		stopSampleVoice();
+		return super.testChVoicePlay(...);
+	}
+
+
+	//==============================
+	entryMyOption("moviefps",  %[ prop:"_movieFPS", type:"radio", values:[ "off", 30, 60 ] ]);
+	property _movieFPS {
+		getter {
+			return !enableSceneAnimEffect ? "off" : (sf.amvfps == 30) ? 30 : 60;
+		}
+		setter(v) {
+			if (v == "off") {
+				enableSceneAnimEffect = false;
+			} else {
+				enableSceneAnimEffect = true;
+				sf.amvfps = +v;
+			}
+			worldRefresh();
+		}
+	}
+	
+	entryMyOption("zenra",  %[ prop:"sf.裸パッチ" ]);
+	__entry("change_zenra", worldRefresh);
+	__entry("reset", worldRefresh);
+
+	function worldRefresh() {
+		if (!fromTitle) try { global.world_object.refresh(); } catch {}
+	}
+
+	//==============================
+	entryMyOption("autovwait",  %[ prop:"kag.autoModeWaitVoice", on:0, off:2 ]);
+	entryMyOption("rtextcol",   %[ prop:"SystemConfig.readedTextColorChange" ]);
+	entryMyOption("ctrlforce",  %[ prop:"kag.noForceSkipUnread", on:0, off:1 ]);
+	entryMyOption("readnowait", %[ prop:"kag.userCh2ndSpeed",    on:0, off:-1 ]);
+	__entry("change_readnowait", function { kag.setUserSpeed(); });
+
+	//==============================
+	// スライダー倍率数値表記
+
+	function _getSpeedMultiplyToString(v) {
+		if (!v) return "MAX";
+		return (1-v)*100;
+	}
+	function drawSliderValue(name, num/*0-100*/, elmov) {
+		if (num == "MAX" && _sliderValueUi) {
+			var lay = getItem(name);
+			if (lay) with (lay) {
+				.fillRect(0, 0, .width, .height, 0);
+				._copyButtonUIStates(0, _sliderValueUi, void, "max");
+				return;
+			}
+		}
+		return super.drawSliderValue(...);
+	}
+
+	//==============================
+	// ウィンドウ不透明度（サンプル透明度連動）
+
+	property _windowOpac {
+		getter { return +sf.windowOpac; }
+		setter(v) {      sf.windowOpac = +v; }
+	}
+	entryMyOption("winopac",    %[ prop:"_windowOpac", type:"slider", max:255 ]);
+	__entry("fixitems_winopac", function (list, prop) {
+		list.push("winopac_sample", %[ opacity:prop ]);
+	});
+	function _filterOpac(opac) { return int(+Math.round(opac/255*100)); }
+	function filterBasicSliderText_winopac { return _filterOpac(...); }
+
+	//==============================
+	// SE Down
+
+	audioVolumeTags.add("sedown");
+	_audioNoCallbacks.   sedown = true;
+	__entry("construct", function { _audioSyncMap["se"] = "sedown"; });
+	function filterValue2Audio_sedown (val, en) {
+		return _getAudioVolume("se") * (!en ? 1 : val/100);
+	}
+	function filterAudio2Value_sedown(pos, en) {
+		var se = _getAudioVolume("se");
+		if (pos > se) pos = se;
+		return (pos / se) * 100;
+	}
+
+	function getAudioValue(tag, vol, en) {
+		if (tag == "sedown") {
+			vol = filterValue2Audio(tag, vol, en);
+			en = true;
+		}
+		return super.getAudioValue(tag, vol, en);
+	}
+	function _getAudioPropName(tag, post) {
+		if (tag == "sedown") {
+			// [XXX]
+			if      (post == "enable") return "sedown";
+			else if (post == "volume") return "sedownlevel";
+		}
+		return super._getAudioPropName(...);
+	}
+}
+
+
+//==============================
+// ページ別コンフィグ画面
+OptionModule("OptionPageModule");
+class         OptionPageModule extends Module {
+	var pagetabs = [
+		"01system", "02text", "03sound", "04voice", "05guide"
+		];
+	var noResetPages = [ "05guide" ];
+
+	property storage { getter { return @"option_${currentPageTab}.func"; } }
+	property currentPageTab { getter { return pagetabs[+page]; } }
+
+	var _page = SystemConfig.lastOptionPage;
+	property page {
+		getter { return (int)_page; }
+		setter(v) {
+			var n = (int)v, cnt = pagetabs.count;
+			while (n < 0) n += cnt;
+			n = n % cnt;
+			SystemConfig.lastOptionPage = _page = n;
+		}
+	}
+	__entry( "uiloaded",
+			 setupPageToggle);
+	function setupPageToggle() {
+		setItemProp("page"+page, "toggle", true);
+
+		// [XXX] ページ毎リセットボタン無効化
+		setItemProp("reset", "enabled", noResetPages.find(currentPageTab) < 0);
+	}
+}
+createPropertyProxy("lastOptionPage", "0",, "(int)+", SystemConfig);
+
+
+createPropertyProxy("enableSceneAnimEffect", "true",, "!! +", global);
+

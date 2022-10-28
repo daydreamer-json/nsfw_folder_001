@@ -1,0 +1,52 @@
+copy,num0,num
+copy,num1,num
+copy,num2,num
+copy,num3,num
+copy,num4,num
+copy,num5,num
+copy,num6,num
+copy,num7,num
+copy,num8,num
+copy,num9,num
+func,num0,layer,0,visible,false
+func,num1,layer,1,visible,false
+func,num2,layer,2,visible,false
+func,num3,layer,3,visible,false
+func,num4,layer,4,visible,false
+func,num5,layer,5,visible,false
+func,num6,layer,6,visible,false
+func,num7,layer,7,visible,false
+func,num8,layer,8,visible,false
+func,num9,layer,9,visible,false
+#
+cref,allheads,pageup,pagedown,up,down,pagebase
+func,pagebase,layer,normal
+mvsz,page_010,vector,num_next,num,1,0
+mvsz,page_001,vector,num_next,num,2,0
+mvsz,pmax_010,vector,num_next,num,1,0
+mvsz,pmax_001,vector,num_next,num,2,0
+eval,-pmax_100,exp,this.layer=(.Current.propget("_max")-1)\100%10
+eval,-pmax_010,exp,this.layer=(.Current.propget("_max")-1)\10%10
+eval,-pmax_001,exp,this.layer=(.Current.propget("_max")-1)%10
+#
+eval,names,call,global.Current.uiEval,replaceScrollItemButtons,item,item_pos11,scroll
+func,slider,	onchangefunc,Current.func("onSliderChanged"),	jumpmode,true
+func,pageup,	exp,Current.cmd("moveScroll/-10")
+func,pagedown,	exp,Current.cmd("moveScroll/10")
+func,up,	exp,Current.cmd("moveScroll/-1")
+func,down,	exp,Current.cmd("moveScroll/1")
+#
+cref,allsys,	to_save,to_load,to_quick,back
+rgrp,allmode,	to_save,to_load,to_quick
+func,back,	target,*back
+func,to_save,	sename,page,	target,*save,		halftone,true
+func,to_load,	sename,page,	exp,Current.cmd("changeMode/load")
+func,to_quick,	sename,page,	exp,Current.cmd("changeMode/quick")
+#
+part,remove,item,item_pos11
+part,grp_page,pageup,pagedown,up,down,slider,pagebase,page_100,page_010,page_001,pmax_100,pmax_010,pmax_001
+#part,rm_save,
+#part,rm_load,
+part,rm_quick,grp_page
+#
+eval,names,call,uiloadSysSE,saveload

@@ -1,0 +1,15 @@
+#ルミア 立ち絵情報
+
+#dress	服装名	種別	差分名	レイヤ名
+dress	制服	diff	基本	制服
+#face	表情名	レイヤ名
+face	微笑	表情/①表情
+face	驚き	表情/④表情
+face	怒り	表情/⑤表情
+face	恥じらい	表情/⑥表情
+face	牝顔	表情/⑦表情
+# 頬を追加パーツで処理
+addgroup	頬
+add	頬	h頬
+add	頬２	h頬2
+add	頬なし	ダミー

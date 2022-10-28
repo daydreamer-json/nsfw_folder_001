@@ -1,0 +1,22 @@
+psd,dialog
+ui,yesno/#yes,				@yes:rect
+ui,yesno/#no,				@no:rect
+ui,yesno/on,				@yesno:over
+ui,yesno/off,				@yesno:off/cref
+ui,テキスト/上書きしますか？,		@askoverwrite/layer
+ui,テキスト/タイトルに戻りますか？,	@asktitle/layer
+ui,テキスト/ロードしますか？,		@askload/layer
+ui,テキスト/クイックロードしますか？,	@askqload/layer
+ui,テキスト/前の選択肢に戻りますか？,	@askbackto/layer
+ui,テキスト/ゲームを終了しますか？,	@askexit/layer
+ui,テキスト/初期化しますか？,		@askinit/layer
+ui,テキスト/次のシーンまで進みますか？,	@asknext/layer
+ui,base,				@base
+#
+cref,yesno,yes,no
+#
+part,common,	base,chk
+part,ask,	common,yes,no
+part,notify,	common,yes
+#
+eval,names,call,uiloadSysSE,dialog

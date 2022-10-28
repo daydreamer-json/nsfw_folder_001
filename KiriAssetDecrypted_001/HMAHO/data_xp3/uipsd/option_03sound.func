@@ -1,0 +1,19 @@
+incl,option.func
+ui,page/sound/#wave,		<volume>wave
+ui,page/sound/#bgm,		<volume>bgm
+ui,page/sound/#se,		<volume>se
+ui,page/sound/#voice,		<volume>voice
+ui,page/sound/#sysse,		<volume>sysse
+ui,page/sound/#down,		<speed>down
+ui,page/sound/#bgmdown,		<onoff>down
+ui,page/sound/#downse,		<speed>sedown
+ui,page/sound/#sedown,		<onoff>sedown
+ui,page/sound/#vocestop,	<onoff>voicecut
+ui,page/sound/#autovwait,	<onoff>autovwait
+ui,page/sound/captions,		@caption/layer
+#
+auto,audio
+auto,autovwait
+auto,voicecut
+#
+COMMON,-

@@ -1,0 +1,650 @@
+//--------------------------------------------------------------
+// UI定義
+
+with (MyYesNoDialog) {
+	.storage = "dialog";
+	.fadeTime = 200;
+
+	// 背景にかぶせる色
+	.bgColor      = 0xFFFFFF;
+	.bgOpacity    = 255*0.42;
+
+}
+with (SystemConfig) {
+	.ConfirmDialogDefaults =
+		[   // 確認ダイアログ表示デフォルト
+			"askExit"      => true,
+			"askTitle"     => true,
+			"askInit"      => true,
+
+			"askLoad"      => true,
+			"askSave"      => false,
+			"askOverwrite" => true,
+			"askQLoad"     => true,
+			"askQSave"     => false,
+
+			"askNext"      => true,
+			"askBackTo"    => true,
+			"askJump"      => false,
+
+			"askMove"      => false,
+			"askCopy"      => false,
+			"askDelete"    => false,
+			];
+
+	.notifyQSave = false;
+}
+
+// dispNameFilter をつぶす
+function dispNameFilter(name) { return name; }
+
+//--------------------------------------------------------------
+// タイトル画面
+
+class CustomTitle {
+	function CustomTitle() {
+		SystemConfig.hasAnySaveData = (kag.scflags.saveload_lastsaved !== void) || SystemAction.canQuickLoad;
+	}
+	function finalize()   { _hideQLoadPopup(); }
+	function onQLoad(elm) { _hideQLoadPopup(); }
+	function contPopup(vis, tag)  { ShowFloatQLoadPopup(vis, "", %[ align:2, cont:true ], tag) if (SystemAction.hasSuspendSaveData); }
+	function _hideQLoadPopup { try { ShowHideQLoadPopup(false); } catch {} }
+}
+Dialog.add(%[ name:"title", start:CustomTitle, storage:"title", layer:"message0" ]);
+
+//--------------------------------------------------------------
+// 名前入力
+
+with (MyNameInputBase) {
+	.InputList = [ "name" ];
+	with (.InputAreas.name)   .uiname="base.name",   .initial=SystemConfig.defaultName;
+	(Dictionary.assign incontextof .CommonEditStyle)(SystemConfig.nameInputStyle, false) if (SystemConfig.nameInputStyle);
+}
+class CustomNameInputDialog extends MyNameInputDialog {
+	function finalize()              { super.finalize(...); }
+	function CustomNameInputDialog(win, name, elm) {
+		super.MyNameInputDialog(...);
+		tf.nameInputCanceled = true;
+	}
+	function onComplete() {
+		tf.nameInputCanceled = false;
+		super.onComplete();
+	}
+	function onInsertText(ed, txt) {
+		if (txt == " " || txt == "　") return void;
+		return global.han2zen(txt);
+	}
+	function onDefaultClick() { // 初期化ボタンが押された
+		setEditValue("name",   kag.defaultName);
+//		setEditValue("family", kag.defaultFamily);
+	}
+	function setEditValue(tag, val) {
+		var obj = names[tag];
+		if (obj !== void) obj.text = Values[tag] = val;
+	}
+
+	// 不正な文字が入力された場合はデフォルトに変更
+	function onIncomplete() { 
+		tf.nameInputCanceled = false;
+		onDefaultClick();
+		save();
+		close(false);
+	}
+
+	// 閉じる時
+	function close() {
+		try { kag.current.names.start.toggle=false; } catch {} // [XXX]
+		with (names) {
+			unselect(.name);
+//			unselect(.family);
+		}
+		if (tf.nameInputCanceled) {
+			playSysSE("nameinput.cancel");
+			showHideFade(false, _fadeTime);
+		} else {
+			enabled = false;
+			window.processGo();
+		}
+	}
+	function unselect(lay) {
+		if (lay !== void) with (lay) {
+			.operationNoSelection();
+			.onPaint();
+		}
+	}
+	var modal = true;
+	var _fadeTime = 500;
+	function onOpen() {
+		showHideFade(true, _fadeTime);
+	}
+	function onShowHideFadeDone(vis, en) {
+		super.onShowHideFadeDone(...);
+		if (!vis) {
+			applyPlayerName();
+			super.close(false);
+		} else {
+			if (names.name)
+				names.name.focus();
+		}
+	}
+	function waitFadePanel(elm) {
+		showHideFade(false, elm.time !== void ? +elm.time : _fadeTime);
+		return -1;
+	}
+}
+function applyPlayerName() {
+	f.name   = (sf.name   != "") ? sf.name   : kag.defaultName;
+	f.chg_name   = (f.name   != kag.defaultName  );
+}
+SystemHook.add("execdialog.start",    applyPlayerName);
+SystemHook.add("change.title.game",   applyPlayerName, -1);
+SystemHook.add("scenemode.view.done", function { applyPlayerName(); } incontextof global); // [XXX]
+
+addKagHookCallback("onPreSaveStoreBookmarkInfo", function (add) { add("Player", pflags.name); }, true);
+with (SystemConfig.qlpopupTextMap) {
+	.player = function (info) { return info ? info.Player : ""; };
+	.number = function (info, num) {
+		if (typeof num == "String") return (num.charAt(0).toUpperCase()) + num.substr(1);
+		var per = SystemConfig.savedataCountPerPage;
+		if (num < per) return "Quick%d".sprintf(num+1);
+		return "%03d-%02d".sprintf(num\per, num%per+1);
+	} incontextof global;
+}
+
+
+
+//--------------------------------------------------------------
+// 名前表示処理を調整
+
+addKagHookCallback("onNameLayerVisibleChanged", function (mes, vis, time) {
+	var buttons = mes && mes.owner ? mes.owner.buttons : void;
+	if (typeof buttons == "Object") {
+		with  (buttons) DoLayerFade(.name, vis, mes.owner.getFrameOpacity(), time);
+	}
+}, false);
+
+var _layerFadeBasePos;
+function DoLayerFade(lay, vis, visopac, time = 300) {
+	if (lay) with (lay) try {
+		if (time > 0 && !.window.skipMode) {
+			var opac = .visible?.opacity:0, to = vis?visopac:0;
+			.window.stopAction(lay, true);
+			if ((.opacity = opac) == to) .visible = vis;
+			else .window.beginAction(lay, %[ opacity:%[ handler:MoveAction, start:opac, value:to, time:time ] ],
+									 vis ? void : function { visible = false if (isvalid this); } incontextof lay, (.visible = true), true);
+		} else {
+			.window.stopAction(lay, true);
+			.visible = vis;
+			.opacity = visopac;
+		}
+	} catch {}
+}
+
+// 既読テキスト色
+addKagHookCallback("onGetCurrentMessageColor", function(elm, read) {
+	with (SystemConfig) elm.color =
+		(read && .readedTextColorChange) ? .readedTextColor : .normalTextColor;
+}, false);
+createPropertyProxy("readedTextColorChange",   "true",, "!!", SystemConfig);
+addKagHookCallback("onDispname", function (elm) {
+	var name = elm.name;
+	var col = (name != "") ? mainConductor.getCharacterTextColor(name) : void;
+	with (SystemConfig) .nameLayerColor = (col !== void) ? col : .nameLayerDefaultColor;
+	if (/*!skipNoDisp &&*/textWriteEnabled) {
+		var col = getCurrentMessageColor(void, elm);
+		with (tagHandlers) {
+			.deffont(%[ color:col ]);
+			.font   (%[ color:"default"]);
+		}
+	}
+}, true);
+&CustomNameLayer.EdgeShadowDrawText = function (dt, d,x,y,text,col,opa,aa, s,scol,sw,sx,sy, e,ecol,*) {
+	var ncol = SystemConfig.nameLayerColor, white=0xFFFFFF;
+	return global.EdgeShadowDrawText(dt, d,x,y,text,ncol!==void?[white,white]:col,opa,aa, s,scol,sw,sx,sy, e,ncol!==void?ncol:ecol,*);
+} incontextof null;
+
+//--------------------------------------------------------------
+// クリック待ち
+
+// PageBreak/LineBreakでglyphFixedPositionを差し替える
+objectHookInjection(%[ target:MessageLayer, method:"showLineBreakGlyph", func:function(orig,*) { glyphFixedPosition = false; return orig(*); } ]);
+objectHookInjection(%[ target:MessageLayer, method:"showPageBreakGlyph", func:function(orig,*) { glyphFixedPosition = true;  return orig(*); } ]);
+
+// グリフフェードhack
+objectHookInjection(%[ target:MessageLayer, method:"showBreakGlyph", func:function (orig, glyphobj, *) {
+	var r = orig(glyphobj, *);
+	if (!kag.noeffect) with (SystemConfig) {
+		window.stopAction(glyphobj, true);
+		window.beginAction(glyphobj, %[ opacity:%[ handler:"TriangleAction", vibration:255, offset:(glyphobj.opacity=0), ontime:.glyphFadeInTime, offtime:.glyphFadeOutTime ] ],, true);
+	}
+	return r;
+} incontextof null ]);
+
+
+//--------------------------------------------------------------
+// オートスキップアイコン
+
+class        AutoSkipGlyphLayer extends ClickGlyphLayer {
+	function AutoSkipGlyphLayer { super.ClickGlyphLayer(...);
+		restartOnReload = true;
+		window.addPlugin(this);
+		window.add(this);
+
+//		window.addHook("onRepositionMessageLayer", onRepositionMessageLayer);
+		window.addHook("onSkipToStop", onSkipToStop);
+
+		// [XXX]
+		var ref = uiload;
+		var ui = uiloadParse(%[ storage:"textwindow" ]).result;
+		var rect = uiloadGetRect("base.icon", ui);
+		_bx = rect.x;
+		_by = rect.y;
+		reset(0);
+	}
+	function finalize() {
+//		window.removeHook("onRepositionMessageLayer", onRepositionMessageLayer);
+		window.removeHook("onSkipToStop", onSkipToStop);
+		super.finalize(...); 
+	}
+
+	var playModeIconLabels = [ %[], %[ target:"*auto" ], %[ target:"*skip" ], %[ target:"*pause" ] ];
+	function onPlayModeChange(newMode, oldMode) { // mode(0:normal, 1:auto, 2:skip)
+		var vis = visible = inGameState(kag) && !kag.skipNoDisp && !kag.panelLayer; // && sf.autoskipmark;
+		if (vis) {
+			var anim = playModeIconLabels[+newMode];
+			if (anim) startAnim(anim);
+		}
+	}
+	function onSkipToStop(allskip, nodisp) {
+		if (nodisp) visible = false; // [XXX]
+	}
+	function onRepositionMessageLayer(isSQ, diff) { reset(isSQ ? diff : 0); }
+
+	var _bx, _by, _oy;
+	function reset(diff) {
+		_oy = diff;
+		setPos(_bx, _by+_oy);
+	}
+}
+addAfterInitCallback(function() {
+	var glyph = kag.playModeIcon = new AutoSkipGlyphLayer(kag, kag.uibase);
+	with (glyph) {
+		var file = "autoskipmark";
+		.visible = false;
+		.absolute = 2000000; // [XXX]
+		.name = file;
+		.loadImages(file);
+	}
+} incontextof global);
+
+//--------------------------------------------------------------
+// 選択肢
+
+addKagHookCallback("onCreateSelectFontColorTable", function (elm, sel, ted) {
+	elm.oy += 6; // [XXX]選択肢文字位置微調整
+});
+
+
+//--------------------------------------------------------------
+// QuickMenu
+
+with (SystemConfig) {
+	.QuickMenuInitialLockState = true;
+	.QuickMenuButtonList = [
+		"lock",
+		"vreplay", "auto","skip",
+		"qsave", "save", "qload", "load",
+		"log", "prev", "next", "option", "hide" ];
+}
+class        CustomQuickMenu extends QuickMenuLayerBase {
+	function CustomQuickMenu { super.QuickMenuLayerBase(...); }
+	function finalize {
+		_setKagHook(window.removeHook);
+		delete global.qsaveNotify;
+		super.finalize(...);
+	}
+	function setup() {
+		_setKagHook(window.addHook);
+		global.qsaveNotify = %[ show:this.onQuickSaveLoadNotify ];
+		return super.setup(...);
+	}
+	function _setKagHook(set) {
+		set("onShowSelectHook",        onShowSelectHook);
+	}
+
+	// ヘルプチップ
+	function canShowHelpTip(init) { return true; }
+	function showHideHelpTip(tag, vis) {
+		if (tag == "qload") showFloatQLoadPopup(vis, "qload");
+		return super.showHideHelpTip(...);
+	}
+	function createHelpTipLayer {
+		var r = super.createHelpTipLayer(...);
+		r.parent = this;
+		return r;
+	}
+	function drawTipText(lay, tag) {
+		var target = names["help_"+tag];
+		if (target) with (target) {
+			lay.assignImages(target);
+			lay.setPos(.left, .top, .width, .height);
+		} else {
+			lay.setSize(1,1);
+			lay.fillRect(0,0,1,1,0);
+		}
+	}
+	var tipFadeTime = 100;
+	function getTipAction(vis, tag) {
+		return  vis ? %[ opacity: %[ handler:MoveAction, start:0, value:255, time:tipFadeTime ] ]
+			/**/    : %[ opacity: %[ handler:MoveAction, start:255, value:0, time:tipFadeTime ] ];
+	}
+
+	// QSaved通知
+	var qsaveNotifyTotalTime = 2000;
+	function onQuickSaveLoadNotify(tag) {
+		if (tag == "q_saved") showFloatQLoadPopup(true, "qsave", %[ autohide:qsaveNotifyTotalTime, qsave:true ]);
+	}
+	function showFloatQLoadPopup(vis, tag, elm=%[]) {
+		var elmov = SystemConfig.qlpopupCustomOption;
+		(Dictionary.assign incontextof elm)(elmov, false) if (elmov);
+		var mes = %[ left:_initialLeft, top:_initialTop, names:names ];
+		var num = SystemAction.qsaveBookmarkNumber;
+		ShowFloatQLoadPopup(!!vis, num, elm, tag, mes);
+	}
+
+	// ロック・アンロック
+	function getPosition(on) {
+		return %[ left:_initialLeft, top: _initialTop + (on ? 0 : height) ];
+	}
+	function internalHitCheck(x, y) {
+		if (_dropdown) return super.internalHitCheck(...);
+		with (_hitrect) return (x >= .ox) && (y >= .oy) && (x < .ox+.w) && (y < .oy+.h);
+	}
+	var _hitrect, _knobw;
+	function onUiloaded(elm, ui) {
+		_hitrect = uiloadGetRect("hitarea", ui);
+		for (var i = 0; i < btns.count; i++) {
+			var tag = btns[i];
+			if (tag != "" && names[tag]) hackButtonDisable(names[tag]);
+		}
+	}
+	function  updateLockState {
+		super.updateLockState(...);
+		updown(locked);
+		window.setMenuAccessibleAll();
+	}
+
+
+	// 自動表示消去
+	function onShowSelectHook {
+		setVisible(%[ hidden:false, fade:true ]); //notify:true ]);
+	}
+	function onCurrentMessageVisibleChanged(hidden, page, time) {
+		hidden = false if (kag.selectShowing);
+		setVisible(%[ hidden:hidden, fade:true, time:time ]) if (!_hidden != !hidden);
+	}
+	function onEnvInit(envworld) {
+		setVisible(%[ hidden:true ]);
+	}
+	function onMessageHiddenStateChanged(hidden, page) {
+		if (kag._inCaptureSnapshot) return;
+		return super.onMessageHiddenStateChanged(...);
+	}
+
+
+	// ボタン状態hack
+	function updateButtonDisable(tag, en) {
+		var target = names[tag];
+		if (target !== void) {
+			target.grayout = !en;
+			target.update();
+		}
+	}
+	function hackButtonDisable(lay) {
+		function gids (s = this.getCurrentDrawState()) {
+			s  = 4 if (this.grayout);
+			s |= 8 if (this.toggle);
+			return s;
+		}
+		lay.grayout = false;
+		lay.getImageDrawState = (gids incontextof lay);
+	}
+
+}
+global.QuickMenuClass = CustomQuickMenu;
+SystemHook.add("loadinit.start", function { try { kag.QuickMenu.setVisible(%[ fadeout:true ]); } catch {} } incontextof global);
+
+//--------------------------------------------------------------
+// 設定画面
+
+property optionVolumeWave  { getter { return 100 - kag.wavevolume;  } setter(v) { kag.wavevolume  = 100 - v if (kag.waveenable);  } }
+property optionVolumeBGM   { getter { return 100 - kag.bgmvolume;   } setter(v) { kag.bgmvolume   = 100 - v if (kag.bgmenable);   } }
+property optionVolumeSE    { getter { return 100 - kag.sevolume;    } setter(v) { kag.sevolume    = 100 - v if (kag.seenable);    } }
+property optionVolumeVoice { getter { return 100 - kag.voicevolume; } setter(v) { kag.voicevolume = 100 - v if (kag.voiceenable); } }
+property optionDrawSpeed   { getter { return 100-kag.drawspeed*50;  } setter(v) { v = (100-v)/50; kag.drawspeed = (v<0)?0 : (v>200)?200 : v; } }
+property optionTextSpeed   { getter { return kag.textspeed * 10;    } setter(v) { kag.textspeed = v/10; } }
+property optionAutoSpeed   { getter { return kag.autospeed * 10;    } setter(v) { kag.autospeed = v/10; } }
+property optionWindowOpac  { getter { return sf.windowOpac;         } setter(v) { sf.windowOpac = v;    } }
+
+property optionCurMove     { getter { return kag.disableCursorMoveMenuItem.checked; } setter(v) { clickMenuItem("disableCursorMoveMenuItem") if (!!v != !!optionCurMove); } }
+
+OptionBase.voiceNames = [
+	"キャラ1",	"キャラ2",	"キャラ3",	"キャラ4",	"キャラ5",	"キャラ6",	"キャラ7",	"キャラ8",	"キャラ9"//,
+	];
+class CustomOption extends OptionBase {
+	function finalize() { super.finalize(...); }
+	function CustomOption() {
+		super.OptionBase(...);
+		addOnOffItem("stopAuto",   "stopauto",  void, "kag.cancelAutoWhenClick",  void             );
+		addOnOffItem("curMove",    "curmove",   void, "optionCurMove",            void             );
+		addUpdate("windowOpac", updateWindowOpac);
+		addUpdate("drawSpeed",  updateDrawSpeed);
+
+		fontSelectSize  = 20;
+		fontSelectDraw  = [ 0, 255, true ];
+	}
+	// 上書き
+	function updateWaveVolume()  { updateVolume("wavevolume",   optionVolumeWave,  kag.waveenable ); }
+	function updateBgmVolume()   { updateVolume("bgmvolume",    optionVolumeBGM,   kag.bgmenable  ); }
+	function updateSeVolume()    { updateVolume("sevolume",     optionVolumeSE,    kag.seenable   ); }
+	function updateVoiceVolume() { updateVolume("voicevolume",  optionVolumeVoice, kag.voiceenable); }
+	function updateDrawSpeed()   { updateVolume("drawspeed", optionDrawSpeed); }
+	function updateTextSpeed()   { updateVolume("textspeed", optionTextSpeed); }
+	function updateAutoSpeed()   { updateVolume("autospeed", optionAutoSpeed); }
+	function updateVolume(name, value, enable) {
+		enable = true if (enable === void);
+		setItemProp(name, "position", enable ? value : 100);
+		setItemProp(name, "enabled",  enable);
+//		setItemProp(name, "opacity",  enable ? 255 : 128);
+	}
+	function updateWindowOpac() {
+		//changeWindowOpac();
+		setItemProp("winopac", "position", optionWindowOpac);
+	}
+
+	// on/offボタンを登録
+	function addOnOffItem(tag, name, offname, getprop, setprop) {
+		/**/ addCheckItem(tag, name,          getprop, setprop);
+	}
+	function toggleCheck(tag) { this[tag] = !this[tag]; }
+	function fontSelect() {
+		kag.selectFont();
+		updateFontSelect();
+	}
+	function updateVoice() {
+		super.updateVoice(...);
+		for (var i = 0; i < _voiceNames.count; i++) {
+			var name = _voiceNames[i];
+			setItemProp("人物像"+(i+1), "opacity", kag.getVoiceOn(name) ? 255 : 128);
+		}
+	}
+	function chara(name, chr) {
+		super.chara(...);
+		setItemProp(chr, "opacity", kag.getVoiceOn(name) ? 255 : 128);
+	}
+	
+}
+
+Dialog.add(%[ name:"option", start:CustomOption, storage:"設定" ]);
+
+SystemHook.add("option.close.init", function() {
+	resetModeChanged();
+	kag.setMenuAccessibleAll();
+} incontextof global);
+
+
+//--------------------------------------------------------------
+// バックログ
+
+class        CustomBacklog extends DragScrollableBacklog {
+	function CustomBacklog { super.DragScrollableBacklog(...);
+		with (_render) {
+			.defaultChColor = 0x000000; // [XXX]
+		}
+
+		//renderAutoIndent = _snapshotEnabled ? kag.autoIndent : 0;
+		renderAutoIndent = kag.autoIndent;
+	}
+	function finalize {
+		invalidate tempLayer if (tempLayer);
+		super.finalize(...);
+	}
+
+	// =============================
+	// uiload/uiloaded custom
+
+	function onUiload(elm) {
+		elm.partremove = "remove";
+		super.onUiload(...);
+	}
+
+	var renderAutoIndent;
+	var bx, by, textRect, nameRect, faceRect;
+	function setup(elm, ui) {
+		var tag = "block";
+		with (uiloadGetRect(tag, ui)) bx=.x, by=.y;
+		textRect = uiloadGetRect(tag+".text", ui);
+		with (textRect) {
+			var sz = _render.defaultFontSize;
+			.w= sz * (28+1); // [XXX]
+		}
+		faceRect = uiloadGetRect(tag+".face", ui);
+		nameRect = uiloadGetRect(tag+".name", ui);
+//		(Dictionary.assign incontextof nameRect)(nameParam, false);
+		with (nameRect) {
+			.x=.ox, .y=.oy, .halign=0, .valign=0;
+			// [XXX]
+			.color = 0xFFFFFF;
+			//         0    1     2                     3
+			.param = [ 255, true, _render.edgeEmphasis, 0, _render.edgeExtent, 0, 0 ];
+		}
+
+		return super.setup(...);
+	}
+
+	// =============================
+	// テキスト描画周り調整
+
+	function dispNameFilter(name) { return ((string)name).trim(); }
+	function getTextBlockText(info) { return info.text; }
+	function drawTextBlock(lay, info) {
+
+		stampFrame(lay, "frame");
+		with (lay) {
+			var chface = .font.face = kag.chDefaultFace;
+			var name = (string)info.name;
+			if (name != "") with (nameRect) {
+				stampFrame(lay, "name");
+				name = info.disp if (info.disp != "");
+				name = dispNameFilter(((string)name).trim());
+				.fontface   = chface;
+				.fontheight = _render.defaultFontSize;
+
+				var ecol = kag.mainConductor.getCharacterTextColor(info.name);
+				if (ecol === void) ecol = SystemConfig.nameLayerDefaultColor;
+				nameRect.param[3] = ecol; // edgeColor
+				drawTextKinsokuRect(lay, name, nameRect);
+			}
+			var face = getFaceLayer(info);
+			if (face !== void) {
+				with (faceRect) lay.operateRect(.ox, .oy, face, 0, 0, .w, .h);
+			}
+			var text = getTextBlockText(info);
+			var indent = (text.indexOf("%@") == 0);
+			var fsz = _render.defaultFontSize, rsz = _render.defaultRubySize;
+			with (textRect) _render.draw(lay, .ox-(indent?fsz:0), .oy+rsz, .w+(indent?fsz:0), .h, text, _snapshotEnabled ? info.indent : renderAutoIndent);
+		}
+	}
+
+	function stampFrame(lay, tag) {
+		var frame = kag.current.names[tag];
+		if (frame !== void) with (frame) {
+			lay.operateRect(.left-bx, .top-by, frame, 0, 0, .width, .height);
+		}
+	}
+
+	var tempLayer;
+	function createTempLayer() {
+		if (tempLayer === void) {
+			tempLayer = new global.Layer(kag, kag.poolLayer);
+			tempLayer.name = "backlog faceTemp";
+		}
+		return tempLayer;
+	}
+	function getFaceLayer(info) {
+		var face;
+		if (_snapshotEnabled && info.state) with (world_object) {
+			var name = info.name, rename;
+			var snap = playerObject.getSnapState(info.state);
+			var pack = .getSnapTargetLayerInfo(snap, name);
+			if (!pack || (pack[2] && !pack[2].showmode)) {
+				// [XXX] faceオブジェクトチェック
+				var face = .getSnapTargetLayerInfo(snap, "face"), redraw;
+				if (face && face[2] && (redraw=face[2].redraw) !== void) {
+					var stand = FaceThumbDraw.getStandImage(name);
+					if (stand && redraw.imageFile && redraw.imageFile.file == stand.file) {
+						//dm("replace face object");
+						pack = face;
+						rename = true;
+					}
+				}
+			}
+			if (pack) {
+				face = Scripts.clone(pack);
+				if (rename) r[0] = name; // [XXX] replace face
+				FaceThumbDraw.fixFaceShow(name, %[ data:[ face ] ], info.hflags);
+				//dm("extractFaceState", name, Scripts.toStructString(face,,5));
+			}
+		} else if (info.facestate !== void) {
+			face = FaceThumbDraw.wrapFaceSnapInfo(info.name, info.facestate);
+		}
+		if (face) {
+			var lay = createTempLayer();
+			var draw = FaceThumbDraw.draw(info.name, %[ data:[ face ] ], lay);
+			//dm("getFaceLayer", info.name, "\n"+getPrint(face), "\n"+getPrint(draw));
+			return lay;
+		}
+	}
+
+}
+Dialog.add(%[ name:"backlog", start:CustomBacklog, storage:"backlog" ]);
+
+with (HistoryTextStore) {
+	&.storeFace = function (elm, ch) {
+		if (checkStoreFace(...)) {
+			currentInfo.facestate = getCurrentFaceState(ch, ch.name);
+		}
+	} incontextof null;
+	&.getCurrentFaceState = function (ch, name, force) {
+		var target;
+		if ((force || ch.visible) && ((target = ch.targetLayer) !== void)) {
+			var file, options;
+			try { file = target._image.filename; } catch {}
+			if (file == "") return;
+			if (typeof   target.getStandImageSource == "Object") try {
+				options= target.getStandImageSource().getOptions();
+			} catch {}
+			return  %[ file:file, name:name, options:options ? Scripts.clone(options) : void ];
+		}
+	} incontextof null;
+}

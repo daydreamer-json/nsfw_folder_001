@@ -1,0 +1,25 @@
+incl,option.func
+ui,page/text/#readnowait,	<onoff>readnowait
+ui,page/text/#readcolor,	<onoff>rtextcol
+ui,page/text/#allskip,		<onoff>skipall
+ui,page/text/#ctrlforce,	<onoff>ctrlforce
+ui,page/text/#afterskip,	<onoff>afterskip
+ui,page/text/#afterauto,	<onoff>afterauto
+ui,page/text/#textspeed,	<speed>textspeed
+ui,page/text/#autospeed,	<speed>autospeed
+ui,page/text/#skipspeed,	<speed>skipspeed
+ui,page/text/#winopac,		<speed>winopac
+ui,page/text/#textview,		@speedsample/layer:rect
+ui,page/text/window,		@winopac_sample/layer
+ui,page/text/captions,		@caption/layer
+#
+auto,speed
+auto,skipall
+auto,afterskip
+auto,afterauto
+auto,winopac
+auto,rtextcol
+auto,ctrlforce
+auto,readnowait
+#
+COMMON,-

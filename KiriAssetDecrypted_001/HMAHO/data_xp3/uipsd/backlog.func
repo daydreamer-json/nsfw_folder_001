@@ -1,0 +1,43 @@
+psd,backlog
+ui,#範囲/名前テキスト表示範囲,		@block:name:rect
+ui,#範囲/テキスト範囲,			@block:text:rect
+ui,#範囲/顔範囲,			@block:face:rect
+ui,#範囲/音声ボタン表示位置,		@vreplay:rect
+ui,#範囲/テキスト範囲,			@vreplay:rect
+ui,#範囲/ブロック1,			@block:rect
+ui,#範囲/ブロック1,			@frame:rect
+ui,ネームプレート,			@name/layer
+ui,メッセージウィンドウ,		@frame/layer
+ui,音声/@音声:ov,			@vreplay:ov
+ui,音声/@音声:off_btn,			@vreplay:off/sysbutton
+ui,１ページ上/@上ページ:ov,		@pageup:ov
+ui,１ページ上/@上ページ:off_btn,	@pageup:off/btn
+ui,１行上/@上行:ov,			@up:ov
+ui,１行上/@上行:off_btn,		@up:off/btn
+ui,スクロール/@スクロール:範囲,		@slider:rect
+ui,スクロール/@スクロール:ov,		@slider:ov
+ui,スクロール/@スクロール:norm_slider,	@slider:normal
+ui,スクロール/@バー_lay,		@slider_rail/layer
+ui,１行下/@下行:ov,			@down:ov
+ui,１行下/@下行:off_btn,		@down:off/btn
+ui,１ページ下/@下ページ:ov,		@pagedown:ov
+ui,１ページ下/@下ページ:off_btn,	@pagedown:off/btn
+ui,戻る/@戻る:ov,			@back:ov
+ui,戻る/@戻る:off_btn,			@back:off/btn
+ui,@ベース,				@base
+#
+func,vreplay,	sename,vreplay
+func,frame,visible,false
+func,name,visible,false
+#
+func,pageup,	exp,Current.cmd("prevPage")
+func,up,	exp,Current.cmd("scrollUp")
+func,slider,	vertical,true,	onchangefunc,Current.prop("onSliderChanged")
+func,down,	exp,Current.cmd("scrollDown")
+func,pagedown,	exp,Current.cmd("nextPage")
+func,back,	target,*back
+#
+eval,names,call,global.Current.uiEval,setupScrollArea,block,3,1,vreplay
+#
+part,remove,vreplay,block
+eval,names,call,uiloadSysSE,backlog

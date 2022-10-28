@@ -1,0 +1,259 @@
+with (SystemConfig) {
+	var modules = ["CustomGalleryModule"];
+	.exgalleryCgMode    .unshift(modules*);
+	.exgallerySceneMode .unshift(modules*);
+	.exgalleryAfterStory.unshift(modules*);
+	.exgallerySoundMode .unshift("ExSoundGalleryCrefItemModule");
+}
+
+class CustomGalleryModule extends Module {
+	__entry("init", function (elm) {
+		with (elm) {
+			.rows     = 4;
+			.columns  = 4;
+			.itemname = "item";
+			.disabled = "normal";
+			.mask     = "";
+		}
+	});
+
+	function onDrawNormalItem(target, pos) {
+		var ui = _view._uiNormal, cp = target._copyButtonUIStates;
+		//dm("onDrawNormalItem", target, pos);
+//		cp(0, ui, void, "opr_nm");
+		cp(1, ui, void, "opr_ov");
+		cp(2, ui, void, "opr_ov");
+	}
+
+	function topPage() { if (scutil) with (scutil) .doScroll(-.scrollMax); }
+	function endPage() { if (scutil) with (scutil) .doScroll( .scrollMax); }
+}
+class        CustomCgMode extends ModuleMixinCgGalleryBase {
+	function CustomCgMode { super.ModuleMixinCgGalleryBase(...); }
+	function finalize { super.finalize(...); }
+
+	property isQuitViewLoop { getter() { return isCancelView; } }
+	function onNext(message) {
+		isCancelView = (message == "break");
+		_hideUiLayer = _showLastDiff = void;
+		switch (message) {
+		case "next2": _hideUiLayer = cglayer.getUiLayerVisibleState(); // not break
+		case "next": onSelect(findNextSeen(_lastSelectItem,  1)); break;
+		case "prev2": _hideUiLayer = cglayer.getUiLayerVisibleState(), _showLastDiff = true; // not break
+		case "prev": onSelect(findNextSeen(_lastSelectItem, -1)); break;
+		}
+		jumpNextView();
+	}
+	function findNextSeen(idx, dir) {
+		for (var i = 0, max = count, pos = idx; i < max; i++) {
+			pos += dir;
+			if      (pos <    0) pos = max-1;
+			else if (pos >= max) pos = 0;
+			if (isSeen(pos)) return pos;
+		}
+		return idx;
+	}
+	var _lastSelectItem, _hideUiLayer, _showLastDiff;
+	function onSelect(num) {
+		_lastSelectItem = num;
+		return super.onSelect(...);
+	}
+	function view() {
+		swapCgLayer(true);
+		try {
+			cglayer.loadImages(subItems, _showLastDiff ? subItems.count-1 : 0, _lastSelectItem, _hideUiLayer);
+		} catch (e) {
+			makeErrorImage(cglayer, e.message);
+		}
+		_hideUiLayer = void;
+	}
+	function loadImageOne(layer, load, data) {
+		load(data.file);
+		var comp = data.composite;
+		if (comp !== void) {
+			var tmp = compositeTempLayer;
+			var dst = layer._image._image; // [XXX] AffineLayer‚ÌBMP source
+			for (var i = 0; i < comp.count; i++) {
+				var info = loadCompositeLayer(comp[i], tmp);
+				super.doComposite(info, dst, tmp);
+			}
+		}
+	}
+	function onViewCancel() {
+		cglayer.hide();
+	}
+}
+Dialog.add(%[ name:"cgmode", start:CustomCgMode, storage:"extra_cg" ]);
+
+function UpdateCgCompleteFlags() {
+	if (sf.cg_complete && sf.cg_ratio == 100) return;
+	var cgmode = new CustomCgMode(%[]);
+	var ratio = cgmode.getSeenCounts();
+	invalidate cgmode;
+	sf.cg_ratio = int(+ratio.percent);
+	sf.cg_complete = (sf.cg_ratio == 100);
+}
+
+
+SystemConfig.cgViewUiStorage = "cgview";
+&CgGalleryMode.CgViewLayerClass =
+/**/         CustomCgViewLayer;
+class        CustomCgViewLayer extends DiffListAffineBasedCgViewLayer {
+	function CustomCgViewLayer { super.DiffListAffineBasedCgViewLayer(...); }
+	function finalize { super.finalize(...); }
+	function drawNumber(tag, idx) {
+		if (tag == "diff") {
+			drawNumberOne(names.num10, (idx\10)%10);
+			drawNumberOne(names.num01, (idx   )%10);
+		}
+	}
+	function drawNumberOne(lay, num) {
+		var ui = _ui.num;
+		if (ui && lay) with (lay) {
+			.fillRect(0,0, .width, .height, 0);
+			._copyButtonUIStates(0, ui, void, (string)num);
+		}
+	}
+	function loadImageOne(idx, first) {
+		if (!first) playSysSE("cgmode.next");
+		else _inizoom = void;
+		return super.loadImageOne(...);
+	}
+	function canQuitOnClick() {
+		if (!canScroll || (!_dragmoved && !inDragging)) nextDiff(); // [XXX]
+		return false;
+	}
+	function onMouseEvent(tag) {
+		if (tag == "click") return;
+		return super.onMouseEvent(...);
+	}
+
+	function afterLoadImages(name) {
+		initZoomSlider();
+		return super.afterLoadImages(...);
+	}
+
+	function onScrollResize {
+		if (_szoom < _inizoom) _szoom = _inizoom;
+		var r = super.onScrollResize(...);
+		updateZoomSlider(_szoom);
+		return r;
+	}
+	var _inizoom = void;
+	function initZoomSlider() {
+		if (_inizoom !== void) return;
+		var canzoom = !_disableZoom;
+		dm("initZoomSlider", _szoom, canzoom);
+		_inizoom = canzoom ? _szoom : _maxzoom;
+		resetZoomSlider(canzoom, _inizoom, _maxzoom);
+	}
+	function resetZoomSlider(vis, min, max) {
+		if (names.zoom) with (names.zoom) {
+			.min = min;
+			.max = max;
+			.visible = vis;
+			&.onChange = onZoomSliderChanged;
+		}
+	}
+	var _inUpdateZoomSlider;
+	function onZoomSliderChanged(pos) {
+		if (_inUpdateZoomSlider) return;
+		_szoom = pos;
+		onScrollResize();
+		setButtonsShowHide(true) if (!forceHideMode);
+	}
+	function updateZoomSlider(zoom) {
+		if (names.zoom) with (names.zoom) {
+			_inUpdateZoomSlider = true;
+			.position = zoom;
+			_inUpdateZoomSlider = false;
+		}
+	}
+
+	function onButtonClick(name, btn, sft) {
+		_dragmoved = true; // [XXX]
+		return super.onButtonClick(...);
+	}
+}
+
+
+class        CustomSceneMode extends ModuleMixinSceneGalleryBase {
+	function CustomSceneMode { super.ModuleMixinSceneGalleryBase(...); }
+	function finalize { super.finalize(...); }
+
+	__entry("view", function (elm) {
+		storeCurrentBGM();
+		with (elm) {
+			.doneStorage = "scenemode.ks";
+			.doneTarget  = "*donereplay";
+
+			tf.start_storage = .storage;
+			tf.start_target  = .target;
+			.storage = "custom.ks";
+			.target  = "*replaystart";
+		}
+		global.loadFunction(...);
+		return true;
+	});
+
+	property storage { getter { return "extra_scene"; } }
+}
+class        CustomMovieMode extends ModuleMixinAfterStoryBase {
+	function CustomMovieMode { super.ModuleMixinAfterStoryBase(...); }
+	function finalize { super.finalize(...); }
+
+	var _extraModeTag = "movie";
+	function getDefaultCsvFile() { return "movielist.csv"; }
+
+	function initElement(elm) {
+		super.initElement(elm);
+		.itemname = "";
+		.disabled = "";
+	}
+	__entry("initdone", function (elm) {
+		var dummy = function {};
+		with (_view) {
+			.clearNormalItem  = dummy;
+			.drawNormalItem   = dummy;
+			.drawDisabledItem = dummy;
+			.setItemUi        = dummy;
+		}
+	});
+
+	var viewFadeDisabled = true;
+	var forcePlayerExecMode = false;
+	function loadFunction(elm) {
+		with (elm) {
+			.doneStorage = "custom.ks";
+			.doneTarget  = "*donemovie";
+		}
+		kag.startRecollection(elm);
+	}
+
+	property storage { getter { return "extra_movie"; } }
+}
+property SwichableSceneMode { getter {
+	dm("SwichableSceneMode", tf.moviemode);
+	return tf.moviemode ? CustomMovieMode : CustomSceneMode;
+} }
+Dialog.add(%[ name:"scenemode", start:&SwichableSceneMode ]);
+
+class        CustomSoundMode      extends ModuleMixinSoundGalleryBase {
+	function CustomSoundMode(elm) {
+		with (elm) {
+			.rows    = 7;
+			.columns = 2;
+			.nostop  = true;
+		}
+		_btntoggle = true;
+		_canreplay = true;
+		super.ModuleMixinSoundGalleryBase(...);
+	}
+	function finalize { super.finalize(...); }
+
+	function setupUnknown(ui) {}
+	function isSeen(num) { return (items[num] !== void); }
+	
+}
+Dialog.add(%[ name:"soundmode", start:CustomSoundMode, storage:"extra_sound" ]);
+SystemHook.add("soundmode.leave", ResetSoundModeBGMvolume);

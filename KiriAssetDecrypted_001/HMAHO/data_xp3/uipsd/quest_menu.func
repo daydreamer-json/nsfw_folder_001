@@ -1,0 +1,45 @@
+psd,menu
+ui,#rect/Qセーブ,		@qsave:rect
+ui,#rect/セーブ,		@save:rect
+ui,#rect/Qロード,		@qload:rect
+ui,#rect/ロード,		@load:rect
+ui,#rect/オート,		@ds_auto:layer:rect/layer
+ui,#rect/スキップ,		@ds_skip:layer:rect/layer
+ui,#rect/バックログ,		@ds_log:layer:rect/layer
+ui,#rect/設定,			@option:rect
+ui,#rect/ボイスリピート,	@ds_vreplay:layer:rect/layer
+ui,#rect/prev,			@prev:rect
+ui,#rect/next,			@ds_next:layer:rect/layer
+ui,#rect/窓閉,			@ds_hide:layer:rect/layer
+ui,allbtns/lock/ds,		@ds_lock/layer
+ui,allbtns/ds,			@allds:layer/cref
+ui,allbtns/ds,			@allsys:disable
+ui,allbtns/over,		@allsys:over
+ui,allbtns/off,			@allsys:off/cref
+#
+ui,help/Qセーブ,		@help_qsave/layer
+ui,help/Qロード,		@help_qload/layer
+ui,help/セーブ,			@help_save/layer
+ui,help/ロード,			@help_load/layer
+#ui,help/バックログ,		@help_log/layer
+ui,help/prev,			@help_prev/layer
+ui,help/設定,			@help_option/layer
+ui,base,			@menu_frame/layer
+#
+func,help_qsave,	visible,false
+func,help_qload,	visible,false
+func,help_save,		visible,false
+func,help_load,		visible,false
+func,help_prev,		visible,false
+#func,help_log,		visible,false
+func,help_option,	visible,false
+#
+func,save,	onenter,MapItemEnter("save"),	onleave,MapItemLeave("save")
+func,load,	onenter,MapItemEnter("load"),	onleave,MapItemLeave("load")
+func,qsave,	onenter,MapItemEnter("qsave"),	onleave,MapItemLeave("qsave")
+func,qload,	onenter,MapItemEnter("qload"),	onleave,MapItemLeave("qload")
+func,option,	onenter,MapItemEnter("option"),	onleave,MapItemLeave("option")
+func,prev,	onenter,MapItemEnter("prev"),	onleave,MapItemLeave("prev")
+#
+cref,allds,ds_auto,ds_skip,ds_log,option,ds_vreplay,ds_next,ds_hide
+cref,allsys,save,load,qsave,qload,option,prev

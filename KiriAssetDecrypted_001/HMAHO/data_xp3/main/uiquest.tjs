@@ -1,0 +1,683 @@
+//--------------------------------------------------------------
+// クエスト選択
+
+class        ScenarioSelectLayer extends MyMapSelectLayer {
+	function ScenarioSelectLayer { super.MyMapSelectLayer(...); }
+	function finalize { super.finalize(...); }
+	var fadeTime = 300;
+	var _sysbtnname = [ "qsave", "qload", "save", "load", "option", "prev" ];
+
+	function createIcon {}
+
+	function onSelect(info, obj) {
+		with (info) {
+			if (.storage == "" && .target == "") {
+				if (.dress != "") setDress(+.dress); // [XXX]
+				if (.exp != "") .exp!;
+				return;
+			}
+			if (.text != "") {
+				askYesNo(@"『${.text}』を開始しますか？", "確認", onQuestSelected, void, info);
+				return;
+			}
+			.text = "クエスト選択"; // [XXX]
+			.text += "："+.comment if (.comment != "");
+			switch (.tagname) {
+			case "main":
+			case "sub":
+				if (profState) with (profState) {
+					f[.flag] = int(+info.name.substr(.prefix.length));
+				}
+				break;
+			}
+		}
+		restoreAutoSkipState();
+		super.onSelect(...);
+	}
+
+	function onQuestSelected(info) {
+		if (world_object.playerExecMode && !world_object.playerWorking) {
+			tf.start_storage = info.storage;
+			tf.start_target  = info.target;
+			info.storage = "start.ks";
+			info.target = "*envstart";
+		}
+		restoreAutoSkipState();
+		super.onSelect(...);
+	}
+	var lastAutoSkipState;
+	function restoreAutoSkipState() {
+		delete tf.quest_page;
+		var st = lastAutoSkipState;
+		if (st) with (window) {
+			.selectPrevAutoMode = st[0];
+			.selectPrevSkipMode = st[1];
+			.selectPrevTempSkip = st[2];
+		}
+		lastAutoSkipState = void;
+	}
+	function backupAutoSkipState() {
+		with (window) lastAutoSkipState = [
+			.selectPrevAutoMode,
+			.selectPrevSkipMode,
+			.selectPrevTempSkip ];
+	}
+	function startAction() {
+		backupAutoSkipState() if (lastAutoSkipState === void);
+		return super.startAction(...);
+	}
+
+	function uiload { return super.uiload(%[ storage:storage, partremove:"remove" ]); }
+	function getStorageList(quest, nomenu) {
+		if (quest == "") quest = "quest_main";
+		quest += ".func";
+		return nomenu ? quest : [ "quest_menu", quest ];
+	}
+
+	function reload(quest) {
+		enabled = false;
+		_doneTags.clear();
+		insertDoneTags(unshiftDoneTag);
+		// remode "donemapselect"
+		_doneTags.pop();
+		_doneTags.pop();
+
+		playSysSE("quest.back") if (quest == "main"); // [XXX]
+		pushDoneTag("mselinit", %[ page:quest, reload:true ]);
+		pushDoneTag("mselect",  %[]);
+		entryDoneTags();
+
+		window.processGo();
+	}
+
+	var rclickPage;
+	function init(elm) {
+		super.init(...);
+		var page = elm.page;
+		if (!elm.reload) {
+			lastAutoSkipState = void; // [XXX]
+			var qpage = tf.quest_page;
+			//dm("init", qpage, page);
+			if (qpage != "") page = qpage;
+		}
+		this.page = page;
+		storage = "quest_menu";
+		rclickPage = void;
+		clickCloseMode = false;
+		UpdateCgCompleteFlags(); // [XXX] cf.uiextra.tjs
+		parseFlagsScenario("quest_flags.ks"); // [XXX]
+		_sysbtncache = void;
+	}
+	function done() {
+		clearLayer();
+		return super.done(...);
+	}
+	function close() {
+		if (rclickPage != "") reload(rclickPage);
+	}
+	function startDone() {
+		while (inform.count > 0) {
+			var text = inform.shift();
+			if (text != "") {
+				ShowInformation(text, this.doneInform);
+				return;
+			}
+		}
+		return super.startDone();
+	}
+	function doneInform() {
+		window.hidePanel(); // [XXX]
+		window.setMenuAccessibleAll();
+		startDone();
+	}
+
+
+	function resetButtonVisible() {
+		for (var i = 0; i < numLinks; i++) {
+			var obj = links[i].object;
+			if (obj !== void) with (obj) {
+				// 前回のselinfoがあればクリア
+				.selinfo = void if (typeof .selinfo != "undefined");
+			}
+		}
+	}
+	function getItemName(sel, idx) { return sel.name; }
+	function initItem(btn, elm) {
+		if (btn) with (btn) {
+			.selinfo = elm;
+			var en = .enabled = tf.allseen || checkFlags(elm.eval, true, elm.tagname);
+			.visible = !(elm.dshide && !en);
+			if (elm.new != "") {
+				var flag = checkFlags(elm.new, 0, elm.tagname);
+				var icon = names[elm.name + "_new"];
+				if (icon) icon.visible = en && (flag > 0);
+			}
+			if (elm.point != "") {
+				var hearts = .point = [];
+				var num = getPointCount(elm.point, elm.tagname, hearts);
+				var max = .point_max = (num == hearts.count);
+				if (max && elm.new == "") disableClick(btn);
+			}
+		}
+	}
+	function disableClick(btn) {
+		with (btn) {
+			links[.linkNum].exp = void;
+			delete .selinfo;
+			.cursor = window.cursorDefault;
+			.getImageDrawState = function { return 4; }; // [XXX]
+			.update();
+		}
+	}
+	function checkFlags(exp, defval, tag) {
+		if (exp == "") return defval;
+		function eval(exp) { return exp!; }
+		try {
+			return (eval incontextof window.flags)(exp);
+		} catch (e) {
+			kag.errorCmd(@"checkFlags:${tag}:${exp}:${e.message}");
+			return defval;
+		}
+	}
+	function showItem(elm, idx) {
+		var name = getItemName(elm, idx);
+		var obj = (name != "") ? names[name] : void;
+		if (obj !== void) initItem(obj, elm);
+	}
+
+	var customDraws = [];
+	function drawLayer(elm) {
+		if (elm) with (elm) {
+			switch (.tagname) {
+			case "number":
+				if (.keta != "") {
+					var num = int(+checkFlags(.flag, 0, .tagname));
+					var keta = int(+.keta);
+					var fmt = @"${.name}_%0${keta}d";
+					dm("num", .name, keta, fmt);
+					for (var i = 0, n = 1; i < keta; i++, n*=10) {
+						var name = fmt.sprintf(n), v = (num \ n) % 10;
+						var lay = names[name];
+						dm("num", name, i, keta, num, v);
+						if (lay) {
+							var vis = .visible = (!i || num >= n);
+							if (vis) drawNumber(lay, .cpref, v);
+						}
+					}
+					return;
+				}
+				break;
+			}
+			var lay = names[.name];
+			if (lay) switch (.tagname) {
+			case "badge":
+				var num = getPointCount(.badge, .tagname);
+				//dm("badge", .name, num);
+				var show = .visible = (num > 0);
+				if (show) drawNumber(lay, .tagname, num);
+				break;
+			case "number":
+				var num = checkFlags(.flag, 0, .tagname);
+				drawNumber(lay, .tagname, num);
+				break;
+			case "text":
+				var text = (.flag != "") ? checkFlags(.flag, "", .tagname) : .text;
+				if (text != "") CustomDrawLayerText(lay, text, "quest."+.name);
+				break;
+			case "status":
+				var stars = [];
+				var num = getPointCount(.point, .tagname, stars);
+				//dm("status", .name, stars*);
+				lay.toggle = (num == stars.count);
+				//lay.visible = (num > 0);
+				lay.enabled = false;
+				var cnt = 1, obj;
+				while ((obj = names["%s_%d".sprintf(.name, cnt)]) !== void) {
+					obj.visible = cnt <= stars.count;
+					obj.toggle  = stars[cnt-1];
+					obj.enabled = false;
+					++cnt;
+				}
+				break;
+			case "prof":
+				profState = %[
+					prefix  : .prefix,
+					layers  : ((string).layers).split(":",true),
+					flag    : .flag,
+					current :          int(+checkFlags(.flag,            0, .tagname)),
+					dress   : .dress ? int(+checkFlags(.flag + "_dress", 0, .tagname)) : -1,
+					order   : .order != "" ? ((string).order).split(":",true) : void,
+					];
+				if (.dress) parseDressCounts(.prefix, profState.dressmap = []);
+				var cur = profState.current;
+				drawProfile(cur, 0, .order!="");
+				drawQuestState(names[.prefix+cur], cur);
+				break;
+			case "complete":
+				lay.enabled = false;
+				lay.toggle  = !!+checkFlags(.eval, false, .tagname);
+				break;
+			}
+		}
+	}
+	function drawNumber(lay, uiref, num) {
+		var uis = uiref != "" ? _uiResult[uiref] : void;
+		if (uis !== void) lay._copyButtonUIStates(0, uis,, "%d".sprintf(num));
+	}
+
+	function getPointCount(point, tagname, result) {
+		var value = 0;
+		var div = ((string)point).split(":", true);
+		for (var i=0, cnt=div.count; i < cnt; i++) {
+			var check = (checkFlags(div[i], 0, tagname) > 0) ? 1 : 0;
+			if (result) result[i] = check;
+			value += check;
+		}
+		return value;
+	}
+	function parseDressCounts(prefix, list, stand = "prof_stand") {
+		var ref = _uiResult[stand] ? _uiResult[stand].uistates : void;
+		if (!ref) return false;
+		for (var n = 0; names[prefix+n] !== void; ++n) {
+			var cnt = -1;
+			for (var i = 0; ref[@"${n}_${i}"]; ++i) cnt = i+1;
+			//dm("parseDressCounts", prefix, n, cnt);
+			list[n] = cnt;
+		}
+		return true;
+	}
+	var _dressRemap = [ 0, 1, 2, 1, 2 ]; // [XXX]
+	function filterDressNum(n, max) {
+		if (n < max) return n;
+		n = _dressRemap[n];
+		if (n < max) return n;
+		return 0;
+	}
+	function setDress0 { setDress(0); }
+	function setDress1 { setDress(1); }
+	function setDress2 { setDress(2); }
+	function setDress3 { setDress(3); }
+	function setDress4 { setDress(4); }
+	function setDress(n) {
+		if (profState) with (profState) {
+			.dress = f[.flag + "_dress"] = n;
+			// [XXX]
+			var stand = ["prof_stand"];
+			var move = 0;
+			.layers <-> stand;
+			_moveDist <-> move;
+			try {
+				fadeoutProfile(profFadeTime,, 1);
+				drawProfile(.current, profFadeTime);
+			} catch {}
+			.layers <-> stand;
+			_moveDist <-> move;
+		}
+	}
+
+	var profState, profFadeTime=200;
+	function drawProfile(prof, time=0, substate) {
+		if (!profState) return;
+		var list = profState.layers;
+		for (var i = 0; i < list.count; i++) {
+			var name = list[i], tag = (string)prof, fadetime = time;
+			if (profState.order) tag = profState.order[prof];
+			// [XXX]
+			switch (name) {
+			case  "prof_stand":
+				if (profState.dress >= 0) {
+					var max = profState.dressmap[+prof];
+					var dress = filterDressNum(profState.dress, max);
+					for (var n = 0, lay; (lay=names["dress"+n]) !== void; ++n) {
+						if (n == 3) {
+							// [XXX] for dress3c/3h
+							function getSpDress(lay, spbtn, cur, tag) {
+								var eq = (cur == tag);
+								if (spbtn) spbtn.visible = eq;
+								if (eq && spbtn) {
+									lay.visible = false;
+									//dm("replace", tag);
+									return spbtn;
+								}
+								return lay;
+							}
+							var chtag = $(#'a' + prof);
+							lay = getSpDress(lay, names.dress3c, chtag, "c");
+							lay = getSpDress(lay, names.dress3h, chtag, "h");
+						}
+						lay.visible = n < max;
+						lay.toggle  = n == dress;
+						lay.enabled = n != dress;
+					}
+					tag += "_" + dress;
+				}
+				// non-break
+			case  "prof_name":
+				if (substate) {
+					// [XXX] サブクエストプロフ特殊処理
+					if (substate < 0) {
+						tag = void;
+						fadetime = 0;
+					} else {
+						tag = tag.charAt(0);
+					}
+				}
+				break;
+			}
+			//dm("drawProfileOne", name, tag);
+			drawProfileOne(name, tag) if (tag != "");
+			var lay = names[name];
+			if (lay) with (lay) {
+				if (fadetime > 0) {
+					if (typeof .origLeft == "undefined") {
+						/**/   .origLeft = .left;
+						/**/   .origTop  = .top;
+					}
+					window.stopAction(lay, true);
+					var act = %[       opacity:%[ handler:MoveAction, start:.opacity=0, value:255, time:fadetime, accel:-1 ] ];
+					if (_moveDist) act.left =  %[ handler:MoveAction, start:.left=.origLeft+_moveDist, value:.origLeft, time:fadetime, accel:-1 ];
+					else .left = .origLeft;
+					window.beginAction(lay, act,, true);
+				}
+				.visible = true;
+			}
+		}
+	}
+	function drawProfileOne(name, prof) {
+		var lay = names[name], uis = _uiResult[name];
+		if (lay && uis) with (lay) {
+			.fillRect(0, 0, .width, .height, 0);
+			._copyButtonUIStates(0, uis,, prof);
+		}
+	}
+	var _moveDist = 50;
+	function fadeoutProfile(time, substate, accel=0) {
+		if (!profState) return;
+		var lay = names.prof;
+		if (lay) with (lay) {
+			.fillRect(0, 0, .width, .height, 0);
+			if (typeof .origLeft == "undefined") {
+				/**/   .origLeft = .left;
+				/**/   .origTop  = .top;
+			}
+			var list = profState.layers, opr = false;
+			for (var i = list.count-1; i >= 0; --i) {
+				var name = list[i];
+				if (substate < 0) {
+					// [XXX] サブクエストプロフ特殊処理
+					if (name == "prof_stand" ||
+						name == "prof_name") continue;
+				}
+				var ref = names[name];
+				if (ref && ref.visible && ref.opacity > 0) {
+					try {
+						.operateRect(ref.left-.origLeft, ref.top-.origTop, ref, 0, 0, ref.width, ref.height, omAuto, ref.opacity);
+					} catch (e) {
+						dm(e.message);
+					}
+					opr = true;
+				}
+			}
+			if (opr) {
+				window.stopAction(lay, true);
+				.absolute = -1;
+				if (names.prof_base)
+					names.prof_base.absolute = -2;
+				.visible = true;
+				var act = %[       opacity:%[ handler:MoveAction, start:.opacity=255, value:0, time:time, accel:accel ] ];
+				if (_moveDist) act.left =  %[ handler:MoveAction, start:.left=.origLeft, value:.origLeft+_moveDist, time:time, accel:accel ];
+				else .left = .origLeft;
+				window.beginAction(lay, act, function { if (isvalid this) visible = false; } incontextof lay, true);
+			}
+		}
+	}
+	var _sysbtncache;
+	function isSystemButton(name) {
+		if (name == "") return false;
+		if (_sysbtncache === void)
+			_sysbtncache = %[];
+		if (_sysbtncache[name] !== void) return
+			_sysbtncache[name];
+		return _sysbtncache[name] = super.isSystemButton(name);
+	}
+	function onItemEnterLeave(name, enter) {
+		if (isSystemButton(name)) {
+			var tip = names["help_"+name];
+			if (tip) {
+				var tipFadeTime = 100;
+				var act = enter ? %[ opacity: %[ handler:MoveAction, start:0, value:255, time:tipFadeTime ] ]
+					/**/        : %[ opacity: %[ handler:MoveAction, start:255, value:0, time:tipFadeTime ] ];
+				window.stopAction (tip, true);
+				tip.visible = true;
+				tip.opacity = act.opacity.start;
+				window.beginAction(tip, act, !enter ? function { if (isvalid this) visible = false; } incontextof tip : void, true);
+				
+			}
+			return;
+		}
+		if (!profState || !enter) return;
+		var last = profState.current;
+		var num = int(+name.substr(profState.prefix.length));
+		if (num != last) {
+			profState.current = num;
+			var substate = 0;
+			if (profState.order) {
+				var ntag = profState.order[num];
+				var ltag = profState.order[last];
+				substate = (ntag.charAt(0) == ltag.charAt(0)) ? -1 : 1;
+			}
+			fadeoutProfile(profFadeTime, substate);
+			drawProfile(num, profFadeTime, substate);
+			drawQuestState(names[name], num);
+		}
+	}
+	function drawQuestState(btn, num) {
+		if (btn && typeof btn.point == "Object") with (names) {
+			if (.quest_state)
+				.quest_state.visible = true;
+			var comp = typeof btn.point_max == "Integer" && btn.point_max;
+			if (.quest_comp)
+				.quest_comp.visible = comp;
+			if (.quest_nocomp)
+				.quest_nocomp.visible = !comp;
+			var list = btn.point;
+			for (var i = 0, heart; (heart = names["heart"+(i+1)]) !== void; ++i) {
+				heart.visible = !comp && i < list.count;
+				heart.toggle  = !!list[i];
+				heart.enabled = false;
+			}
+		}
+	}
+
+	function clear() {
+		super.clear(...);
+		customDraws.clear();
+		inform.clear();
+	}
+
+	function addSelect   { var store = cloneTagParams(...); if (store !== void) selects    .add(store); }
+	function addPosition { var store = cloneTagParams(...); if (store !== void) customDraws.add(store); }
+	function cloneTagParams(elm, rename, retag) {
+		if (elm.name == "") return;
+		if (elm.page != "" && this.page != elm.page) return;
+		var cp = Scripts.clone(elm);
+		delete cp.taglist;
+		delete cp.runLine;
+		delete cp.runLineStr;
+		delete cp.runCount;
+		if (rename != "") {
+			cp.name = rename;
+			cp.tagname = retag;
+		} else {
+			if (cp.to != "") {
+				cp.exp += "," if (cp.exp != "");
+				cp.exp += @"(reload('${cp.to}'))";
+				delete cp.to;
+			}
+			if (cp.withnew) {
+				delete cp.withnew;
+				cp.new = cp.eval;
+			}
+			if (cp.new != "") {
+				cp.exp += "," if (cp.exp != "");
+				cp.exp += @"(f.${cp.new}=-1)";
+			}
+		}
+		//dm("cloneTagParams", getPrint(cp));
+		return cp;
+	}
+	function start(absolute) {
+		super.start(...);
+		for (var i = 0; i < customDraws.count; i++) drawLayer(customDraws[i]);
+		if (names.prev)
+			names.prev.enabled = window.isHistoryOfStoreAlive();
+	}
+
+	var page, inform = [];
+	function parseFlagsScenario(file) {
+		var parser = new KAGParser(), elm;
+		parser.page = this.page;
+		parser.loadScenario(file);
+		inform.clear();
+		var infomap = %[];
+		while (true) {
+			try {
+				elm = parser.getNextTag();
+				if (elm === void) break;
+			} catch (e) {
+				kag.errorCmd(e.message, %[ file:file, line:parser.curLine ]);
+				break;
+			}
+			var tagname = elm.tagname;
+			if (tagname == "exit") break;
+			switch (tagname) {
+			case "option":
+				_moveDist = +elm.chmove if (elm.chmove !== void);
+				break;
+			case "screen":
+				// page storage
+				if (this.page == elm.page) {
+					storage = getStorageList(elm.storage, elm.nomenu);
+					rclickPage = elm.rclick;
+					clickCloseMode = elm.click != ""; // [XXX]
+				}
+				break;
+			case "info":
+				// tag, text, flag, eval
+				var en = checkFlags(elm.eval, false, tagname);
+				if (en) {
+					var done = elm.tag + elm.subtag;
+					if (done == "") inform.add(elm.text); // [XXX]
+					else {
+						if (elm.sflag) {
+							if(!sf[done]) {
+								sf[done] = true;
+								inform.add(elm.text);
+							}
+						} else if (!checkFlags(done, true, tagname)) {
+							f[done] = true;
+							if (elm.tag != "" && !infomap[elm.tag]) {
+								infomap[elm.tag] = true;
+								inform.add(elm.text);
+							}
+						}
+					}
+					if (!checkFlags(elm.flag, true, tagname)) f[elm.flag] = true;
+				}
+				break;
+				
+			case "button":		// page, name, (comment), to, eval, badge
+			case "main":		// page, name, point
+			case "sub":			// page, name, (comment), new
+			case "oyako":		// page, name, (comment), eval
+			case "multi":		// page, name, (comment), eval
+			case "ending":		// page, name, (comment), eval
+				addSelect(elm);
+				addPosition(elm, elm.name+"_badge", "badge") if (elm.badge != "");
+				break;
+				
+			case "status":		// page, name, point
+			case "complete":	// page, name, eval
+			case "number":		// page, name, flag, keta
+			case "text":		// page, name, flag
+			case "prof":		// page, name, flag, prefix, layers
+				addPosition(elm);
+				break;
+			case "error":
+				kag.errorCmd(elm.message, %[ file:file, line:parser.curLine ]);
+				break;
+			case "ch": case "r":
+				break;
+			default:
+				kag.errorCmd("不明なタグ:"+tagname, %[ file:file, line:parser.curLine ]);
+				break;
+			}
+		}
+		invalidate parser;
+	}
+
+	var clickCloseMode = false;
+	function         onMouseUp() { if (clickCloseMode) close();
+		return super.onMouseUp(...);
+	}
+	function         onKeyDown(key, shift) { if (clickCloseMode && window._isProceedingKey(key)) close();
+		return super.onKeyDown(...);
+	}
+
+}
+global.MapSelectLayer = ScenarioSelectLayer;
+function MapItemEnterLeave(button, enter) {
+	try { kag.fore.base.mapSelectLayer.onItemEnterLeave(...); } catch {}
+}
+function MapItemEnter(button) { MapItemEnterLeave(button,1); }
+function MapItemLeave(button) { MapItemEnterLeave(button,0); }
+
+addKagHookCallback("onPreSaveStoreBookmarkInfo", function (add) {
+	pcflags.quest_page = mapSelectShowing ? fore.base.mapSelectLayer.page : void; // [XXX]
+}, true);
+addKagHookCallback("onAfterRestoreFlags", function {
+	tf.quest_page = pcflags.quest_page;
+}, true);
+
+
+function ShowInformation(text, done) {
+	try {
+		kag.tagHandlers.panel(%[ "class"=>"InformationPanel", nostop:true, done:done, text:text ]);
+	} catch (e) {
+		kag.errorCmd(@"ShowInformation:${text}:${e.message}");
+		done();
+	}
+}
+class        InformationPanel                 extends PanelLayer {
+	function InformationPanel(win, name, elm) { super.PanelLayer(...);
+		this.done = elm.done;
+		var ui = uiload(%[ storage:"information", bgcolor:0, bgopacity:0 ]);
+		CustomDrawLayerText(names.text, elm.text, "inform.text");
+		focusable = true;
+	}
+	var modal = true;
+	var done = null;
+	var fadeTime = 100;
+
+	function onOpen() {
+		playSysSE("inform.open");
+		showHideFade(true, fadeTime);
+		window.setMenuAccessibleAll();
+	}
+	function  onMouseUp() { close();
+		super.onMouseUp(...);
+	}
+	function  onKeyDown(key, shift) { if (window._isProceedingKey(key)) close();
+		super.onKeyDown(...);
+	}
+	
+	function close() {
+		if (_closed) return;
+		_closed = true;
+		showHideFade(false, fadeTime);
+	}
+	function onShowHideFadeDone(vis, en) {
+		super.onShowHideFadeDone(...);
+		if (!vis && this.done) this.done();
+	}
+}

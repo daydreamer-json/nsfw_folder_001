@@ -1,0 +1,52 @@
+psd,quest_sub_prof
+ui,prof_text/T,	@prof_text:T
+ui,prof_text/S,	@prof_text:S
+ui,prof_text/R2,@prof_text:R2
+ui,prof_text/R1,@prof_text:R1
+ui,prof_text/Q2,@prof_text:Q2
+ui,prof_text/Q1,@prof_text:Q1
+ui,prof_text/P2,@prof_text:P2
+ui,prof_text/P1,@prof_text:P1
+ui,prof_text/O,	@prof_text:O
+ui,prof_text/N,	@prof_text:N
+ui,prof_text/M2,@prof_text:M2
+ui,prof_text/M1,@prof_text:M1
+ui,prof_text/L2,@prof_text:L2
+ui,prof_text/L1,@prof_text:L1
+ui,prof_text/K,	@prof_text:K/layer
+ui,prof_name/T,	@prof_name:T
+ui,prof_name/S,	@prof_name:S
+ui,prof_name/R,	@prof_name:R
+ui,prof_name/Q,	@prof_name:Q
+ui,prof_name/P,	@prof_name:P
+ui,prof_name/O,	@prof_name:O
+ui,prof_name/N,	@prof_name:N
+ui,prof_name/M,	@prof_name:M
+ui,prof_name/L,	@prof_name:L
+ui,prof_name/K,	@prof_name:K/layer
+ui,prof_stand/T,@prof_stand:T
+ui,prof_stand/S,@prof_stand:S
+ui,prof_stand/R,@prof_stand:R
+ui,prof_stand/Q,@prof_stand:Q
+ui,prof_stand/P,@prof_stand:P
+ui,prof_stand/O,@prof_stand:O
+ui,prof_stand/N,@prof_stand:N
+ui,prof_stand/M,@prof_stand:M
+ui,prof_stand/L,@prof_stand:L
+ui,prof_stand/K,@prof_stand:K/layer
+ui,prof_base,	@prof_base/layer
+ui,prof_base,	@prof:rect/layer
+#
+#[XXX]n->normalï‚äÆï‚ê≥
+stat,prof_stand,normal,n
+stat,prof_text,	normal,n
+stat,prof_name,	normal,n
+file,prof_stand
+func,prof_stand,	visible,false
+file,prof_text
+func,prof_text,		visible,false
+file,prof_name
+func,prof_name,		visible,false
+file,prof
+func,prof,		visible,false
+mvsz,prof,mixrects,prof_name,prof_stand,prof_text

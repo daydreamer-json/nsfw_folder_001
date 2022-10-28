@@ -1,0 +1,56 @@
+psd,quest_main_prof
+ui,prof/text/J,			@prof_name:9
+ui,prof/text/I,			@prof_name:8
+ui,prof/text/H,			@prof_name:7
+ui,prof/text/G,			@prof_name:6
+ui,prof/text/F,			@prof_name:5
+ui,prof/text/E,			@prof_name:4
+ui,prof/text/D,			@prof_name:3
+ui,prof/text/C,			@prof_name:2
+ui,prof/text/B,			@prof_name:1
+ui,prof/text/A,			@prof_name:0
+ui,prof/立ち絵/J大人/裸,	@prof_stand:9_4
+ui,prof/立ち絵/J大人/クエスト,	@prof_stand:9_3
+ui,prof/立ち絵/J/裸,		@prof_stand:9_2
+ui,prof/立ち絵/J/クエスト,	@prof_stand:9_1
+ui,prof/立ち絵/J/制服,		@prof_stand:9_0
+ui,prof/立ち絵/I/裸,		@prof_stand:8_2
+ui,prof/立ち絵/I/クエスト,	@prof_stand:8_1
+ui,prof/立ち絵/I/制服,		@prof_stand:8_0
+ui,prof/立ち絵/H/メイド,	@prof_stand:7_3
+ui,prof/立ち絵/H/裸,		@prof_stand:7_2
+ui,prof/立ち絵/H/クエスト,	@prof_stand:7_1
+ui,prof/立ち絵/H/制服,		@prof_stand:7_0
+ui,prof/立ち絵/G/裸,		@prof_stand:6_2
+ui,prof/立ち絵/G/クエスト,	@prof_stand:6_1
+ui,prof/立ち絵/G/制服,		@prof_stand:6_0
+ui,prof/立ち絵/F/裸,		@prof_stand:5_2
+ui,prof/立ち絵/F/クエスト,	@prof_stand:5_1
+ui,prof/立ち絵/F/制服,		@prof_stand:5_0
+ui,prof/立ち絵/E/裸,		@prof_stand:4_2
+ui,prof/立ち絵/E/クエスト,	@prof_stand:4_1
+ui,prof/立ち絵/E/制服,		@prof_stand:4_0
+ui,prof/立ち絵/D/裸,		@prof_stand:3_2
+ui,prof/立ち絵/D/クエスト,	@prof_stand:3_1
+ui,prof/立ち絵/D/制服,		@prof_stand:3_0
+ui,prof/立ち絵/C/クエスト銃あり,@prof_stand:2_3
+ui,prof/立ち絵/C/裸,		@prof_stand:2_2
+ui,prof/立ち絵/C/クエスト,	@prof_stand:2_1
+ui,prof/立ち絵/C/制服,		@prof_stand:2_0
+ui,prof/立ち絵/B/裸,		@prof_stand:1_2
+ui,prof/立ち絵/B/クエスト,	@prof_stand:1_1
+ui,prof/立ち絵/B/制服,		@prof_stand:1_0
+ui,prof/立ち絵/A/裸,		@prof_stand:0_2
+ui,prof/立ち絵/A/クエスト,	@prof_stand:0_1
+ui,prof/立ち絵/A/制服,		@prof_stand:0_0/layer
+ui,prof/プロフ共通,		@prof_name:rect/layer
+ui,prof/プロフ共通,		@prof_base/layer
+ui,prof/プロフ共通,		@prof:rect/layer
+#
+file,prof_stand
+func,prof_stand,	visible,false
+file,prof_name
+func,prof_name,		visible,false
+file,prof
+func,prof,		visible,false
+mvsz,prof,mixrects,prof_name,prof_stand

@@ -1,0 +1,10 @@
+psd,nameinput
+ui,名前入力範囲,		@base:name:rect
+ui,「キャンセル」ボタンover,	@cancel:over
+ui,「キャンセル」ボタンnomal,	@cancel:off
+ui,「決定」ボタンover,		@ok:over
+ui,「決定」ボタンnomal,		@ok:off
+ui,背景,			@base
+#
+func,cancel,sename,back
+eval,names,call,uiloadSysSE,nameinput

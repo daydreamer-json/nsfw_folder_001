@@ -1,0 +1,27 @@
+#みぞれ 立ち絵情報
+
+#dress	服装名	種別	差分名	レイヤ名
+dress	裸	diff	基本	裸
+dress	制服	diff	基本	制服
+dress	クエスト	diff	基本	クエスト
+#face	表情名	レイヤ名
+face	微笑	表情/①表情
+face	笑顔	表情/②表情
+face	困惑	表情/③表情
+face	驚き	表情/④表情
+face	怒り	表情/⑤表情
+face	悲しい	表情/⑥表情
+face	ギクッ	表情/⑦表情
+face	ジト目	表情/⑧表情
+face	呪文詠唱	表情/⑨表情
+face	感じている	表情/⑩表情
+face	ヤダー	表情/⑪表情
+face	うるうる	表情/⑫表情
+face	極楽＊２	表情/⑬表情
+face	キラキラ	表情/⑭表情
+face	激おこ	表情/⑮表情
+# 頬を追加パーツで処理
+addgroup	頬
+add	頬	h頬
+add	頬２	h頬2
+add	頬なし	ダミー

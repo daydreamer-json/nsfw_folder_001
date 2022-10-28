@@ -1,0 +1,3 @@
+incl,saveload.func
+SAVELOAD,クイックロード
+incl,file.func

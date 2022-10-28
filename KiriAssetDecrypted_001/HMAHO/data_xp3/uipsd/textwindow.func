@@ -1,0 +1,15 @@
+psd,textwindow
+ui,#範囲/オートスキップ,@base:icon:rect
+ui,#範囲/待ちアイコン,	@base:click:rect
+ui,#範囲/名前,		@base:name:rect
+ui,#範囲/テキスト,	@base:text:rect
+ui,#範囲/全体,		@base:rect
+#
+ui,名前枠,		@name/layer
+ui,ベース,		@base
+#
+func,name,visible,false
+eval,elm,name,base.name
+eval,elm,margin,base.text
+eval,base,glyph,base.click
+eval,base,call,SetupMessageTextRegion,28,3
