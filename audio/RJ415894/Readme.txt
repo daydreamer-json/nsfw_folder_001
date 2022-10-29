@@ -1,30 +1,30 @@
-���l�����T�[�N���y���y���z�̍�i���A���w�������������肪�Ƃ��������܂��I
-�{��̓o�C�m�[�����}�C�N�ł̘^�������Ă��܂��̂ŁA�w�b�h�z����C���z�����g�p���Ă��y���݂��������B
+同人音声サークル【恋楽屋】の作品を、ご購入いただきありがとうございます！
+本作はバイノーラルマイクでの録音をしていますので、ヘッドホンやイヤホンを使用してお楽しみください。
 
-���X�^�b�t
+◆スタッフ
 
-���D�F���Ԃ݂Ȃ��l
+声優：涼花みなせ様
 
-�C���X�g�Foekakizuki�l
+イラスト：oekakizuki様
 
-�V�i���I�F����ޗl
+シナリオ：えるむ様
 
-���S�F��F���I�l
+ロゴ：一色リオ様
 
-�V�i���I���M�E�v���b�g�쐬�F�����傱����B
+シナリオ加筆・プロット作成：こちょこちょ。
 
 
-�����ʉ�
-�f�B�[�u���X�g�l�u�F��Ȍ��ʉ��W100�v
+◆効果音
+ディーブルスト様「色んな効果音集100」
 https://www.dlsite.com/maniax/work/=/product_id/RJ276666.html
 
-�^�C�K�[�����[�l �y���ʐ��f�ޏW by tigerlily�z
+タイガーリリー様 【効果声素材集 by tigerlily】
 https://www.dlsite.com/maniax/work/=/product_id/RJ287092.html
 
 
-������
+◆製作
 
-���y��
+恋楽屋
 
 Twitter
 https://twitter.com/koigakuya
@@ -36,8 +36,8 @@ Dlsite
 https://www.dlsite.com/maniax/circle/profile/=/maker_id/RG50054.html
 
 
-�����ӎ���
-�{��i�̒��쌠�̓T�[�N���u���y���v�ɂ���܂��B
-�{��i�Ɋ܂܂����e�͔ƍߍs�ׂ��֒��A��������ׂ̂��̂ł͂���܂���B
-�{��i�Ɏ��^���ꂽ�f�[�^�̈ꕔ�A���͑S�Ă̖��f�g�p�A�����A�̔����ւ��܂��B
-�{��i�������������ƂŐ�����������g���u���Ɋւ��A���T�[�N���͈�؂̐ӔC�𕉂��܂���B
+◆注意事項
+本作品の著作権はサークル「恋楽屋」にあります。
+本作品に含まれる内容は犯罪行為を誇張、助長する為のものではありません。
+本作品に収録されたデータの一部、又は全ての無断使用、複製、販売を禁じます。
+本作品を視聴したことで生じたあらゆるトラブルに関し、当サークルは一切の責任を負いません。
