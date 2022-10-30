@@ -1,0 +1,5 @@
+func,	odekake1_read,	visible,false
+func,	odekake2_read,	visible,false
+func,	odekake3_read,	visible,false
+#
+sysse,odekake

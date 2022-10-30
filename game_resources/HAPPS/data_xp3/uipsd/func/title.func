@@ -1,0 +1,15 @@
+func,start,	storage,custom.ks,	target,*name_input
+func,load,	storage,title.ks,	target,*load
+eval,-load,exp,this.enabled=global.SystemConfig.hasAnySaveData;
+func,continue,	storage,custom.ks,	target,*continue
+eval,-continue,exp,this.enabled=global.SystemAction.canContinue
+func,continue,	onenter,Current.cmd("contPopup/1/continue"),	onleave,Current.cmd("contPopup/0/continue")
+func,profile,	storage,custom.ks,	target,*title_status
+func,config,	storage,title.ks,	target,*option
+#eval,extra,call,global.Current.uiEval,updateOmakeState,false
+func,extra,	storage,custom.ks,	target,*extra
+func,exit,	exp,kag.close()
+func,homepage,	exp,System.shellExecute('http://milkfactory.jp/')
+func,twitter,	exp,System.shellExecute('https://twitter.com/milkfactory_')
+#
+sysse,title

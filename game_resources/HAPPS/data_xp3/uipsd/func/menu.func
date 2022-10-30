@@ -1,0 +1,33 @@
+func,lock,	hasdisable,true,	exp,QuickMenuLock=!QuickMenuLock
+func,save,	hasdisable,true,	exp,SystemAction.save()
+func,load,	hasdisable,true,	exp,SystemAction.load()
+func,auto,	hasdisable,true,	exp,SystemAction.auto(),	nostable,true
+func,skip,	hasdisable,true,	exp,SystemAction.skip(),	nostable,true
+func,log,	hasdisable,true,	exp,SystemAction.log()
+func,option,	hasdisable,true,	exp,SystemAction.option()
+func,qsave,	hasdisable,true,	exp,SystemAction.qsave()
+func,qload,	hasdisable,true,	exp,SystemAction.qload()
+#func,vreplay,	hasdisable,true,	exp,SystemAction.vreplay()
+func,prev,	hasdisable,true,	exp,SystemAction.prev()
+func,next,	hasdisable,true,	exp,SystemAction.next()
+func,hide,	hasdisable,true,	exp,SystemAction.hide()
+#
+func,help_zoomout,	visible,false
+func,help_zoom,		visible,false
+func,help_rot_r,	visible,false
+func,help_rot_l,	visible,false
+func,help_lock,		visible,false
+func,help_vreplay,	visible,false
+func,help_auto,		visible,false
+func,help_skip,		visible,false
+func,help_qsave,	visible,false
+func,help_qload,	visible,false
+func,help_save,		visible,false
+func,help_load,		visible,false
+func,help_log,		visible,false
+func,help_prev,		visible,false
+func,help_next,		visible,false
+func,help_option,	visible,false
+func,help_hide,		visible,false
+#
+sysse,quickmenu

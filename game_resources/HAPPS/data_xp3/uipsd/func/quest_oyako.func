@@ -1,0 +1,38 @@
+psd,quest_oyako
+ui,#参考/更新マーカー表示位置,	
+ui,#参考/当たり判定,		
+ui,#参考/共通下部メニュー,	
+ui,new_marker,		$item@_new/layer
+ui,frame/#rect/0,		#item@:rect
+ui,frame/#rect/0,		<item>oyako0
+ui,frame/#rect/1,		<item>oyako1
+ui,frame/#rect/2,		<item>oyako2
+ui,frame/#rect/3,		<item>oyako3
+ui,frame/#rect/4,		<item>oyako4
+ui,frame/#rect/5,		<item>oyako5
+ui,frame/#rect/6,		<item>oyako6
+ui,frame/#rect/7,		<item>oyako7
+ui,frame/#rect/8,		<item>oyako8
+ui,frame/#rect/9,		<item>oyako9
+#
+ui,dis,			@alloyako:disable
+ui,over,			@alloyako:over
+ui,normal,			@alloyako:off/cref
+ui,戻るボタン/over,		@back:over
+ui,戻るボタン/normal,		@back:off
+ui,base,			@base
+#
+cref,alloyako,oyako0,oyako1,oyako2,oyako3,oyako4,oyako5,oyako6,oyako7,oyako8,oyako9
+#
+func,	oyako0_new,	visible,false
+func,	oyako1_new,	visible,false
+func,	oyako2_new,	visible,false
+func,	oyako3_new,	visible,false
+func,	oyako4_new,	visible,false
+func,	oyako5_new,	visible,false
+func,	oyako6_new,	visible,false
+func,	oyako7_new,	visible,false
+func,	oyako8_new,	visible,false
+func,	oyako9_new,	visible,false
+#
+eval,names,call,uiloadSysSE,quest

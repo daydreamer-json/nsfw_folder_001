@@ -1,0 +1,245 @@
+// ゲームタイトル依存の特殊処理等
+
+//--------------------------------------------------------------
+// モジュール
+
+with (SystemConfig)
+{
+	// 一括ロード処理
+	(function /*LoadModule*/(load, files) {
+		var ext = Storages.extractStorageExt;
+		var log = Debug.message;
+		for (var i = 0, cnt = files.count; i < cnt; i++) {
+			var file = files[i];
+			switch (typeof file) {
+			case "void": continue;
+			case "String":
+				if (file == "") continue;
+				if (ext(file) == ".tjs") {
+//					log(file);
+					load(file);
+					continue;
+				}
+				break;
+			case "Object":
+				// SystemConfig初期値を埋め込みたい場合に使用
+				if (file instanceof "Function") file(SystemConfig, load);
+				else if (file instanceof "Dictionary" || file instanceof "Array") {
+					(Dictionary.assign incontextof SystemConfig)(file, false);
+				}
+				continue;
+			}
+			log("custom:LoadModule", i, file); // unknown data, file
+		}
+	})(
+		KAGLoadScriptOnce,// ロード処理
+	[
+		// SystemConfigに値を書くサンプル
+	@if (0)
+		// すべてのロードより前（引数渡し時に評価）
+		(.HogeHoge = 123,
+		 .FugaFuga = "456",
+		 void), // 最終的な評価値をvoidにすること
+		// オンデマンド設定（配列）
+		[
+			"HogeHoge" => 123,
+			"FugaFuga" => "456",
+			],
+		// オンデマンド設定（辞書）
+		%[
+			HogeHoge: 123,
+			FugaFuga: "456",
+			],
+		// オンデマンド設定（関数）
+		function (sc, load) { with (sc) {
+			.Hoge.Fuga = void; // デフォルトで設定される辞書などを後から書き換えたいケースなどに利用
+			.TextParam = FilterDrawTextParam("hoge.fuga"); // 以前にロードしたモジュールの関数を利用
+		} },
+	@endif
+
+		//==============================
+
+		// ■特殊用途
+//		"d3d.tjs",					// D3D用オブジェクト生成
+//		"bishamon.tjs",				// BISHAMON用モジュールの読み込み ※d3dmode でないと動作しません
+		"emotion.tjs",				// エモーション機能有効化
+		"speech.tjs",				// テキスト読み上げ
+		"autoface.tjs",				// 顔窓自動処理制御
+//		"voicematch.tjs",			// ボイスマッチング処理
+//		"diffimage2.tjs",			// 機械差分画像ロード機能
+		"name.tjs",					// 名前入力ベース／dispNameFilterの【】表示実装例
+
+		// ■基礎ライブラリ
+		"scrollutil.tjs",			// スクロール処理ベース
+		"dragutil.tjs",				// ドラッグ処理ベース
+		"drawtextparam.tjs",		// システム文字表示の修飾パラメータの一カ所集約
+
+		// ■操作系
+//		"gesture.tjs",				// マウスジェスチャ機能／★OptionModule
+//		"keybinder.tjs",			// キーボードバインド変更／★OptionModule
+//		"exgamepad.tjs",			// ゲームパッド入力拡張／カスタマイズ（※要gamepad.dll）
+//		"mscurautohide.tjs",		// マウスカーソル自動消去／★OptionModule
+//		"touchui.tjs",				// タッチ系操作ベース
+
+		// ■UI系全般
+		"nocfchkdialog.tjs",		// 次からは表示しないチェックつきダイアログ／★OptionModule
+		"quickmenu.tjs",			// ゲーム画面常駐機能ボタン
+		"backlog.tjs",				// ブロックベースのバックログ表示
+		"helptextman.tjs",			// ヘルプ表示機能処理ベース／★OptionModule／▼FileStoreModule／◆ExGalleryModule
+		(.FaceThumbNoColEffect=false, void), // 時間帯の色加工の指定をカットしない
+		"facethumbdraw.tjs",		// 汎用顔窓描画処理ベース
+
+		// ■メッセージ表示拡張
+		"rendermsgwin.tjs",			// レンダー方式メッセージ窓機能の有効化
+		"msghack.tjs",				// フチ影同時表示やグラデ表示・テキストフェード表示拡張
+//		"fonteffect.tjs",			// フォント修飾表示のConfig化（※要msghack）／★OptionModule
+//		"autoskipmark.tjs",			// オート・スキップ時のアイコン表示機能／★OptionModule
+//		"textspeedex.tjs",			// 既読テキスト速度／オートモードテキスト速度変更／★OptionModule
+//		"iconfader.tjs",			// メッセージ窓sysボタン自動消去
+//		"nameframe.tjs",			// 名前欄のラベルの連動表示処理 (※要msghack)
+
+		// ■通知系
+		"qlpopup.tjs",				// セーブデータのポップアップ表示処理／サムネデータ汎用描画（※要drawtextparam）
+//		"bgmtitleindicator.tjs",	// BGMタイトル通知ポップアップ／★OptionModule
+//		"showdate.tjs",				// ゲーム中の日付表示
+
+		// ■セーブデータ系
+		"gamecont.tjs",				// サスペンドセーブ／前回の続き復帰
+		"rotatesave.tjs",			// QSave/AutoSaveの順繰りセーブ機能
+
+		// ■音声系
+//		"sysvoice.tjs",				// 汎用システムボイス再生
+//		"voicemode.tjs",			// お気に入りボイス登録機能／▼FileStoreModule
+//		"voiceprogress.tjs",		// ボイス再生プログレスバー
+//		"voiceeffect.tjs",			// ボイス加工スクリプト拡張（※要wf*.dllプラグイン）
+//		"voiceboost.tjs",			// ボイス速度(kag.voicespeed)の一時変更（※Unmainted）
+//		"vcutfade.tjs",				// ボイスカット時にフェードアウトを行う／★OptionModule
+
+		// ■sysargモジュール
+//		"sqscr.tjs",				// 4:3画面モード／★OptionModule
+//		"stayontop.tjs",			// 常に手前表示／★OptionModule
+		"stopdeactive.tjs",			// 非アクティブ動作停止／★OptionModule
+//		"designmscur.tjs",			// デザインマウスカーソル変更／★OptionModule
+
+		// ■コンフィグUI拡張
+//		"optrevundo.tjs",			// 設定変更アンドゥ実装（※★OptionModuleの専用対応必須）
+//		"hsvcpick.tjs",				// カラーサークルによる色選択UI
+
+		// ■ムービー・エンドロール系
+		"exroll.tjs",				// エンドロール拡張
+//		"movieqsel.tjs",			// ムービークォリティ選択
+
+		// ■エクストラ系
+		"cgview.tjs",				// CG鑑賞中の操作UI拡張
+		"exgallery.tjs",			// エクストラ画面全般の拡張・モジュール化
+//		"exchview.tjs",				// 立ち絵鑑賞画面
+
+/**		// ■多言語対応
+		"advancedmenu.tjs",			// メニューバー内容の整理（高度な設定に分離）
+		"syslangtext.tjs",			// 多言語対応切り替えデータベース
+		"multilang.tjs",			// 多言語対応hack集（※要rendermsgwin）
+ */
+
+		// ■sysscn加入候補（要検討）
+//		"emoteD3D.tjs",				// E-mote汎用初期化（※順序注意 speech > multi|advmenu > emodeD3D）
+//		"quickpanel.tjs",			// ゲーム常駐パネル汎用
+//		"mfchange.tjs",				// メッセージ窓切り替え汎用
+//		"scnchart_*.tjs",			// フローチャート機能
+//		"tipsbase.tjs",				// TIPS機能
+//		"snapcapture.tjs",			// 画面キャプチャ汎用
+//		"mswrclick.tjs",			// マウス中・右クリックカスタマイズ（※gesture排他？）
+
+			]);
+}
+//--------------------------------------------------------------
+// 固有実装
+
+// 顔サムネ位置編集
+KAGLoadScriptIfDebug("facethumbedit.tjs");
+
+// オンデマンドコンパイルロード
+OndemandCompiledLoad(
+	"uimain.tjs",
+	"uifile.tjs",
+//	"uivoice.tjs",
+	"uioption.tjs",
+	"uiextra.tjs",
+//	"uistand.tjs",
+
+	// special
+	"uiquest.tjs",
+	"gamezoom.tjs",
+	);
+
+
+//--------------------------------------------------------------
+// 作品特殊
+
+// ショートカットキー
+{
+	var k = kagCustomizedKeys;
+	k[VK_F1]  = "vreplay";	// F1: ボイスリピート
+	k[VK_F2]  = "auto";		// F2: オート
+	k[VK_F3]  = "skip";		// F3: スキップ
+	k[VK_F4]  = "qsave";	// F4: クイックセーブ
+	k[VK_F5]  = "qload";	// F5: クイックロード
+	k[VK_F6]  = "save";		// F6: セーブ
+	k[VK_F7]  = "load";		// F7: ロード
+	k[VK_F8]  = "backlog";	// F8: バックログ
+	k[VK_F9]  = "prev";		// F9: 前の選択肢に戻る
+	k[VK_F10] = "option";	// F10: オプション画面
+	k[VK_F11] = "hide";		// F11: テキストウィンドウ非表示
+	k[VK_F12] = "title";	// F12: タイトルに戻る
+
+	k[VK_SPACE] = "hide";
+}
+addAfterInitCallback(function() {
+	// F10キー用ハック（通常はF10はキーボードによるメニュー選択で予約されている）
+	try {
+		// SYSKEYDOWNのフックを追加
+		var num = kag.sysKeyDownMessageNum = Window.getNotificationNum("SYSKEYDOWN");
+		kag.setMessageHook(true, num);
+		kag.addHook("onWindowsMessageHook", function (msg, wp, lp) {
+			// F10キーが押された＆F10キーに割り当てがある
+			if (msg == sysKeyDownMessageNum &&
+				wp  == VK_F10 && !getKeyState(VK_SHIFT) &&
+				kagCustomizedKeys[VK_F10] != "none")
+			{
+				//dm("post f10");
+				postInputEvent('onKeyDown', %[key: VK_F10]);
+				postInputEvent('onKeyUp',   %[key: VK_F10]);
+				return true;
+			}
+		} incontextof kag);
+	} catch {}
+} incontextof global);
+
+// テキストウィンドウ文字数（eval,base,call,SetupMessageTextRegion,28,3,ox,oy）
+function SetupMessageTextRegion(mes, dic, col, row, ox, oy) {
+	with (mes) {
+		.marginL += +ox if (ox !== void);
+		.marginT += +oy if (oy !== void);
+		var fsz = .defaultFontSize, lsz = .defaultLineSize;
+		if (lsz < fsz) lsz = fsz;
+		var w = (+col + .marginRCh) * fsz;
+		var r = (.width - .marginL - w);
+		var h =  +row * (.defaultLineSpacing + lsz);
+		var b = (.height - .marginT - h);
+		//dm("SetupMessageTextRegion %d->%d | %d:%d".sprintf(.marginR, r, .marginB, b));
+		.marginR = r;
+		.marginB = b if (.marginB > b);
+	}
+}
+
+// [XXX] 名前左寄せパディング
+&CustomNameLayer.getNameTextOffsetX = function (text) { return 4; };
+
+//--------------------------------------------------------------
+// アペンド設定
+
+@if (APPEND_EXTENTION)
+SetupAppendData();
+@endif
+
+// ムービー60->30fps調整(appendで30fpsの実データを利用できるようにするため初期化以降に配置のこと)
+KAGLoadScript("movie30fps.tjs") if (!SystemConfig.disableGfxMovieFpsHack);

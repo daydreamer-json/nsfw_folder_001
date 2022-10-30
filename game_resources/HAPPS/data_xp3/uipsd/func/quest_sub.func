@@ -1,0 +1,30 @@
+incl,quest_sub_prof.func
+#
+func,	subch0_new,	visible,false
+func,	subch1_new,	visible,false
+func,	subch2_new,	visible,false
+func,	subch3_new,	visible,false
+func,	subch4_new,	visible,false
+func,	subch5_new,	visible,false
+func,	subch6_new,	visible,false
+func,	subch7_new,	visible,false
+func,	subch8_new,	visible,false
+func,	subch9_new,	visible,false
+#
+func,	subch0,		onenter,MapItemEnter("subch0"),	onleave,MapItemLeave("subch0"),	recthit,false
+func,	subch1,		onenter,MapItemEnter("subch1"),	onleave,MapItemLeave("subch1"),	recthit,false
+func,	subch2,		onenter,MapItemEnter("subch2"),	onleave,MapItemLeave("subch2"),	recthit,false
+func,	subch3,		onenter,MapItemEnter("subch3"),	onleave,MapItemLeave("subch3"),	recthit,false
+func,	subch4,		onenter,MapItemEnter("subch4"),	onleave,MapItemLeave("subch4"),	recthit,false
+func,	subch5,		onenter,MapItemEnter("subch5"),	onleave,MapItemLeave("subch5"),	recthit,false
+func,	subch6,		onenter,MapItemEnter("subch6"),	onleave,MapItemLeave("subch6"),	recthit,false
+func,	subch7,		onenter,MapItemEnter("subch7"),	onleave,MapItemLeave("subch7"),	recthit,false
+func,	subch8,		onenter,MapItemEnter("subch8"),	onleave,MapItemLeave("subch8"),	recthit,false
+func,	subch9,		onenter,MapItemEnter("subch9"),	onleave,MapItemLeave("subch9"),	recthit,false
+#
+func,quest_nocomp,	visible,false
+func,quest_comp,	visible,false
+#
+part,remove,item
+#
+eval,names,call,uiloadSysSE,quest

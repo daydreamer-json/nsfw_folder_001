@@ -1,0 +1,9 @@
+psd,saveload
+ui,#範囲/データ枠/ヘッダー1,		@base:player:rect
+ui,#範囲/データ枠/ヘッダー2,		@base:number:rect
+ui,#範囲/データ枠/キャプション,		@base:date:rect
+ui,#範囲/データ枠/テキスト,		@base:text:rect
+#
+ui,共通/サムネ,				@thumb/layer
+ui,#範囲/データ枠/枠範囲,		@base:rect
+ui,クイックロード/データ枠/normal,	@base

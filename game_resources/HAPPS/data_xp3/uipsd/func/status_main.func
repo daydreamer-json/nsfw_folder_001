@@ -1,0 +1,25 @@
+incl,status_main_prof.func
+#
+#[MEMO]ラジオボタン式のため不要
+#func,subch0,	onenter,MapItemEnter("subch0"),	onleave,MapItemLeave("subch0")
+#
+func,to_status_sub,
+func,ch0_new,	visible,false
+func,ch1_new,	visible,false
+func,ch2_new,	visible,false
+func,ch3_new,	visible,false
+func,ch4_new,	visible,false
+func,ch5_new,	visible,false
+func,ch6_new,	visible,false
+func,ch7_new,	visible,false
+func,ch8_new,	visible,false
+func,ch9_new,	visible,false
+#
+func,ona_new,	visible,false
+func,ona_up,	visible,false
+func,ona_label,	enabled,false
+func,ona_voice,	visible,false,	exp,playSubTextVoice(),	sename,noclick
+func,ona_prev,	halftone,true,	exp,moveSubText(-1)
+func,ona_next,	halftone,true,	exp,moveSubText(1)
+#
+sysse,quest

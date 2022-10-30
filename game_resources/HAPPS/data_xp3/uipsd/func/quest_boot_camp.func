@@ -1,0 +1,35 @@
+psd,quest_boot_camp
+ui,new_marker,		$item@_new/layer
+ui,frame/#rect/0,	#item@:rect
+ui,frame/#rect/0,	<item>boot_camp0
+ui,frame/#rect/1,	<item>boot_camp1
+ui,frame/#rect/2,	<item>boot_camp2
+ui,frame/#rect/3,	<item>boot_camp3
+ui,frame/#rect/4,	<item>boot_camp4
+ui,frame/#rect/5,	<item>boot_camp5
+ui,frame/#rect/6,	<item>boot_camp6
+ui,frame/#rect/7,	<item>boot_camp7
+ui,frame/#rect/8,	<item>boot_camp8
+ui,frame/#rect/9,	<item>boot_camp9
+#
+ui,dis,			@allboot_camp:disable
+ui,on,			@allboot_camp:over
+ui,off,			@allboot_camp:off/cref
+ui,戻るボタン/on,	@back:over
+ui,戻るボタン/off,	@back:off
+ui,base,		@base
+#
+cref,allboot_camp,boot_camp0,boot_camp1,boot_camp2,boot_camp3,boot_camp4,boot_camp5,boot_camp6,boot_camp7,boot_camp8,boot_camp9
+#
+func,	boot_camp0_new,	visible,false
+func,	boot_camp1_new,	visible,false
+func,	boot_camp2_new,	visible,false
+func,	boot_camp3_new,	visible,false
+func,	boot_camp4_new,	visible,false
+func,	boot_camp5_new,	visible,false
+func,	boot_camp6_new,	visible,false
+func,	boot_camp7_new,	visible,false
+func,	boot_camp8_new,	visible,false
+func,	boot_camp9_new,	visible,false
+#
+eval,names,call,uiloadSysSE,quest

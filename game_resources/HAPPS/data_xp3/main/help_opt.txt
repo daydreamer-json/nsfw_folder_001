@@ -1,0 +1,113 @@
+#------------------------------------------------------------------------------
+# common
+
+page0	page1	page2	page3	page4
+	設定項目タブを変更します。
+reset
+	設定を初期化します。
+exit
+	ゲームを終了します。
+title
+	タイトル画面に戻ります。
+back
+	前の画面に戻ります。
+
+
+#------------------------------------------------------------------------------
+# system
+
+fullscreen_on	fullscreen_off
+	画面表示サイズ設定を変更します。
+noeffect_on	noeffect_off
+	画面エフェクトの有無を切り替えます。
+stopdeactive_on	stopdeactive_off
+	ゲームが非アクティブになった時の動作を決定します。
+moviefps_0	moviefps_1	moviefps_2
+	アニメーションの有無を切り替えます。
+zenra_on	zenra_off
+	立ち絵を常に裸にするかどうかを設定します。
+
+#------------------------------------------------------------------------------
+# text
+
+textspeed_slider
+	テキストの表示速度を設定します。
+autospeed_slider
+	オートモードの再生速度を設定します。
+skipspeed_slider
+	スキップモード中の進行速度を設定します。	Ctrlキーによるスキップは常に最速になります。
+winopac_slider
+	ゲーム中のテキストウインドウの濃度を設定します。
+speedsample
+	現在の各種設定のサンプルが表示されています。
+readnowait_on	readnowait_off
+	既読文章を瞬間表示にするかどうかを設定します。
+rtextcol_on	rtextcol_off
+	既読文章の色変更設定を切り替えます。
+skipall_on	skipall_off
+	スキップモードの有効範囲の設定を切り替えます。
+ctrlforce_on	ctrlforce_off
+	Ctrlキーを押したときのスキップ動作を設定します。
+afterskip_on	afterskip_off
+	選択肢を選んだ後もスキップを継続するか設定します。
+afterauto_on	afterauto_off
+	選択肢を選んだ後もオートを継続するか設定します。
+
+#------------------------------------------------------------------------------
+# sound
+
+wave_slider
+	ゲームのマスターボリュームを設定します。
+bgm_slider
+	BGM(音楽)の音量を設定します。
+se_slider
+	効果音の音量を設定します。
+voice_slider
+	キャラクターボイスの音量を設定します。
+sysse_slider
+	システム操作音の音量を設定します。
+down_slider
+	ボイス再生時のBGM(音楽)の音量を設定します。
+down_on	down_off
+	音声再生時にBGM音量を小さくするかどうか設定します。
+sedown_slider
+	ボイス再生時の効果音の音量を設定します。
+sedown_on	sedown_off
+	音声再生時に効果音音量を小さくするかどうか設定します。
+voicecut_on	voicecut_off
+	メッセージ送り時のボイス再生の停止/維持を切り替えます。
+autovwait_on	autovwait_off
+	オートモード中にボイスを待つかどうかを設定します。
+
+
+#------------------------------------------------------------------------------
+# voice
+
+ch0
+	${_voiceNames[0]}の音量を調整します。
+ch1
+	${_voiceNames[1]}の音量を調整します。
+ch2
+	${_voiceNames[2]}の音量を調整します。
+ch3
+	${_voiceNames[3]}の音量を調整します。
+ch4
+	${_voiceNames[4]}の音量を調整します。
+ch5
+	${_voiceNames[5]}の音量を調整します。
+ch6
+	${_voiceNames[6]}の音量を調整します。
+ch7
+	${_voiceNames[7]}の音量を調整します。
+ch8
+	${_voiceNames[8]}の音量を調整します。
+ch9
+	${_voiceNames[9]}の音量を調整します。
+ch10
+	${_voiceNames[10]}の音量を調整します。
+
+#------------------------------------------------------------------------------
+# guide
+
+guide
+	ショートカットキーの割り当て一覧です。

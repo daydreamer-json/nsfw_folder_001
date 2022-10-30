@@ -1,0 +1,5 @@
+func,back,	exp,close()
+func,rot_r,	exp,rotateRight()
+func,rot_l,	exp,rotateLeft()
+#
+sysse,quest

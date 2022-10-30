@@ -1,0 +1,11 @@
+file,speedsample
+auto,speed
+auto,skipall
+auto,afterskip
+auto,afterauto
+auto,winopac
+auto,rtextcol
+auto,ctrlforce
+auto,readnowait
+#
+incl,option.func

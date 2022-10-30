@@ -1,0 +1,18 @@
+func,help_qsave,	visible,false
+func,help_qload,	visible,false
+func,help_save,		visible,false
+func,help_load,		visible,false
+func,help_prev,		visible,false
+#func,help_log,		visible,false
+func,help_option,	visible,false
+#
+func,save,	onenter,MapItemEnter("save"),	onleave,MapItemLeave("save")
+func,load,	onenter,MapItemEnter("load"),	onleave,MapItemLeave("load")
+func,qsave,	onenter,MapItemEnter("qsave"),	onleave,MapItemLeave("qsave")
+func,qload,	onenter,MapItemEnter("qload"),	onleave,MapItemLeave("qload")
+func,option,	onenter,MapItemEnter("option"),	onleave,MapItemLeave("option")
+func,prev,	onenter,MapItemEnter("prev"),	onleave,MapItemLeave("prev")
+#
+cref,allds,ds_auto,ds_skip,ds_log,option,ds_next,ds_hide
+#ds_vreplay,
+cref,allsys,save,load,qsave,qload,option,prev

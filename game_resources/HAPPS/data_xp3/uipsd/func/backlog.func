@@ -1,0 +1,16 @@
+func,vreplay,	sename,vreplay
+func,jump,	sename,jump
+func,frame,visible,false
+func,name,visible,false
+#
+func,pageup,	exp,Current.cmd("prevPage")
+func,up,	exp,Current.cmd("scrollUp")
+func,slider,	vertical,true,	onchangefunc,Current.prop("onSliderChanged")
+func,down,	exp,Current.cmd("scrollDown")
+func,pagedown,	exp,Current.cmd("nextPage")
+func,back,	target,*back
+#
+eval,names,call,global.Current.uiEval,setupScrollArea,block,3,10,vreplay,jump
+#
+part,remove,vreplay,jump,block
+sysse,backlog

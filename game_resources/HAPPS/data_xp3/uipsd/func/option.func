@@ -1,0 +1,40 @@
+func,back,	target,*back
+func,reset,	exp,Current.cmd("reset"),	halftone,true
+func,title,	exp,SystemAction._title(),	target,*back,	sename,back
+eval,-title,	exp,.Current.propget("fromTitle")?(exp=void):(sename=target=void)
+func,exit,	exp,kag.close()
+#
+cref,allpages,page0,page1,page2,page3,page4
+rgrp,allpages,page0,page1,page2,page3,page4
+func,page0,	sename,page,	exp,Current.page=0,	target,*page
+func,page1,	sename,page,	exp,Current.page=1,	target,*page
+func,page2,	sename,page,	exp,Current.page=2,	target,*page
+func,page3,	sename,page,	exp,Current.page=3,	target,*page
+func,page4,	sename,page,	exp,Current.page=4,	target,*page
+cref,allsys,reset,exit,title,back
+rord,page0,page1,page2,page3,page4,reset,exit,title,back
+#
+file,_num
+mvsz,_num,.,x9x,vector,_num010,_num100
+mvsz,_num,.,x8x,vector,_num010,_num100
+mvsz,_num,.,x7x,vector,_num010,_num100
+mvsz,_num,.,x6x,vector,_num010,_num100
+mvsz,_num,.,x5x,vector,_num010,_num100
+mvsz,_num,.,x4x,vector,_num010,_num100
+mvsz,_num,.,x3x,vector,_num010,_num100
+mvsz,_num,.,x2x,vector,_num010,_num100
+mvsz,_num,.,x1x,vector,_num010,_num100
+mvsz,_num,.,x0x,vector,_num010,_num100
+mvsz,_num,.,xx9,vector,_num001,_num100
+mvsz,_num,.,xx8,vector,_num001,_num100
+mvsz,_num,.,xx7,vector,_num001,_num100
+mvsz,_num,.,xx6,vector,_num001,_num100
+mvsz,_num,.,xx5,vector,_num001,_num100
+mvsz,_num,.,xx4,vector,_num001,_num100
+mvsz,_num,.,xx3,vector,_num001,_num100
+mvsz,_num,.,xx2,vector,_num001,_num100
+mvsz,_num,.,xx1,vector,_num001,_num100
+mvsz,_num,.,xx0,vector,_num001,_num100
+#
+part,remove,_slider,_num,_numbase,_mute
+sysse,option

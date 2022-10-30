@@ -1,0 +1,240 @@
+with (SystemConfig)
+{
+	// タイトルBGM
+	.TitleBGM = "bgm12";
+
+	// コンフィグボイス区分
+	.voiceNames = [
+		"莉音",
+		"恋乃香",
+		"晶",
+		"奈々子",
+		"摩耶",
+		"ひなた",
+		"楓",
+		"優華理",
+		"リリア",
+		"リーシャ",
+		"サブキャラ" ];
+
+	// テキストフェード
+	.msgHackChFadeEnabled = true; // 機能有効化
+	.msgHackChFadeTimeCoef=    4; // 時間係数（デフォルト4）※actualChSpeedに対する倍数＝1より大きいとフェード途中に次の文字が出現する
+	.msgHackChFadeMinTime =   50; // 最低時間（デフォルト50）
+	.msgHackChFadeMaxTime = void; // 最大時間（デフォルト無指定）
+	.msgHackChFadeMoveX   =    0; // X移動pixel（デフォルト0）
+	.msgHackChFadeMoveY   =    0; // Y移動pixel（デフォルト0）
+
+	var makecolor = function (top,bottom) { return (0x8000000000000000 | (top<<24) | bottom); };
+	.msgHackGradColor = function (col) { return col < 0 ? [ col & 0xFFFFFF, (col>>24) & 0xFFFFFF ] : col; };
+	.normalTextColor = makecolor(0x000000, 0x707070); // 通常テキストカラー
+	.readedTextColor = makecolor(0xf3759c, 0xfc9ec8); // 既読テキストカラー
+
+	.BacklogTextLength = 24; // バックログの横の文字数（textwindow.func のSetupMessageTextRegionに合わせるのが望ましい）
+
+	// クリック待ちアイコンの点滅
+	.glyphFadeInTime  = 300;
+	.glyphFadeOutTime = 700;
+
+	//デフォルトの姓・名
+	.defaultName   = "炎寿馬";
+	.defaultFamily = "下城";
+
+	// 名前入力欄パラメータ
+	.nameInputStyle = %[
+		fontheight: 120, // フォントサイズ
+		fontbold  : false,
+		fontface  : "源ノ角ゴシックH",
+		maxchars  : 6, //最大文字数;
+		color     : 0x000000,
+		bgcolor   : 0,
+		];
+	.nameLayerDefaultColor = 0x24CA7A;
+
+	.FaceThumbRect = [ 419, 289 ];
+
+	// 文字描画加工パラメータ群
+	.drawTextParamMapTable = %[
+		"*" => %[ fontface: SystemDefaultFontFace, color:0xFFFFFF, fontbold:false, bold:false ],
+		"*.value"     => %[ state:null, color:0x000000, fontheight: 16, halign:0, valign:0 ],
+
+		"_edge" => %[ edge:true, edgeExtent:2, edgeEmphasis:2048, edgeColor:0 ],
+
+		"_col_num" => [ %[ color:0xFFFFFF ], "_edge" ],
+
+		// セーブロード画面枠内文字
+		"file.*" => %[ fontheight:24, color:0x000000 ], // セーブロード共通フォントサイズ・カラー
+		"file.player" =>   %[ maxline:1, valign: 1, halign:-1,  color:0xFFFFFF ], //.nameInputStyle.color ],
+		"file.number" => [ %[ maxline:1, valign: 1, halign: 1, fontheight:20 ], "_col_num" ],
+		"file.date"   => [ %[ maxline:1, valign:-1, halign: 0 ], "_col_num" ],
+		"file.text"   => [ %[ maxline:3, marginT:2, linespacing:4, fontheight:23, edgeColor:0xFFFFFF ], "_edge" ],
+
+		"inform.text" =>   %[ maxline:2, valign:0, halign:0, fontitalic:true, fontheight:48 ],
+		"quest.player"=>   %[ maxline:1, valign:0, halign:0, fontface:.nameInputStyle.fontface, color:0xFFFFFF/*.nameInputStyle.color*/, fontheight:72 ],
+		"quest.ona_text"=>[%[ maxline:6, marginL:4, marginT:8, fontheight:29, linespacing:6, edgeColor:0x4e4e4e, ],"_edge"],
+
+		"*.help"   =>   %[ fontheight:24, fontface:"マルベリ", color:0x000000, valign:0, halign:-1 ],
+
+		];
+	
+	.speedSampleConfig = %[
+	ox:24, oy:24,
+	text1:"１２３４５６７８９０１２\nテキストとオートモードの\n速度サンプル表示です",
+	text2:"もっと！孕ませ！\n　炎のおっぱい\n　　超エロアプリ学園！",
+	param:%[ linestep:44+15 ],
+		];
+
+
+	.notifyQSave = .notifyQLoad = false;
+	.toggleSave = .toggleLoad = .toggleOption = true;
+	.savedataCountPerPage = 12; // セーブロード1ページ当たりのアイテム個数
+	.rotateQuickSaveBookmarkNumber = 0;
+	.rotateQuickSaveBookmarkCount  = .savedataCountPerPage;
+	.saveThumbReplaceList = "savelist.csv"; // サムネ引き換え
+
+	.qlpopupTextTags = [ "player", "number", "date", "text" ];
+	.qlpopupCustomOption = %[ ];
+	.qlpopupMoveDir = "top";
+	.qlpopupMovePixel = -16;
+	.qlpopupCustomOption = %[ align:2 ];
+}
+with (aboutDialogConfig) {
+	.face = SystemDefaultFontFace;
+	.versionstring = "version ${GetRevisionString.version}";
+	.size = 24;
+	.top = 200;
+}
+function GetEnvMotionAmvFile(file) {
+	try {
+		var info = world_object.getMotionObject(file);
+		dm("GetEnvMotionAmvFile", file, getPrint(info));
+		if (info) return info.storage;
+	} catch (e) {
+		Debug.notice("GetEnvMotionAmvFile", e.message);
+	}
+	return file;
+}
+function get_random_ic(max, prefix="ic_") {
+	return prefix +$(#'a'+ int(Math.random()*max));
+}
+function get_random_br(max, prefix="brand_") {
+	return prefix +$(#'a'+ int(Math.random()*max));
+}
+function get_random_ti(max, prefix="title_") {
+	return prefix +$(#'a'+ int(Math.random()*max));
+}
+function get_chapter_ic(chapt = f.現在の章, fmt="st_%02d") {
+	var r = fmt.sprintf(chapt > 0 ? chapt : 1);
+	dm("get_chapter_ic", chapt, r);
+	return r;
+}
+
+// 環境初期化処理
+function initialEnvironment(isFirst = false, tag)
+{
+	var section = function (sec) { return tag == "" || tag == sec; } incontextof %[ tag:tag ];
+	// "01system", "02text", "03sound", "04voice", "05guide"
+
+	if (section("03sound")) {
+
+		// 音の有効
+		kag.waveenable  = true;
+		kag.bgmenable   = true;
+		kag.seenable    = true;
+		kag.sysseenable = true;
+		kag.voiceenable = true;
+		kag.bgv2enable  = true;
+
+		// 音量設定
+		kag.wavevolume  = 100;
+		kag.bgmvolume   = 45;
+		kag.sevolume    = 60;
+		kag.syssevolume = 60;
+		kag.voicevolume = 100;
+		kag.bgv2volume  = 100;
+
+	}
+
+	if (section("01system")) {
+		kag.noeffect = false;				// 画面効果(true:OFF, false:ON)
+
+		// 非アクティブ時動作
+		setSysArgMenuItem("stopdeactive", "no") if (!isFirst);
+
+		// アニメーション
+		sf.amvfps=60;
+		enableSceneAnimEffect = true;
+
+		// 全裸立ち絵
+		sf.裸パッチ = false;
+	}
+
+	if (section("02text")) {
+		// スピード
+		kag.drawspeed   = 1;					// エフェクトスピード
+		kag.textspeed   = 50;					// テキスト速度(100:瞬間-0:遅い)
+		kag.autospeed   = 50;					// オート速度(100:瞬間-0:遅い)
+		kag.skipspeed   = 0;					// スキップ速度
+
+		kag.userCh2ndSpeed = -1;				// 既読文章の瞬間表示(0:ON, -1:OFF)
+
+		//既読文章の色変え
+		SystemConfig.readedTextColorChange = true;
+
+		kag.allskip     = false;				// 未読スキップ (true:有効, false:無効)
+		kag.noForceSkipUnread = false;			// CTRLキーの未読スキップ(false:ON, true:OFF)
+
+		kag.afterauto = true;					// 選択後の auto (true:継続, false:停止)
+		kag.afterskip = true;					// 選択後の skip (true:継続, false:停止)
+
+		kag.chDefaultFace = global.MessageDefaultFontFace; //"ＭＳ ゴシック";	// フォント
+		kag.cancelAutoWhenClick = false;			// クリックでオート停止 (true:有効, false:無効)
+
+		sf.windowOpac = 192;					// メッセージ窓不透明度(0-255)
+	}
+
+
+	if (section("03sound")) {
+		kag.bgmdown   = false;					// 音声再生時にBGM音量を(true:下げる, false:下げない)
+		kag.bgmdownlevel = 50;					// 音声再生時にBGM音量を下げる割合(%)
+
+		kag.sedown   = true;					// 音声再生時にSE音量を(true:下げる, false:下げない)
+		kag.sedownlevel = 50;					// 音声再生時にSE音量を下げる割合(%)
+
+		kag.voicecut = true;					// ボイスをカットを有効
+		kag.voicecutpage = true;				// カットするタイミング（true:ページ消去時にカット, false:名前表示時にカット)
+
+		kag.nosewhenskip = true;				// スキップ時の単発SE (true:鳴らさない, false:鳴らす)
+
+		kag.autoModeWaitVoice = 0;				// オート時にボイス終了を待つ(0:ON, 2:OFF)
+	}
+
+	if (section("04voice")) {
+		setVoiceAll(true, 100);					// 全キャラボイスON
+	}
+
+
+	sf.family = SystemConfig.defaultFamily;			// 登録名初期化
+	sf.name   = SystemConfig.defaultName;			// 登録名初期化
+//	sf.showdate = true;						// ゲーム中の日付を表示する
+
+	// 初回起動時(savedataがない)のみの初期化処理
+	if (isFirst) {
+		// DSoundセカンダリバッファを常に再生成
+		setDefaultSystemArgument("wsrecreate", "yes");
+		@if (kirikiriz) try { WaveSoundBuffer.freeDirectSound(); } catch {} @endif // [XXX] DirectSound作り直し(kzではwsrecreateが反映される）
+
+		// パッドリピート間隔
+		setDefaultSystemArgument("padinterval", 70);
+
+		// フレーム上限を設定
+		setDefaultSystemArgument("contfreq", 60);
+
+		// VistaではダブルバッファをDirect3Dに
+		setDefaultSystemArgument("dbstyle", "d3d") if (checkWindowsVersion("vista"));
+	}
+
+	// 表情窓同期表示
+	kag.scflags.faceMode = true;
+}
+

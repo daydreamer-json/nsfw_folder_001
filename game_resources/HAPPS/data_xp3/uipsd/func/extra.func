@@ -1,0 +1,31 @@
+begin,FUNC_CGSCENE
+cref,allupdown,top,pageup,pagedown,end
+func,pageup,	exp,Current.cmd("prevPage")
+func,pagedown,	exp,Current.cmd("nextPage")
+func,top,	exp,Current.cmd("topPage")
+func,end,	exp,Current.cmd("endPage")
+func,slider,	onchangefunc,Current.func("onSliderChanged"),	vertical,true
+eval,names,call,global.Current.uiEval,replaceScrollItemButtons,item,item_pos11,scroll
+func,grp0,	exp,Current.cmd("jumpGroup/0")
+func,grp1,	exp,Current.cmd("jumpGroup/1")
+func,grp2,	exp,Current.cmd("jumpGroup/2")
+func,grp3,	exp,Current.cmd("jumpGroup/3")
+func,grp4,	exp,Current.cmd("jumpGroup/4")
+func,grp5,	exp,Current.cmd("jumpGroup/5")
+func,grp6,	exp,Current.cmd("jumpGroup/6")
+func,grp7,	exp,Current.cmd("jumpGroup/7")
+func,grp8,	exp,Current.cmd("jumpGroup/8")
+func,grp9,	exp,Current.cmd("jumpGroup/9")
+func,grp10,	exp,Current.cmd("jumpGroup/10")
+func,grp11,	exp,Current.cmd("jumpGroup/11")
+part,remove,item
+end,FUNC_CGSCENE
+#
+cref,alltabs,to_cg,to_scene,to_sound,to_movie
+rgrp,alltabs,to_cg,to_scene,to_sound,to_movie
+func,to_cg,	target,*cgmode
+func,to_scene,	target,*scenemode,	storage,custom.ks
+func,to_sound,	target,*soundmode
+func,to_movie,	target,*moviemode,	storage,custom.ks
+func,back,	target,*back
+sysse,extra

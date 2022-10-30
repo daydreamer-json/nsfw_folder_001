@@ -1,0 +1,4 @@
+func,prof_stand,	visible,false
+func,prof_name,		visible,false
+func,prof_base,		visible,false
+func,prof,		visible,false

@@ -1,0 +1,5 @@
+psd,information
+ui,#text,		@text/layer:rect
+ui,frame,		@frame/layer
+ui,bg,			@base
+mvsz,text,padding,0,64

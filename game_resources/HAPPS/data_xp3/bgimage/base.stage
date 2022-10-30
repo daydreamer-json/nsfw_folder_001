@@ -1,0 +1,77 @@
+%[
+	// 時間情報
+	"times" => %[
+		"昼" => %[
+			"prefix" => "a",
+			],
+		"夕" => %[
+			"prefix" => "b",
+			"lightColor" => 0xc0ff6010,    // 背景補正光色
+			"lightType" => ltPsHardLight,  // 背景補正光合成種別
+			"brightness" => 0,             // 背景明度補正
+			"contrast" => 0,               // 背景コントラスト補正
+			"charLightColor" => 0xffff0000,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => 0,            // キャラ明度補正
+			"charContrast" => 0,              // キャラコントラスト補正
+			],
+		"夜" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000040,   // キャラ補正光合成色
+			"lightType" => ltPsHardLight, // キャラ補正光合成種別
+			"brightness" => -20,          // キャラ明度補正
+			"contrast" => -30,            // キャラコントラスト補正
+			"charLightColor" => 0xff400080,   // キャラ補正光合成色
+			"charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+			"charBrightness" => -50,          // キャラ明度補正
+			"charContrast" => -30,            // キャラコントラスト補正
+			]
+		],
+		"夜街灯" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000040,   // キャラ補正光合成色
+            "lightType" => ltPsHardLight, // キャラ補正光合成種別
+			"brightness" => -10,          // キャラ明度補正
+            "contrast" => -10,            // キャラコントラスト補正
+            "charLightColor" => 0xff400080,   // キャラ補正光合成色
+            "charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+            "charBrightness" => -15,          // キャラ明度補正
+            "charContrast" => -10,            // キャラコントラスト補正
+			],
+		"夜街灯２" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000020,   // キャラ補正光合成色
+            "lightType" => ltPsHardLight, // キャラ補正光合成種別
+			"brightness" => -10,          // キャラ明度補正
+            "contrast" => -10,            // キャラコントラスト補正
+            "charLightColor" => 0xff200040,   // キャラ補正光合成色
+            "charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+            "charBrightness" => -5,          // キャラ明度補正
+            "charContrast" => -15,            // キャラコントラスト補正
+			],
+		"夜部屋" => %[
+			"prefix" => "c",
+			"lightColor" => 0xc0000040,   // キャラ補正光合成色
+            "lightType" => ltPsHardLight, // キャラ補正光合成種別
+			"brightness" => -20,          // キャラ明度補正
+			"contrast" => -30,            // キャラコントラスト補正
+			],
+		"夜（消灯）" => %[
+            "prefix" => "d",
+            "lightColor" => 0xc0000040,   // キャラ補正光合成色
+            "lightType" => ltPsHardLight, // キャラ補正光合成種別
+            "brightness" => -20,          // キャラ明度補正
+            "contrast" => -30,            // キャラコントラスト補正
+            "charLightColor" => 0xff400080,   // キャラ補正光合成色
+            "charLightType" => ltPsSoftLight, // キャラ補正光合成種別
+            "charBrightness" => -50,          // キャラ明度補正
+            "charContrast" => -30,            // キャラコントラスト補正
+            ],
+
+	// 場所情報
+	"stages" => %[
+		"道路"					 => %["image" => "bg01_TIME",],
+		],
+	
+		"defaultTime" => "昼",
+]

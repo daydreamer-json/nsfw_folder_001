@@ -1,0 +1,5 @@
+#画像名条件マッピング定義
+#画像名  	変換後指定       	条件
+#event001	event01SP	sf.clear
+#eyecatch	eyecatch1	f.eyeCatcha==1
+#eyecatch	eyecatch2	f.eyeCatcha==2

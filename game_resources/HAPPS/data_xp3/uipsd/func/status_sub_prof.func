@@ -1,0 +1,4 @@
+file,prof_stand
+func,prof_stand,	visible,false
+file,prof_name
+func,prof_name,		visible,false

@@ -1,0 +1,12 @@
+incl,status_sub_prof.func
+#
+#[MEMO]ラジオボタン式のため不要
+#func,subch0,	onenter,MapItemEnter("subch0"),	onleave,MapItemLeave("subch0")
+#
+func,to_status_main,
+#
+func,dress0,	
+func,dress1,	
+func,dress2,	
+#
+sysse,quest

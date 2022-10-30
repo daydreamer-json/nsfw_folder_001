@@ -1,0 +1,60 @@
+psd,status
+ui,#名前表示位置,	@player:rect/layer
+#
+ui,回収率/数値/9,	@num:9
+ui,回収率/数値/8,	@num:8
+ui,回収率/数値/7,	@num:7
+ui,回収率/数値/6,	@num:6
+ui,回収率/数値/5,	@num:5
+ui,回収率/数値/4,	@num:4
+ui,回収率/数値/3,	@num:3
+ui,回収率/数値/2,	@num:2
+ui,回収率/数値/1,	@num:1
+ui,回収率/数値/0,	@num:0
+ui,回収率/#100,		@num:rect/layer
+ui,回収率/#100,		@cgcomp_100/cp:num
+ui,回収率/#010,		@cgcomp_010/cp:num
+ui,回収率/#001,		@cgcomp_001/cp:num
+ui,エンド/攻略済み,	$end@:on
+ui,エンド/攻略中,	$end@:off
+ui,エンド/#ハーレム,	#end@:rect/toggle
+ui,エンド/#ハーレム,	<end>harem
+ui,エンド/#孕ませ,	<end>hmase
+ui,エンド/#莉音,	<end>rio
+ui,星/on,		@star:on
+ui,星/off,		@star:off/toggle
+ui,星/#line/5,		$stars@_6/cp:star
+ui,星/#line/4,		$stars@_5/cp:star
+ui,星/#line/3,		$stars@_4/cp:star
+ui,星/#line/2,		$stars@_3/cp:star
+ui,星/#line/1,		$stars@_2/cp:star
+ui,星/#line/0,		$stars@_1/cp:star
+ui,星/chara/0,		#stars
+#
+ui,星/chara/0,		<stars>ch0
+ui,星/chara/1,		<stars>ch1
+ui,星/chara/2,		<stars>ch2
+ui,星/chara/3,		<stars>ch3
+ui,星/chara/4,		<stars>ch4
+ui,星/chara/5,		<stars>ch5
+ui,星/chara/6,		<stars>ch6
+ui,星/chara/7,		<stars>ch7
+ui,星/chara/8,		<stars>ch8
+ui,星/chara/9,		<stars>ch9
+#
+ui,攻略進捗/攻略済み,	@chquest:on
+ui,攻略進捗/攻略中,	@chquest:off
+ui,攻略進捗/#範囲,	@chquest:rect/toggle
+ui,攻略進捗/#pos/0,	@ch0/cp:chquest
+ui,攻略進捗/#pos/1,	@ch1/cp:chquest
+ui,攻略進捗/#pos/2,	@ch2/cp:chquest
+ui,攻略進捗/#pos/3,	@ch3/cp:chquest
+ui,攻略進捗/#pos/4,	@ch4/cp:chquest
+ui,攻略進捗/#pos/5,	@ch5/cp:chquest
+ui,攻略進捗/#pos/6,	@ch6/cp:chquest
+ui,攻略進捗/#pos/7,	@ch7/cp:chquest
+ui,攻略進捗/#pos/8,	@ch8/cp:chquest
+ui,攻略進捗/#pos/9,	@ch9/cp:chquest
+ui,ベース,		@base
+#
+part,remove,num,star,chquest

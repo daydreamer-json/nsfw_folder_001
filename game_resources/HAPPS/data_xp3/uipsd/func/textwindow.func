@@ -1,0 +1,14 @@
+#func,iconarea,	visible,false
+#
+func,rot_r,	exp,SystemAction.gameRotateRight(),	onenter,QuickMenuShowHelpTip("rot_r"),	onleave,QuickMenuHideHelpTip("rot_r")
+func,rot_l,	exp,SystemAction.gameRotateLeft(),	onenter,QuickMenuShowHelpTip("rot_l"),	onleave,QuickMenuHideHelpTip("rot_l")
+func,zoom,	exp,SystemAction.toggleGameZoom(),	onenter,QuickMenuZoomHelpTip(1),	onleave,QuickMenuZoomHelpTip(0)
+#
+func,vreplay,visible,false,	sename,noclick,	exp,SystemAction.vreplay(),	onenter,QuickMenuShowHelpTip("vreplay"),	onleave,QuickMenuHideHelpTip("vreplay")
+#func,name,visible,false
+eval,elm,name,base.name
+eval,elm,margin,base.text
+eval,base,glyph,base.click
+eval,base,call,SetupMessageTextRegion,24,3
+#
+sysse,textwindow

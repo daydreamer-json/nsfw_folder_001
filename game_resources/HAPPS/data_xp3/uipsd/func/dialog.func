@@ -1,0 +1,7 @@
+cref,yesno,yes,no
+#
+part,common,	base,chk
+part,ask,	common,yes,no
+part,notify,	common,yes
+#
+sysse,dialog

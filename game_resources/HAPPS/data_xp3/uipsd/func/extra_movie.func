@@ -1,0 +1,14 @@
+incl,extra.func
+#
+cref,allitems,item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,item10
+func,item0,	sename,item,	exp,Current.cmd("select/0"),	target,*view
+func,item1,	sename,item,	exp,Current.cmd("select/1"),	target,*view
+func,item2,	sename,item,	exp,Current.cmd("select/2"),	target,*view
+func,item3,	sename,item,	exp,Current.cmd("select/3"),	target,*view
+func,item4,	sename,item,	exp,Current.cmd("select/4"),	target,*view
+func,item5,	sename,item,	exp,Current.cmd("select/5"),	target,*view
+func,item6,	sename,item,	exp,Current.cmd("select/6"),	target,*view
+func,item7,	sename,item,	exp,Current.cmd("select/7"),	target,*view
+func,item8,	sename,item,	exp,Current.cmd("select/8"),	target,*view
+func,item9,	sename,item,	exp,Current.cmd("select/9"),	target,*view
+func,item10,	sename,item,	exp,Current.cmd("select/10"),	target,*view

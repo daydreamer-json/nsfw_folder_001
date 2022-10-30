@@ -1,0 +1,119 @@
+# ÅúâÒëzÉÇÅ[ÉhàÍóó
+#---------------------------------------------------------------
+:,a
+thum_a01, eva01,	sca01h,	@sca01h
+thum_a03, eva03,	sca02h,	@sca02h
+thum_a04, eva04,	sca03h,	@sca03h
+thum_a05, eva05,	sca04h,	@sca04h
+thum_a07, eva07,	sca05h,	@sca05h
+thum_a08, eva08,	sca06h,	@sca06h
+thum_a30, eva30,	sca30h,	@sca30h
+thum_a50, eva50,	sca50h,	@sca50h
+#---------------------------------------------------------------
+:,b
+thum_b01, evb01,	scb01h,	@scb01h
+thum_b03, evb03,	scb02h,	@scb02h
+thum_b04, evb04,	scb03h,	@scb03h
+thum_b05, evb05,	scb04h,	@scb04h
+thum_b06, evb06,	scb05h,	@scb05h
+thum_b30, evb30,	scb30h,	@scb30h
+#---------------------------------------------------------------
+:,c
+thum_c01, evc01,	scc01h,	@scc01h
+thum_c02, evc02,	scc02h,	@scc02h
+thum_c04, evc04,	scc03h,	@scc03h
+thum_c05, evc05,	scc04h,	@scc04h
+thum_c06, evc06,	scc05h,	@scc05h
+thum_c30, evc30,	scc30h,	@scc30h
+#---------------------------------------------------------------
+:,d
+thum_d01, evd01,	scd01h,	@scd01h
+thum_d03, evd03,	scd02h,	@scd02h
+thum_d04, evd04,	scd03h,	@scd03h
+thum_d05, evd05,	scd04h,	@scd04h
+thum_d06, evd06,	scd05h,	@scd05h
+thum_d08, evd08,	scd06h,	@scd06h
+thum_d30, evd30,	scd30h,	@scd30h
+#---------------------------------------------------------------
+:,e
+thum_e01, eve01,	sce01h,	@sce01h
+thum_e03, eve03,	sce02h,	@sce02h
+thum_e04, eve04,	sce03h,	@sce03h
+thum_e05, eve05,	sce04h,	@sce04h
+thum_e06, eve06,	sce05h,	@sce05h
+thum_e30, eve30,	sce30h,	@sce30h
+#---------------------------------------------------------------
+:,f
+thum_f01, evf01,	scf01h,	@scf01h
+thum_f03, evf03,	scf02h,	@scf02h
+thum_f04, evf04,	scf03h,	@scf03h
+thum_f05, evf05,	scf04h,	@scf04h
+thum_f06, evf06,	scf05h,	@scf05h
+thum_f30, evf30,	scf30h,	@scf30h
+#---------------------------------------------------------------
+:,g
+thum_g01, evg01,	scg01h,	@scg01h
+thum_g03, evg03,	scg02h,	@scg02h
+thum_g04, evg04,	scg03h,	@scg03h
+thum_g05, evg05,	scg04h,	@scg04h
+thum_g06, evg06,	scg05h,	@scg05h
+thum_g30, evg30,	scg30h,	@scg30h
+#---------------------------------------------------------------
+:,h
+thum_h01, evh01,	sch01h,	@sch01h
+thum_h02, evh02,	sch02h,	@sch02h
+thum_h03, evh03,	sch03h,	@sch03h
+thum_h04, evh04,	sch04h,	@sch04h
+thum_h05, evh05,	sch05h,	@sch05h
+thum_h30, evh30,	sch30h,	@sch30h
+#---------------------------------------------------------------
+:,i
+thum_i01, evi01,	sci01h,	@sci01h
+thum_i02, evi02,	sci02h,	@sci02h
+thum_i03, evi03,	sci03h,	@sci03h
+thum_i04, evi04,	sci04h,	@sci04h
+thum_i05, evi05,	sci05h,	@sci05h
+thum_i30, evi30,	sci30h,	@sci30h
+#---------------------------------------------------------------
+:,j
+thum_j01, evj01,	scj01h,	@scj01h
+thum_j03, evj03,	scj02h,	@scj02h
+thum_j04, evj04,	scj03h,	@scj03h
+thum_j05, evj05,	scj04h,	@scj04h
+thum_j06, evj06,	scj05h,	@scj05h
+thum_j30, evj30,	scj30h,	@scj30h
+#---------------------------------------------------------------
+:,sub
+thum_k01, evk01,	sck01h,	@sck01h
+thum_l01, evl01,	scl01h,	@scl01h
+thum_m01, evm01,	scm01h,	@scm01h
+thum_n01, evn01,	scn01h,	@scn01h
+thum_o01, evo01,	sco01h,	@sco01h
+thum_p01, evp01,	scp01h,	@scp01h
+thum_q01, evq01,	scq01h,	@scq01h
+thum_r01, evr01,	scr01h,	@scr01h
+thum_s01, evs01,	scs01h,	@scs01h
+thum_t01, evt01,	sct01h,	@sct01h
+#---------------------------------------------------------------
+:,etc
+thum_a20, eva20,	sca20h,	@sca20h
+thum_b20, evb20,	scb20h,	@scb20h
+thum_c20, evc20,	scc20h,	@scc20h
+thum_d20, evd20,	scd20h,	@scd20h
+thum_e20, eve20,	sce20h,	@sce20h
+thum_f20, evf20,	scf20h,	@scf20h
+thum_g20, evg20,	scg20h,	@scg20h
+thum_h20, evh20,	sch20h,	@sch20h
+thum_i20, evi20,	sci20h,	@sci20h
+thum_j20, evj20,	scj20h,	@scj20h
+#
+thum_x01, evx01,	scx01h,	@scx01h
+thum_x02, evx02,	scx02h,	@scx02h
+thum_x03, evx03,	scx03h,	@scx03h
+thum_x05, evx05,	scx05h,	@scx05h
+thum_x06, evx06,	scx06h,	@scx06h
+thum_x07, evx07,	scx07h,	@scx07h
+thum_x08, evx08,	scx08h,	@scx08h
+#
+thum_ed01, ed01,	sced01h,	@sced01h
+thum_ed03, ed03,	sced02h,	@sced02h

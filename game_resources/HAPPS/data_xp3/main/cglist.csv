@@ -1,0 +1,137 @@
+#CGモード一覧
+#サムネール, 画像1, 画像2, 画像3, ...
+#---------------------------------------------------------------
+:,a
+thum_a01, eva01u1, eva01, eva01r1, eva01r2, eva01r3, eva01r4,
+thum_a02, eva02, eva02r1, eva02r2, eva02r3, eva02u1,
+thum_a03, eva03, eva03r1, eva03r2, eva03r3, eva03r4, eva03r5, eva03r6,
+thum_a04, eva04u1, eva04, eva04r1, eva04r2, eva04r3,
+thum_a05, eva05u1, eva05, eva05r1, eva05r2,
+thum_a06, eva06, eva06r1, eva06r2, eva06r3,
+thum_a07, eva07, eva07r1, eva07r2, eva07r3, eva07r4,
+thum_a08, eva08u1, eva08, eva08r1, eva08r2, eva08r3, eva08u2,
+thum_a20, eva20u1, eva20, eva20r1, eva20r2, eva20r3, eva20u2,
+thum_a30, eva30, eva30|*a30w1, eva30r1, eva30r1|*a30w1, eva30r1|*a30w2, eva30u1, eva30r2, eva30u2
+thum_a50, eva50u1, eva50, eva50r1, eva50r2, eva50u2, eva50u2|*a50w1, eva50r3, eva50u3
+#---------------------------------------------------------------
+:,b
+thum_b01, evb01u1, evb01u1|*b01w1, evb01, evb01r1, evb01r2, evb01r3, evb01r4
+thum_b02, evb02u1, evb02, evb02|*b02w1, evb02r1, evb02u2, evb02u2|*b02w1, evb02r2, evb02r3, evb02r4, evb02r4|*b02w1
+thum_b03, evb03u1, evb03u2, evb03, evb03r1, evb03r2, evb03r3, evb03r3|*b03w1, evb03r4, evb03r5
+thum_b04, evb04, evb04r1, evb04r2, evb04r4, evb04u2,
+thum_b05, evb05u1, evb05, evb05|*b05w1, evb05|*b05w2, evb05r1, evb05r2, evb05r2|*b05w3, evb05r3, evb05r3|*b05w3, evb05r4
+thum_b06, evb06, evb06r1, evb06r2
+thum_b07, evb07, evb07r1, evb07r2, evb07r3, evb07u1,
+thum_b20, evb20, evb20r1, evb20r2, evb20r3, evb20u1,
+thum_b30, evb30, evb30r1, evb30r2, evb30r3, evb30u1,
+#---------------------------------------------------------------
+:,c
+thum_c01, evc01, evc01|*c01w1, evc01r1, evc01r1|*c01w1, evc01r2, evc01r2|*c01w2, evc01r4, evc01r5, evc01r6
+thum_c02, evc02, evc02r1|*c02w1, evc02r1, evc02r2, evc02u1,
+thum_c03, evc03u1, evc03, evc03r1, evc03r2, evc03r3,
+thum_c04, evc04u1, evc04, evc04r1, evc04r2, evc04r3, evc04r4,
+thum_c05, evc05, evc05|*c05w1, evc05r1, evc05r2, evc05r3, evc05r4, evc05r5
+thum_c06, evc06, evc06r1, evc06r2, evc06r3, evc06r4, evc06r5
+thum_c07, evc07, evc07r1, evc07u1, evc07r2, evc07r3, evc07r3|*c07w1, evc07u2
+thum_c20, evc20, evc20r1, evc20r2, evc20r3, evc20r4, evc20u1
+thum_c30, evc30, evc30|*c30w1, evc30r1, evc30u1, evc30r1|*c30w1, evc30r2, evc30u2
+#---------------------------------------------------------------
+:,d
+thum_d01, evd01, evd01r1, evd01r2, evd01r2|*d01w1, evd01r3
+thum_d02, evd02u1, evd02, evd02r1, evd02r2, evd02r3, evd02r4
+thum_d03, evd03, evd03r1, evd03r2, evd03r2|*d03w1, evd03r3, evd03r4, evd03r5, evd03r6
+thum_d04, evd04, evd04r1, evd04r2, evd04r3, evd04r4,
+thum_d05, evd05u1, evd05, evd05r1, evd05r2, evd05r3, evd05r4,
+thum_d06, evd06, evd06r1, evd06r2,
+thum_d07, evd07, evd07r1, evd07r2, evd07r3, evd07u1,
+thum_d08, evd08, evd08r1, evd08r2, evd08r3, evd08u1
+thum_d20, evd20, evd20r1, evd20u1, evd20r2, evd20r3,
+thum_d30, evd30, evd30|*d30w1, evd30r1, evd30r2, evd30r3
+#---------------------------------------------------------------
+:,e
+thum_e01, eve01, eve01r1, eve01r2, eve01r3, eve01r4, eve01r5,
+thum_e02, eve02u1, eve02, eve02r1, eve02r2, eve02r3, eve02r4, eve02u2,
+thum_e03, eve03u1, eve03, eve03r1, eve03r2, eve03r3, eve03r4, eve03r5,
+thum_e04, eve04u1, eve04, eve04r1, eve04r2, eve04r3, eve04r4, eve04r5,
+thum_e05, eve05, eve05r1, eve05r2, eve05r2|*e05w1, eve05r3, eve05r4, eve05r5, eve05u1
+thum_e06, eve06, eve06r1, eve06r1|*e06w1, eve06r2, eve06r3, eve06r4, eve06r5, eve06r6, eve06u1
+thum_e20, eve20, eve20r1, eve20r2, eve20r3, eve20r4, eve20u1
+thum_e30, eve30, eve30r1, eve30r1|*e30w1, eve30r2, eve30r2|*e30w1, eve30r3, eve30u1
+#---------------------------------------------------------------
+:,f
+thum_f01, evf01, evf01r1, evf01r1|*f01w1, evf01r2, evf01r2|*f01w2, evf01r3, evf01r4, evf01r4|*f01w3, evf01r5
+thum_f02, evf02, evf02r1, evf02r2, evf02r3, evf02r4, evf02r5, evf02r6, evf02u1
+thum_f03, evf03u1, evf03, evf03r1, evf03r1|*f03w1, evf03r2, evf03r3, evf03r3|*f03w2, evf03r4, evf03r5, evf03r6
+thum_f04, evf04u1, evf04, evf04r1, evf04r2, evf04r3, evf04r4, evf04r5,
+thum_f05, evf05, evf05r1, evf05r1|*f05w1, evf05r2, evf05r2|*f05w2, evf05r3, evf05r3|*f05w3, evf05r4, evf05r4|*f05w4
+thum_f06, evf06, evf06|*f06w2, evf06|*f06w1, evf06r1, evf06r1|*f06w2, evf06r2, evf06r3, evf06r3|*f06w3
+thum_f07, evf07u1, evf07, evf07r1, evf07r2, evf07r3
+thum_f20, evf20u1, evf20, evf20r1, evf20r2, evf20r2|*f20w1, evf20r3, evf20u2
+thum_f30, evf30, evf30r1, evf30r2, evf30r3, evf30r4, evf30r5, evf30u1
+#---------------------------------------------------------------
+:,g
+thum_g01, evg01, evg01r1, evg01r2, evg01r2|*g01w1, evg01r3
+thum_g02, evg02u1, evg02, evg02r1, evg02r2, evg02r3, evg02r4, evg02r5,
+thum_g03, evg03u1, evg03, evg03r1, evg03r2, evg03r3, evg03r4, evg03r5, evg03r6,
+thum_g04, evg04, evg04r1, evg04r1|*g04w1, evg04r2, evg04r3, evg04r4
+thum_g05, evg05u1, evg05, evg05r1, evg05r2, evg05r3, evg05r4,
+thum_g06, evg06u1, evg06, evg06r1, evg06r2, evg06r3,
+thum_g07, evg07, evg07r1, evg07r2, evg07r3, evg07r4, evg07u1,
+thum_g20, evg20, evg20|*g20w1, evg20r1, evg20r2, evg20r2|*g20w1, evg20u1, evg20r3
+thum_g30, evg30, evg30r1, evg30r2, evg30r3, evg30r4
+#---------------------------------------------------------------
+:,h
+thum_h01, evh01u1, evh01u1|*h01w1, evh01, evh01|*h01w1, evh01r1, evh01r1|*h01w1, evh01r2, evh01r2|*h01w1, evh01r3, evh01r3|*h01w1, evh01u2
+thum_h02, evh02u1, evh02, evh02r1, evh02r2, evh02r3, evh02r4, evh02r4|*h02w1, evh02r5, evh02r5|*h02w2
+thum_h03, evh03, evh03r1, evh03r1|*h03w1, evh03r2, evh03r3, evh03r4, evh03r5
+thum_h04, evh04, evh04|*h04w1, evh04r1, evh04r1|*h04w1, evh04r2, evh04r3, evh04r4, evh04u1, evh04u1|*h04w1
+thum_h05, evh05, evh05r1, evh05r1|*h05w1, evh05r2
+thum_h06, evh06, evh06r1, evh06r2, evh06r3, evh06u1
+thum_h20, evh20, evh20r1, evh20r2, evh20r3, evh20r4
+thum_h30, evh30, evh30r1, evh30r2, evh30r2|*h30w1, evh30r3, evh30r3|*h30w1, evh30r4
+#---------------------------------------------------------------
+:,i
+thum_i01, evi01, evi01r1, evi01r2, evi01r3, evi01r4, evi01r5, evi01r6,
+thum_i02, evi02, evi02r1, evi02r2, evi02r3, evi02r4, evi02u1,
+thum_i03, evi03, evi03r1, evi03r2, evi03r3, evi03r4,
+thum_i04, evi04, evi04r1, evi04r2, evi04r3, evi04r4, evi04u1,
+thum_i05, evi05u1, evi05, evi05r1, evi05r2,
+thum_i06, evi06, evi06r1, evi06r2, evi06r3, evi06u1
+thum_i20, evi20, evi20r1, evi20r2, evi20r3, evi20u1
+thum_i30, evi30, evi30r1, evi30r2, evi30r2|*i30w1, evi30r3, evi30r4, evi30r4|*i30w2
+#---------------------------------------------------------------
+:,j
+thum_j01, evj01, evj01r1, evj01r2, evj01r2|*j01w1, evj01r3, evj01r3|*j01w1, evj01r4
+thum_j02, evj02, evj02r1, evj02r2, evj02u1
+thum_j03, evj03, evj03r1, evj03u1, evj03r2, evj03r3,
+thum_j04, evj04, evj04|*j04w1, evj04r1, evj04r1|*j04w2, evj04r2, evj04r2|*j04w3, evj04r3, evj04r4,
+thum_j05, evj05, evj05r1, evj05r2, evj05r3, evj05r4, evj05u1
+thum_j06, evj06, evj06|*j06w1, evj06r1, evj06r2
+thum_j07, evj07u1, evj07, evj07r1, evj07r2, evj07u2,
+thum_j20, evj20, evj20|*j20w1, evj20r1, evj20r1|*j20w1, evj20u1, evj20r2, evj20r2|*j20w2, evj20r3, evj20u2
+thum_j30, evj30, evj30r1, evj30r1|*j30w1, evj30r2, evj30r3
+#---------------------------------------------------------------
+:,sub
+thum_k01, evk01, evk01r1, evk01r2, evk01r3, evk01r4, evk01r5, evk01r6
+thum_l01, evl01, evl01r1, evl01r2, evl01r3, evl01r4, evl01r5, evl01r6, evl01u1
+thum_m01, evm01u1, evm01u2, evm01u2|*m01w1, evm01u3, evm01, evm01r1, evm01r2, evm01r2|*m01w2, evm01r3
+thum_n01, evn01, evn01|*n01w1, evn01r1, evn01r1|*n01w1, evn01r2, evn01r2|*n01w1, evn01r3,
+thum_n02, evn02, evn02r1, evn02r2, evn02u1,
+thum_o01, evo01u1, evo01u2, evo01, evo01r1, evo01r2
+thum_p01, evp01u1, evp01, evp01r1, evp01r2, evp01r3, evp01u2, evp01r4, evp01r5, evp01u3
+thum_q01, evq01u1, evq01, evq01r1, evq01r2, evq01r3, evq01r4,
+thum_r01, evr01, evr01r1, evr01r2, evr01r3, evr01r4, evr01u1,
+thum_s01, evs01u1, evs01, evs01|*s01w1, evs01r1, evs01r2, evs01r3, evs01u2
+thum_t01, evt01, evt01r1, evt01u1, evt01r2, evt01r3, evt01r4, evt01u2, evt01u2|*t01w1
+#---------------------------------------------------------------
+:,etc
+thum_x01, evx01, evx01r1, evx01u1, evx01r2
+thum_x02, evx02, evx02u2, evx02r1, evx02r2, evx02u1
+thum_x03, evx03, evx03u1, evx03u1|*x03w1, evx03r1, evx03r2
+thum_x05, evx05, evx05|*x05w1, evx05r1, evx05r1|*x05w2, evx05r2, evx05r3
+thum_x06, evx06|*x06w1, evx06, evx06|*x06w2, evx06|*x06w3, evx06|*x06w4, evx06|*x06w5, evx06r1, evx06r2
+thum_x07, evx07, evx07r1, evx07r1|*x07w1, evx07r2, evx07r2|*x07w2, evx07r3, evx07r4
+thum_x08, evx08, evx08|*x08w1, evx08|*x08w2, evx08r1
+thum_ed01, eved01, eved01|*ed01w1, eved01|*ed01w2, eved01r1, eved01r2
+thum_ed03, eved03|*ed03w1, eved03, eved03|*ed03w2, eved03|*ed03w3, eved03r1, eved03r2
+thum_omake, omake?@cg_complete, omaker1?@cg_complete

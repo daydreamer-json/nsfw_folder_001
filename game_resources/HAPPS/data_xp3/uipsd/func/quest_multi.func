@@ -1,0 +1,11 @@
+func,	fullhdanim,	visible,false
+#
+func,	multi0_new,	visible,false
+func,	multi1_new,	visible,false
+func,	multi2_new,	visible,false
+func,	multi3_new,	visible,false
+func,	multi4_new,	visible,false
+func,	multi5_new,	visible,false
+func,	multi6_new,	visible,false
+#
+eval,names,call,uiloadSysSE,quest

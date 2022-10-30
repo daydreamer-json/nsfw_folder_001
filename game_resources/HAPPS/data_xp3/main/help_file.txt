@@ -1,0 +1,42 @@
+# セーブロード画面ヘルプテキスト
+
+back
+	前の画面に戻ります。
+to_save
+	セーブ画面に移動します。
+to_load
+	ロード画面に移動します。
+to_quick
+	クイックロード画面に移動します。
+
+slider
+	ページを選択します。
+down
+	１ページ先に進みます。
+up
+	１ページ前に戻ります。
+pagedown
+	１０ページ先に進みます。
+pageup
+	１０ページ前に戻ります。
+pagebase
+	現在のページの数です。
+
+HELP_LOAD
+	${_currentNumberText}の${_dataName}を${_loadName}します。
+
+HELP_SAVE
+	現在の${_dataName}を${_currentNumberText}へ${_saveName}します。
+
+HELP_OVERWRITE
+	現在の${_dataName}を${_currentNumberText}へ上書き${_saveName}します。
+
+WEAK_SAVE
+	セーブ画面です。セーブするデータを選んでください。
+
+WEAK_LOAD
+	ロード画面です。ロードするデータを選んでください。
+
+WEAK_QUICK
+	クイックロード画面です。	ロードするデータを選んでください。
+

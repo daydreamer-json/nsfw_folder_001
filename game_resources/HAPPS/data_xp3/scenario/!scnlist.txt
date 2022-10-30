@@ -1,0 +1,314 @@
+#タブ区切りテキスト
+# ジャンプ先ストレージ(":"を含むとサブメニューあり）[\t*ラベル]
+# 先頭のタブの個数でサブメニューの深さレベル
+#
+ST:
+	st_pr.txt
+	-
+	st01.txt
+	st02.txt
+	st03.txt
+	st04.txt
+	st05.txt
+	st06.txt
+	st07.txt
+	st08.txt
+	st09.txt
+	st10.txt
+	st11.txt
+	st12.txt
+	st13.txt
+	st14.txt
+
+莉音(A):
+	sca01h.txt
+	sca01n.txt
+	-
+	sca02h.txt
+	sca02n.txt
+	-
+	sca03h.txt
+	sca03n.txt
+	-
+	sca04h.txt
+	sca04n.txt
+	-
+	sca05h.txt
+	sca05n.txt
+	-
+	sca06h.txt
+	sca06n.txt
+	-
+	sca20h.txt
+	sca20n.txt
+	-
+	sca30h.txt
+	sca30n.txt
+	-
+	sca50h.txt
+	sca50n.txt
+
+恋乃香(B):
+	scb01h.txt
+	scb01n.txt
+	-
+	scb02h.txt
+	scb02n.txt
+	-
+	scb03h.txt
+	scb03n.txt
+	-
+	scb04h.txt
+	scb04n.txt
+	-
+	scb05h.txt
+	scb05n.txt
+	-
+	scb20h.txt
+	scb20n.txt
+	-
+	scb30h.txt
+	scb30n.txt
+
+晶(C):
+	scc01h.txt
+	scc01n.txt
+	-
+	scc02h.txt
+	scc02n.txt
+	-
+	scc03h.txt
+	scc03n.txt
+	-
+	scc04h.txt
+	scc04n.txt
+	-
+	scc05h.txt
+	scc05n.txt
+	-
+	scc20h.txt
+	scc20n.txt
+	-
+	scc30h.txt
+	scc30n.txt
+
+奈々子(D):
+	scd01h.txt
+	scd01n.txt
+	-
+	scd02h.txt
+	scd02n.txt
+	-
+	scd03h.txt
+	scd03n.txt
+	-
+	scd04h.txt
+	scd04n.txt
+	-
+	scd05h.txt
+	scd05n.txt
+	-
+	scd06h.txt
+	scd06n.txt
+	-
+	scd20h.txt
+	scd20n.txt
+	-
+	scd30h.txt
+	scd30n.txt
+
+摩耶(E):
+	sce01h.txt
+	sce01n.txt
+	-
+	sce02h.txt
+	sce02n.txt
+	-
+	sce03h.txt
+	sce03n.txt
+	-
+	sce04h.txt
+	sce04n.txt
+	-
+	sce05h.txt
+	sce05n.txt
+	-
+	sce20h.txt
+	sce20n.txt
+	-
+	sce30h.txt
+	sce30n.txt
+
+ひなた(F):
+	scf01h.txt
+	scf01n.txt
+	-
+	scf02h.txt
+	scf02n.txt
+	-
+	scf03h.txt
+	scf03n.txt
+	-
+	scf04h.txt
+	scf04n.txt
+	-
+	scf05h.txt
+	scf05n.txt
+	-
+	scf20h.txt
+	scf20n.txt
+	-
+	scf30h.txt
+	scf30n.txt
+
+楓(G):
+	scg01h.txt
+	scg01n.txt
+	-
+	scg02h.txt
+	scg02n.txt
+	-
+	scg03h.txt
+	scg03n.txt
+	-
+	scg04h.txt
+	scg04n.txt
+	-
+	scg05h.txt
+	scg05n.txt
+	-
+	scg20h.txt
+	scg20n.txt
+	-
+	scg30h.txt
+	scg30n.txt
+
+優華理(H):
+	sch01h.txt
+	sch01n.txt
+	-
+	sch02h.txt
+	sch02n.txt
+	-
+	sch03h.txt
+	sch03n.txt
+	-
+	sch04h.txt
+	sch04n.txt
+	-
+	sch05h.txt
+	sch05n.txt
+	-
+	sch20h.txt
+	sch20n.txt
+	-
+	sch30h.txt
+	sch30n.txt
+
+リリア(I):
+	sci01h.txt
+	sci01n.txt
+	-
+	sci02h.txt
+	sci02n.txt
+	-
+	sci03h.txt
+	sci03n.txt
+	-
+	sci04h.txt
+	sci04n.txt
+	-
+	sci05h.txt
+	sci05n.txt
+	-
+	sci20h.txt
+	sci20n.txt
+	-
+	sci30h.txt
+	sci30n.txt
+
+リーシャ(J):
+	scj01h.txt
+	scj01n.txt
+	-
+	scj02h.txt
+	scj02n.txt
+	-
+	scj03h.txt
+	scj03n.txt
+	-
+	scj04h.txt
+	scj04n.txt
+	-
+	scj05h.txt
+	scj05n.txt
+	-
+	scj20h.txt
+	scj20n.txt
+	-
+	scj30h.txt
+	scj30n.txt
+
+サブ１（K～O）:
+	sck01h.txt
+	sck01n.txt
+	-
+	scl01h.txt
+	scl01n.txt
+	-
+	scm01h.txt
+	scm01n.txt
+	-
+	scn01h.txt
+	scn01n.txt
+	-
+	sco01h.txt
+	sco01n.txt
+
+サブ２（P～T）:
+	scp01h.txt
+	scp01n.txt
+	-
+	scq01h.txt
+	scq01n.txt
+	-
+	scr01h.txt
+	scr01n.txt
+	-
+	scs01h.txt
+	scs01n.txt
+	-
+	sct01h.txt
+	sct01n.txt
+
+X:
+	scx01h.txt
+	scx01n.txt
+	-
+	scx02h.txt
+	scx02n.txt
+	-
+	scx03h.txt
+	scx03n.txt
+	-
+	scx05h.txt
+	scx05n.txt
+	-
+	scx06h.txt
+	scx06n.txt
+	-
+	scx07h.txt
+	scx07n.txt
+	-
+	scx08h.txt
+	scx08n.txt
+
+ED:
+	sced01h.txt
+	sced01n.txt
+	-
+	sced02h.txt
+	sced02n.txt
+
+system:
+	gameloop.txt

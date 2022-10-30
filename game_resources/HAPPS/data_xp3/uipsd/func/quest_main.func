@@ -1,0 +1,31 @@
+incl,quest_main_prof.func
+#
+part,remove,badge,quest_heart,number
+func,quest_state,		visible,false
+func,quest_comp,		visible,false
+func,quest_heart,		visible,false
+#
+cref,allch,ch0,ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,ch9
+func,ch0,	onenter,MapItemEnter("ch0"),	onleave,MapItemLeave("ch0")
+func,ch1,	onenter,MapItemEnter("ch1"),	onleave,MapItemLeave("ch1")
+func,ch2,	onenter,MapItemEnter("ch2"),	onleave,MapItemLeave("ch2")
+func,ch3,	onenter,MapItemEnter("ch3"),	onleave,MapItemLeave("ch3")
+func,ch4,	onenter,MapItemEnter("ch4"),	onleave,MapItemLeave("ch4")
+func,ch5,	onenter,MapItemEnter("ch5"),	onleave,MapItemLeave("ch5")
+func,ch6,	onenter,MapItemEnter("ch6"),	onleave,MapItemLeave("ch6")
+func,ch7,	onenter,MapItemEnter("ch7"),	onleave,MapItemLeave("ch7")
+func,ch8,	onenter,MapItemEnter("ch8"),	onleave,MapItemLeave("ch8")
+func,ch9,	onenter,MapItemEnter("ch9"),	onleave,MapItemLeave("ch9")
+#
+func,state_oyako,	enabled,false
+func,state_camp,	enabled,false
+#
+func,to_sub,	
+func,to_oyako,	
+func,to_boot_camp,	
+func,to_multi,	
+func,quest_skip,
+func,to_status,	
+func,to_endsel,	
+#
+sysse,quest

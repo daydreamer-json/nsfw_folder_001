@@ -1,0 +1,17 @@
+incl,extra.func
+#
+auto,itemcref,allitems
+func,item0,	sename,noclick
+func,item1,	sename,noclick
+func,item2,	sename,noclick
+func,item3,	sename,noclick
+func,item4,	sename,noclick
+func,item5,	sename,noclick
+func,item6,	sename,noclick
+func,item7,	sename,noclick
+func,item8,	sename,noclick
+func,item9,	sename,noclick
+func,item10,	sename,noclick
+func,item11,	sename,noclick
+func,item12,	sename,noclick
+func,item13,	sename,noclick

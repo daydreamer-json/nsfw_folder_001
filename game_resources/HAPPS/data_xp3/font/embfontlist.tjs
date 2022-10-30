@@ -1,0 +1,17 @@
+(const)[
+	// ƒ‚ƒgƒ„ƒtƒHƒ“ƒg
+	"MTL_NOTICE.txt", (const)[
+		(const)%[ "name"=>"ƒV[ƒ_",   "file"=>"MTLc3m.ttf",  "face"=>"ƒ‚ƒgƒ„LƒV[ƒ^J3“™•", "capname"=>"ƒ‚ƒgƒ„LƒV[ƒ_3"   ],
+		(const)%[ "name"=>"ƒ}ƒ‹ƒxƒŠ", "file"=>"MTLmr3m.ttf", "face"=>"ƒ‚ƒgƒ„Lƒ}ƒ‹ƒxƒŠ3“™•", "capname"=>"ƒ‚ƒgƒ„Lƒ}ƒ‹ƒxƒŠ3" ]
+		],
+
+	// Œ¹ƒmoŠpƒSƒVƒbƒN^–¾’©p
+	"SourceHanSansAndSerifJP-LICENSE.txt", (const)[
+		(const)%[ "name"=>"Œ¹ƒmŠpƒSƒVƒbƒNR", "file"=>"SourceHanSansJP-Regular.otf", "face"=>"Œ¹ƒmŠpƒSƒVƒbƒN JP Regular" ],
+		(const)%[ "name"=>"Œ¹ƒmŠpƒSƒVƒbƒNB", "file"=>"SourceHanSansJP-Bold.otf",    "face"=>"Œ¹ƒmŠpƒSƒVƒbƒN JP Bold"    ],
+		(const)%[ "name"=>"Œ¹ƒmŠpƒSƒVƒbƒNH", "file"=>"SourceHanSansJP-Heavy.otf",   "face"=>"Œ¹ƒmŠpƒSƒVƒbƒN JP Heavy"   ],
+
+		(const)%[ "name"=>"Œ¹ƒm–¾’©B", "file"=>"SourceHanSerifJP-Bold.otf",  "face"=>"Œ¹ƒm–¾’© JP"         ],
+		(const)%[ "name"=>"Œ¹ƒm–¾’©H", "file"=>"SourceHanSerifJP-Heavy.otf", "face"=>"Œ¹ƒm–¾’© JP Heavy"   ]
+		]
+	]
